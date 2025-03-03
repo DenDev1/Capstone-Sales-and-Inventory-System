@@ -1,0 +1,339 @@
+﻿@model leo.Models.Order
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<style>
+
+    .select2-container .select2-selection--single {
+        height: 37px;
+        border-radius: 10px;
+    }
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1050;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.5s ease;
+    }
+
+        .overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    .spinner {
+        border: 4px solid rgba(255, 255, 255, 0.2);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin-bottom: 15px;
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .success-message {
+        color: white;
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .form-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        font-family: 'Inter', sans-serif;
+        color: #495057;
+    }
+
+    .form-title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: #343a40;
+    }
+
+    label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        border-radius: 0.5rem;
+        border: 1px solid #ced4da;
+        transition: border-color 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+        }
+
+    .submit-btn {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+    .back-btn {
+        background-color: #6c757d;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 1rem;
+    }
+
+        .back-btn:hover {
+            background-color: #5a6268;
+            color: white;
+        }
+</style>
+
+<div class="overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <div class="success-message" id="successMessage"></div>
+</div>
+
+<!-- Modal for error message -->
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #dc3545; color: white;">
+                <h5 class="modal-title" id="errorModalLabel">Oops! Something went wrong</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="font-size: 1.1rem; color: #555;">
+                @if (!string.IsNullOrEmpty(ViewData["ErrorMessage"]?.ToString()))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @ViewData["ErrorMessage"]
+                    </div>
+                }
+            </div>
+        
+        </div>
+    </div>
+</div>
+<div class="form-container">
+    <form asp-action="Create" class="needs-validation" novalidate>
+        <!-- Display error message as an alert -->
+ 
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="row">
+            <!-- Product Dropdown (Select2) -->
+            <div class="col-md-6 mb-8">
+                <label for="ProductId">Products</label>
+                <select asp-for="ProductId" id="ProductId" asp-items="ViewBag.ProductId" class="form-control" >
+                    <option value="">Select a product</option>
+                </select>
+                <span asp-validation-for="ProductId" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="Quantity">Quantity</label>
+                <input asp-for="Quantity" id="Quantity" type="number" min="1" class="form-control" required />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="OrderDate">Order Date</label>
+                <input asp-for="OrderDate" id="OrderDate" type="date" class="form-control" required />
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="CustomerName">Customer Name</label>
+                <input asp-for="CustomerName" id="CustomerName" type="text" class="form-control" required />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="ProductDetails">Product Details</label>
+            <div id="ProductDetails" class="p-3 bg-light border rounded">
+                <p id="ProductStockStatus" class="mb-1"></p>
+                <p id="ProductStockQuantity" class="mb-1"></p>
+                <p id="ProductUnitPrice" class="mb-1"></p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="PaymentStatus">Payment Status</label>
+                <select asp-for="PaymentStatus" asp-items="ViewBag.PaymentStatus" class="form-control" aria-label="Select payment status" required>
+                    <option value="">Select payment status</option>
+                </select>
+                <span asp-validation-for="PaymentStatus" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="TotalAmount">Total Amount</label>
+                <p id="TotalAmount" class="font-weight-bold text-primary">@Model.TotalAmount.ToString("C", new System.Globalization.CultureInfo("fil-PH"))</p>
+            </div>
+        </div>
+
+        <!-- New section for Partial Payment -->
+        <div id="partialPaymentContainer" class="mb-3">
+            <label for="PartialPayment">Partial Payment</label>
+            <input asp-for="PartialPaymentAmount" id="PartialPayment" type="number" min="0" class="form-control" />
+            <span asp-validation-for="PartialPaymentAmount" class="text-danger"></span>
+        </div>
+
+    </form>
+
+    <div class="d-flex justify-content-center align-items-center w-100">
+        <button  type="submit" class="submit-btn btn btn-primary mx-2 w-auto mt-auto">Add Order</button>
+        <a asp-action="Details" class="back-btn btn btn-secondary mx-2 w-auto">Invoice</a>
+        <a asp-action="Index" class="back-btn btn btn-secondary mx-2 w-auto">List</a>
+    </div>
+
+
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery (required for Select2) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            // Apply Select2 to the ProductId dropdown
+            $('#ProductId').select2({
+               
+                // allowClear: true,  // Allow clearing the selection
+                width: '100%'  // Make the select box take up full width (optional)
+            });
+        });
+
+        $(document).ready(function () {
+            // Check if error message is available
+            const errorMessage = '@ViewData["ErrorMessage"]';
+            if (errorMessage) {
+                // Show the modal if there is an error message
+                $('#errorModal').modal('show');
+            }
+        });
+        
+        $(document).ready(function () {
+            // Function to toggle the visibility of Partial Payment
+            function togglePartialPayment() {
+                const paymentStatus = $('#PaymentStatus').val();
+                if (paymentStatus === 'Partial') {
+                    $('#partialPaymentContainer').show();
+                } else {
+                    $('#partialPaymentContainer').hide();
+                }
+            }
+
+            // Initial check on page load
+            togglePartialPayment();
+
+            // Event listeners
+            $('#PaymentStatus').change(togglePartialPayment);
+
+            $('#ProductId').change(function () {
+                var productId = $(this).val();
+                if (productId) {
+                    $.ajax({
+                        url: '@Url.Action("GetProductDetails", "Order")',
+                        type: 'GET',
+                        data: { id: productId },
+                        success: function (data) {
+                            if (data) {
+                                $('#ProductStockStatus').text('Stock Status: ' + data.stockStatus);
+                                $('#ProductStockQuantity').text('Stock Quantity: ' + data.stockQuantity);
+                                $('#ProductUnitPrice').text('Unit Price: ' + data.unitPrice.toFixed(2));
+                                updateTotalAmount();
+                            } else {
+                                $('#ProductStockStatus').text('No data available');
+                                $('#ProductStockQuantity').text('');
+                                $('#ProductUnitPrice').text('');
+                                $('#TotalAmount').text('Total Amount: 0.00');
+                            }
+                        },
+                        error: function () {
+                            $('#ProductStockStatus').text('Error loading product details');
+                        }
+                    });
+                } else {
+                    $('#ProductStockStatus').text('');
+                    $('#ProductStockQuantity').text('');
+                    $('#ProductUnitPrice').text('');
+                    $('#TotalAmount').text('Total Amount: 0.00');
+                }
+            });
+
+            $('#Quantity').change(updateTotalAmount);
+            $('#PartialPayment').on('input', updateTotalAmount);
+
+            function updateTotalAmount() {
+                var quantity = $('#Quantity').val();
+                var unitPrice = parseFloat($('#ProductUnitPrice').text().replace('Unit Price: ', ''));
+                var totalAmount = 0;
+
+                if (quantity && !isNaN(unitPrice)) {
+                    totalAmount = quantity * unitPrice;
+                    $('#TotalAmount').text('Total Amount: ' + totalAmount.toFixed(2));
+                } else {
+                    $('#TotalAmount').text('Total Amount: 0.00');
+                }
+
+                var partialPayment = parseFloat($('#PartialPayment').val()) || 0;
+                var remainingAmount = totalAmount - partialPayment;
+
+                $('#TotalAmount').append(' (Remaining: ' + remainingAmount.toFixed(2) + ')');
+            }
+        });
+        $(document).ready(function () {
+            // Show loading overlay and success message
+            const successMessage = '@TempData["LoginSuccess"]'; // Get success message
+            $('#successMessage').text(successMessage); // Set the success message
+            $('#loadingOverlay').addClass('active'); // Show overlay
+
+            // Automatically close the loading overlay and redirect after a few seconds (e.g., 1 seconds)
+            setTimeout(function () {
+                $('#loadingOverlay').removeClass('active'); // Hide overlay
+
+            }, 1000); // 1000 milliseconds = 1seconds
+        });
+
+    </script>
+}

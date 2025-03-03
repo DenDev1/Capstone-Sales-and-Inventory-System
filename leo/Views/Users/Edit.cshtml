@@ -1,0 +1,183 @@
+﻿@model leo.Models.Users
+
+
+@{
+    ViewData["Title"] = "Edit";
+
+}
+<style>
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1050; /* Ensure it's above all other content */
+        visibility: hidden; /* Start hidden */
+        opacity: 0; /* Start invisible */
+        transition: visibility 0s, opacity 0.5s ease; /* Smooth transition */
+    }
+
+        .overlay.active {
+            visibility: visible; /* Show overlay */
+            opacity: 1; /* Make visible */
+        }
+
+    .spinner {
+        border: 5px solid rgba(255, 255, 255, 0.2);
+        border-top: 5px solid white; /* White top for contrast */
+        border-radius: 50%;
+        width: 50px; /* Size of the spinner */
+        height: 50px;
+        animation: spin 1s linear infinite; /* Spin animation */
+        margin-bottom: 20px; /* Space between spinner and text */
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .success-message {
+        color: white; /* Ensure text is white for visibility */
+        font-size: 1.25rem; /* Adjust font size as needed */
+        text-align: center;
+        margin-top: 10px; /* Space between spinner and text */
+    }
+
+    #togglePassword {
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+</style>
+
+<div class="overlay" id="loadingOverlay">
+    <div class="spinner"></div> <!-- Spinner for loading effect -->
+    <div class="success-message" id="successMessage"></div>
+</div>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-light p-5 shadow rounded">
+                <div class="card-body">
+
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <input type="hidden" asp-for="UserId" />
+                        <div class="row mb-3">
+                            <!-- First Name -->
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label asp-for="FirstName" class="control-label fw-bold"></label>
+                                    <input asp-for="FirstName" class="form-control rounded-pill" placeholder="Enter first name" />
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Last Name -->
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label asp-for="LastName" class="control-label fw-bold"></label>
+                                    <input asp-for="LastName" class="form-control rounded-pill" placeholder="Enter last name" />
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <!-- Email -->
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label asp-for="Email" class="control-label fw-bold"></label>
+                                    <input asp-for="Email" class="form-control rounded-pill" placeholder="Enter email" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Username -->
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label asp-for="Username" class="control-label fw-bold"></label>
+                                    <input asp-for="Username" class="form-control rounded-pill" placeholder="Enter username" />
+                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <!-- Password -->
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group position-relative">
+                                    <label asp-for="Password" class="control-label fw-bold"></label>
+                                    <div class="input-group">
+                                        <input asp-for="Password" type="password" id="password" class="form-control rounded-pill" placeholder="Enter password" />
+                                        <button type="button" class="btn btn-outline-secondary rounded-pill border-0 position-absolute end-0 me-2" id="togglePassword">
+                                            <i class="bi bi-eye" id="toggleIcon"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <!-- Role -->
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label asp-for="RoleId" class="control-label fw-bold">Roles</label>
+                                    <select asp-for="RoleId" class="form-control rounded-pill" asp-items="@((SelectList)ViewData["RoleId"])"></select>
+                                    <span asp-validation-for="RoleId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Buttons Section with Justify Content Between -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <input type="submit" value="Save" class="btn btn-primary rounded-pill px-4 shadow" />
+                            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-5 shadow-sm">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Toggle password visibility
+    $('#togglePassword').on('click', function () {
+        const passwordField = $('#password');
+        const toggleIcon = $('#toggleIcon');
+
+        if (passwordField.attr('type') === 'password') {
+            passwordField.attr('type', 'text');
+            toggleIcon.removeClass('bi-eye').addClass('bi-eye-slash');
+        } else {
+            passwordField.attr('type', 'password');
+            toggleIcon.removeClass('bi-eye-slash').addClass('bi-eye');
+        }
+    });
+    $(document).ready(function () {
+        // Show loading overlay and success message
+        const successMessage = '@TempData["LoginSuccess"]'; // Get success message
+        $('#successMessage').text(successMessage); // Set the success message
+        $('#loadingOverlay').addClass('active'); // Show overlay
+
+        // Automatically close the loading overlay and redirect after a few seconds (e.g., 1 seconds)
+        setTimeout(function () {
+            $('#loadingOverlay').removeClass('active'); // Hide overlay
+
+        }, 1000); // 1000 milliseconds = 1seconds
+    });
+</script>
+

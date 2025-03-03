@@ -1,0 +1,179 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+@model leo.ViewModels.InventoryReportViewModel
+@{
+    Layout = "_Layout_Login";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Report</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .store-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .store-info h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .store-info p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .report-header h1 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .report-table th, .report-table td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .report-table th {
+            background-color: #f9f9f9;
+            font-weight: bold;
+        }
+
+        .report-table td {
+            background-color: #ffffff;
+        }
+
+        .btn-custom {
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .btn-print {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        .btn-back {
+            background-color: #6c757d;
+            color: #ffffff;
+        }
+
+        @@media print {
+            .btn-print, .btn-back {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="store-info">
+            <h2>LEOTECH COMPUTER STORE</h2>
+            <p>107 Lakandula St, Cebu City, 6000 Cebu</p>
+            <p>Contact No.: 0922-702-5592</p>
+        </div>
+
+        <div class="report-header">
+            <h1>Inventory Report</h1>
+            <p><strong>Date:</strong> @DateTime.Now.ToString("MM/dd/yyyy")</p>
+            <h6 style="color:#000" class="text-dark ms-3 d-none d-md-block">
+                Prepared By: @HttpContextAccessor.HttpContext.Session.GetString("FullName")
+            </h6>
+
+
+
+        </div>
+
+@*         <h3>Weekly</h3>
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>Products</th>
+                    <th>Category</th>
+                    <th>Supplier</th>
+                    <th>Date</th>
+                    <th>Unit Price</th>
+                    <th>Remaining Stock</th>
+                
+              
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.WeeklySalesItems)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.Category.CategoryName</td>
+                        <td>@item.SupplierProfile.Supplier</td>
+                        <td>@item.Date.ToString("MM/dd/yyyy hh:mm:ss tt")</td>
+                        <td>@item.UnitPrice</td>
+                        <td>@item.StockQuantity</td>
+                 
+                    
+                    </tr>
+                }
+            </tbody>
+        </table>
+ *@
+      @*   <h3>Monthly</h3> *@
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>Products</th>
+                    <th>Category</th>
+                    <th>Supplier</th>
+                    <th>Date</th>
+                    <th>Unit Price</th>
+                    <th>Remaining Stock</th>
+            
+      
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.MonthlySalesItems)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.Category.CategoryName</td>
+                        <td>@item.SupplierProfile.Supplier</td>
+                        <td>@item.Date.ToString("MM/dd/yyyy hh:mm:ss tt")</td>
+                        <td>@item.UnitPrice</td>
+                        <td>@item.StockQuantity</td>
+             
+                
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between">
+            <button class="btn-custom btn-back" onclick="window.location.href='@Url.Action("Index", "Inventory")'">Back</button>
+            <button class="btn-custom btn-print" onclick="window.print()">Print Report</button>
+        </div>
+    </div>
+
+</body>
+</html>

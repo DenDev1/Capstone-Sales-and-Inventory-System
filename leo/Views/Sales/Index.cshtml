@@ -1,0 +1,168 @@
+﻿@model leo.ViewModels.SalesIndexViewModel
+
+@using System.Globalization
+
+<!-- Custom CSS for Additional Styling -->
+<style>
+    body {
+        background-color: #f4f4f9;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #4e555b;
+        }
+
+    .table {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f9f9f9;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #e9ecef;
+    }
+
+    .thead-dark th {
+        background-color: #343a40;
+        color: #fff;
+    }
+
+    .container {
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    h2 {
+        color: #343a40;
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        border-radius: 0.25rem;
+        border: 1px solid #ced4da;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+    label {
+        font-weight: bold;
+        color: #343a40;
+    }
+</style>
+
+@* <!-- Link to Sales Report -->
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-md-6">
+            <a href="@Url.Action("Index", "SalesReport")" class="btn btn-primary btn-lg">View Sales Report</a>
+        </div>
+    </div>
+</div>
+ *@
+<!-- End Date Form -->
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-md-6 offset-md-6">
+            @using (Html.BeginForm("Index", "Sales", FormMethod.Get))
+            {
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="StartDate">Start Date:</label>
+                        <input type="date" name="StartDate" id="StartDate" class="form-control" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="EndDate">End Date:</label>
+                        <input type="date" name="EndDate" id="EndDate" class="form-control" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="col-md-4 align-self-end">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Daily Sales Table -->
+<div class="container mb-4">
+    <h2>Daily Sales</h2>
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Date</th>
+                <th>Product</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Total Amount</th>
+                <th>Payment Method</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DailySales)
+            {
+                <tr>
+                    <td>@item.OrderDate.ToString("d")</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.UnitPrice.ToString("C", new CultureInfo("en-PH"))</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Subtotal.ToString("C", new CultureInfo("en-PH"))</td>
+                    <td>@item.TotalAmount.ToString("C", new CultureInfo("en-PH"))</td>
+                    <td>@item.PaymentMethod</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Monthly Sales Table -->
+<div class="container mb-4">
+    <h2>Monthly Sales</h2>
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Month</th>
+                <th>Total Sales</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.MonthlySales)
+            {
+                <tr>
+                    <td>@item.Month</td>
+                    <td>@item.TotalSales.ToString("C", new CultureInfo("en-PH"))</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>

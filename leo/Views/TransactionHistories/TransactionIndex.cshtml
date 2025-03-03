@@ -1,0 +1,211 @@
+﻿@model IEnumerable<leo.Models.TransactionHistory>
+@{
+    ViewData["Title"] = "Transaction History";
+}
+
+<style>
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+        cursor: default;
+        color: #666 !important;
+        border: 1px solid #DDDDDD;
+        background: #FFF;
+        box-shadow: none;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1050; /* Ensure it's above all other content */
+        visibility: hidden; /* Start hidden */
+        opacity: 0; /* Start invisible */
+        transition: visibility 0s, opacity 0.5s ease; /* Smooth transition */
+    }
+
+        .overlay.active {
+            visibility: visible; /* Show overlay */
+            opacity: 1; /* Make visible */
+        }
+
+    .spinner {
+        border: 5px solid rgba(255, 255, 255, 0.2);
+        border-top: 5px solid white; /* White top for contrast */
+        border-radius: 50%;
+        width: 50px; /* Size of the spinner */
+        height: 50px;
+        animation: spin 1s linear infinite; /* Spin animation */
+        margin-bottom: 20px; /* Space between spinner and text */
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .success-message {
+        color: white; /* Ensure text is white for visibility */
+        font-size: 1.25rem; /* Adjust font size as needed */
+        text-align: center;
+        margin-top: 10px; /* Space between spinner and text */
+    }
+</style>
+
+<div class="overlay" id="loadingOverlay">
+    <div class="spinner"></div> <!-- Spinner for loading effect -->
+    <div class="success-message" id="successMessage"></div>
+</div>
+<!-- Button to Trigger Modal -->
+<button type="button" class="btn btn-danger mb-3" data-bs-toggle="modal" data-bs-target="#clearHistoryModal">
+    Clear History
+</button>
+
+<!-- Bootstrap Modal for Confirmation -->
+<div class="modal fade" id="clearHistoryModal" tabindex="-1" aria-labelledby="clearHistoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="clearHistoryModalLabel">Confirm Action</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <i class="nav-icon fas fa-exclamation-triangle" style="font-size: 48px; color: #dc3545;"></i>
+                <p class="mt-3">Are you sure you want to clear all transaction history?</p>
+            </div>
+            <div class="modal-footer">
+                <form asp-controller="TransactionHistories" asp-action="ClearHistory" method="post">
+                    <button type="submit" class="btn btn-success">Yes, Clear History</button>
+                </form>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>Transaction History</h2>
+
+<div class="table-responsive">
+    <table id="example1" class="table text-truncate">
+        <thead class="table-dark">
+            <tr>
+                <th>Suppliers</th>
+                <th>Description</th>
+                <th>Request Products & Quantities</th>
+                <th>Transaction Date</th>
+                <th>Transaction Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transaction in Model)
+            {
+                <tr>
+                    <td>
+                        @if (transaction.Supplier != null)
+                        {
+                            <span>@transaction.Supplier.SupplierName</span>
+                        }
+                        else
+                        {
+                            <span>Supplier Deleted</span>
+                        }
+                    </td>
+                    <td>
+                        @if (string.IsNullOrEmpty(transaction.Description))
+                        {
+                            <span>No description provided</span>
+                        }
+                        else
+                        {
+                            <span>@transaction.Description</span>
+                        }
+                    </td>
+
+                    <td>
+                        @if (string.IsNullOrEmpty(transaction.ProductsAndQuantities))
+                        {
+                            <span>No Items</span>
+                        }
+                        else
+                        {
+                            <span>@transaction.ProductsAndQuantities</span>
+                        }
+                    </td>
+
+                    <td>@transaction.TransactionDate.ToString("MMMM dd yyyy hh:mm tt")</td>
+                    <td>
+                        @if (transaction.TransactionType == "Approved")
+                        {
+                            <span class="badge bg-success">Approved</span>
+                        }
+                        else if (transaction.TransactionType == "Delivered")
+                        {
+                            <span class="badge bg-success">Delivered</span>
+                        }
+                        else if (transaction.TransactionType == "Pending")
+                        {
+                            <span class="badge bg-warning">Pending</span>
+                        }
+                        else if (transaction.TransactionType == "Notice")
+                        {
+                            <span class="badge bg-danger">Notice</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@transaction.TransactionType</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Function to show the modal
+    function showDeleteModal(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Show the modal
+        var deleteModal = new bootstrap.Modal(document.getElementById('deleteHistoryModal'));
+        deleteModal.show();
+
+        // Set up the confirm button to proceed with deletion
+        document.getElementById('confirmDeleteButton').onclick = function () {
+            // Proceed with form submission
+            event.target.closest('form').submit(); // Submit the closest form
+            deleteModal.hide(); // Hide the modal
+        };
+    }
+
+    // Attach event listeners to the delete buttons
+    document.querySelectorAll('.delete-button').forEach(function (button) {
+        button.addEventListener('click', showDeleteModal);
+    });
+
+    $(document).ready(function () {
+        // Show loading overlay and success message
+        const successMessage = '@TempData["LoginSuccess"]'; // Get success message
+        $('#successMessage').text(successMessage); // Set the success message
+        $('#loadingOverlay').addClass('active'); // Show overlay
+
+        // Automatically close the loading overlay and redirect after a few seconds (e.g., 1 seconds)
+        setTimeout(function () {
+            $('#loadingOverlay').removeClass('active'); // Hide overlay
+        }, 1000); // 1000 milliseconds = 1second
+    });
+</script>

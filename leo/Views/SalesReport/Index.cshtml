@@ -1,0 +1,104 @@
+﻿@* @model leo.ViewModels.SalesReportViewModel
+<style>
+    /* Custom styles */
+    body {
+        background-color: #f8f9fa; /* Light background color */
+    }
+
+    .card {
+        border: none; /* Remove card borders for a cleaner look */
+    }
+
+    h1, h3 {
+        font-weight: 500; /* Adjust heading weights */
+    }
+
+</style>
+
+<div class="container mt-5">
+    <h1 class="mb-4 text-center text-primary">Sales Report</h1>
+
+    <!-- Date Range Form -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form asp-action="Index" method="get">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="StartDate" class="form-label">Start Date:</label>
+                        <input type="date" name="StartDate" id="StartDate" class="form-control" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="EndDate" class="form-label">End Date:</label>
+                        <input type="date" name="EndDate" id="EndDate" class="form-control" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="col-md-4 align-self-end mb-3">
+                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Monthly Revenue Chart -->
+    <div class="card">
+        <div class="card-body">
+            <h3 class="text-center">Total Revenue in a Month</h3>
+            <canvas id="monthlyRevenueChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <!-- Chart Initialization Script -->
+    @section Scripts {
+        <!-- Chart.js Library -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Monthly Revenue Chart
+                var ctxMonthlyRevenue = document.getElementById('monthlyRevenueChart').getContext('2d');
+                var monthlyRevenueChart = new Chart(ctxMonthlyRevenue, {
+                    type: 'line',
+                    data: {
+                        // Labels for each month from January to December
+                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                        datasets: [{
+                            label: 'Total Revenue',
+                            // Data from the model for each month
+                            data: @Html.Raw(Json.Serialize(new double[] {
+                            (double)(Model.MonthlyRevenueData.FirstOrDefault(m => m.Month == 1)?.TotalRevenue ?? 0),
+                            (double)(Model.MonthlyRevenueData.FirstOrDefault(m => m.Month == 2)?.TotalRevenue ?? 0),
+                            (double)(Model.MonthlyRevenueData.FirstOrDefault(m => m.Month == 3)?.TotalRevenue ?? 0),
+                            (double)(Model.MonthlyRevenueData.FirstOrDefault(m => m.Month == 4)?.TotalRevenue ?? 0),
+                            (double)(Model.MonthlyRevenueData.FirstOrDefault(m => m.Month == 5)?.TotalRevenue ?? 0),
+                            (double)(Model.MonthlyRevenueData.FirstOrDefault(m => m.Month == 6)?.TotalRevenue ?? 0),
+                            (double)(Model.MonthlyRevenueData.FirstOrDefault(m => m.Month == 7)?.TotalRevenue ?? 0),
+                            (double)(Model.MonthlyRevenueData.FirstOrDefault(m => m.Month == 8)?.TotalRevenue ?? 0),
+                            (double)(Model.MonthlyRevenueData.FirstOrDefault(m => m.Month == 9)?.TotalRevenue ?? 0),
+                            (double)(Model.MonthlyRevenueData.FirstOrDefault(m => m.Month == 10)?.TotalRevenue ?? 0),
+                            (double)(Model.MonthlyRevenueData.FirstOrDefault(m => m.Month == 11)?.TotalRevenue ?? 0),
+                            (double)(Model.MonthlyRevenueData.FirstOrDefault(m => m.Month == 12)?.TotalRevenue ?? 0)
+                            })),
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 2,
+                            fill: true // Enables the area under the line
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function (value) {
+                                        return '₱' + value.toLocaleString(); // Format currency
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+    }
+</div>
+ *@

@@ -1,0 +1,68 @@
+﻿@model leo.Models.Role
+
+@{
+    ViewData["Title"] = "Edit Role";
+ 
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <!-- Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-0 shadow-lg rounded-lg">
+                <div class="modal-header bg-success text-white rounded-top">
+                    <h5 class="modal-title fw-bold" id="successModalLabel">Success</h5>
+
+                </div>
+                <div class="modal-body text-center p-4">
+                    <!-- Icon for a success message (optional) -->
+                    <i class="bi bi-check-circle-fill text-success display-4 mb-3"></i> <!-- Bootstrap Icons -->
+                    <p class="lead mb-0">@TempData["SuccessMessage"]</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="container mt-5 bg-light p-5 shadow-sm rounded">
+  
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <input type="hidden" asp-for="RoleId" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="RoleName" class="form-label fw-bold"></label>
+                    <input asp-for="RoleName" class="form-control shadow-sm" />
+                    <span asp-validation-for="RoleName" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <input type="submit" value="Save" class="btn btn-primary rounded-pill px-4 shadow" />
+                    <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 shadow">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var successModal = $('#successModal');
+
+            // Show the modal
+            successModal.modal('show');
+
+            // Automatically hide the modal after 3 seconds
+            setTimeout(function () {
+                successModal.modal('hide');
+            }, 3000); // 3000 milliseconds = 3 seconds
+        });
+</script>
+

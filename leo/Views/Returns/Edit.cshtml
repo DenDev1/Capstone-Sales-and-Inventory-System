@@ -1,0 +1,153 @@
+﻿@model leo.Models.Return
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<style>
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1050; /* Ensure it's above all other content */
+        visibility: hidden; /* Start hidden */
+        opacity: 0; /* Start invisible */
+        transition: visibility 0s, opacity 0.5s ease; /* Smooth transition */
+    }
+
+        .overlay.active {
+            visibility: visible; /* Show overlay */
+            opacity: 1; /* Make visible */
+        }
+
+    .spinner {
+        border: 5px solid rgba(255, 255, 255, 0.2);
+        border-top: 5px solid white; /* White top for contrast */
+        border-radius: 50%;
+        width: 50px; /* Size of the spinner */
+        height: 50px;
+        animation: spin 1s linear infinite; /* Spin animation */
+        margin-bottom: 20px; /* Space between spinner and text */
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .success-message {
+        color: white; /* Ensure text is white for visibility */
+        font-size: 1.25rem; /* Adjust font size as needed */
+        text-align: center;
+        margin-top: 10px; /* Space between spinner and text */
+    }
+</style>
+
+<div class="overlay" id="loadingOverlay">
+    <div class="spinner"></div> <!-- Spinner for loading effect -->
+    <div class="success-message" id="successMessage"></div>
+</div>
+
+
+<div class="container bg-light p-5 shadow rounded">
+
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ReturnId" />
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <!-- Product Dropdown -->
+                    <div class="form-group">
+                        <label asp-for="ProductId" class="control-label fw-bold">Products</label>
+                        <select asp-for="ProductId" class="form-control rounded-pill" asp-items="ViewBag.ProductId"></select>
+                    </div>
+
+                    <!-- Quantity Returned -->
+                    <div class="form-group">
+                        <label asp-for="QuantityReturned" class="control-label fw-bold"></label>
+                        <input asp-for="QuantityReturned" class="form-control rounded-pill" placeholder="Enter quantity returned" />
+                        <span asp-validation-for="QuantityReturned" class="text-danger"></span>
+                    </div>
+
+                    <!-- Reason -->
+                    <div class="form-group">
+                        <label asp-for="Reason" class="control-label fw-bold"></label>
+                        <input asp-for="Reason" class="form-control rounded-pill" placeholder="Enter reason" />
+                        <span asp-validation-for="Reason" class="text-danger"></span>
+                    </div>
+                </div>
+            <!-- Customer Name -->
+            <div class="form-group">
+                <label asp-for="CustomerName" class="control-label fw-bold"></label>
+                <input asp-for="CustomerName" class="form-control rounded-pill" placeholder="Enter customer name" />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+     
+                <div class="col-md-6 mb-3">
+                    <!-- Status Dropdown for ReturnStatus -->
+                    <div class="form-group">
+                        <label asp-for="Status" class="form-label"></label>
+                        <select asp-for="Status" class="form-select">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <option value="Approved">Approved</option>
+                            }
+                        <option value="UnderWarranty">UnderWarranty</option>
+         
+                            <option value="Rejected">Rejected</option>
+                        </select>
+                    </div>
+                <!-- Return Date -->
+                <div class="form-group">
+                    <label asp-for="OrderDate" class="control-label fw-bold"></label>
+                    <input asp-for="OrderDate" class="form-control rounded-pill" placeholder="Select Order date" />
+                    <span asp-validation-for="OrderDate" class="text-danger"></span>
+                </div>
+
+                    <!-- Return Date -->
+                    <div class="form-group">
+                    <label asp-for="ReturnDate " class="control-label fw-bold"></label>
+                    <input asp-for="ReturnDate " class="form-control rounded-pill" placeholder="Select return date" />
+                    <span asp-validation-for="ReturnDate " class="text-danger"></span>
+                    </div>
+
+           
+                </div>
+            </div>
+            <!-- Buttons Section with Justify Content Between -->
+            <div class="d-flex justify-content-between mt-4">
+                <button type="submit" class="btn btn-primary rounded-pill px-5 shadow-sm">Create</button>
+                <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-5 shadow-sm">Back to List</a>
+            </div>
+
+    </form>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        // Show loading overlay and success message
+        const successMessage = '@TempData["LoginSuccess"]'; // Get success message
+        $('#successMessage').text(successMessage); // Set the success message
+        $('#loadingOverlay').addClass('active'); // Show overlay
+
+        // Automatically close the loading overlay and redirect after a few seconds (e.g., 1 seconds)
+        setTimeout(function () {
+            $('#loadingOverlay').removeClass('active'); // Hide overlay
+
+        }, 1000); // 1000 milliseconds = 1seconds
+    });
+    </script>
+

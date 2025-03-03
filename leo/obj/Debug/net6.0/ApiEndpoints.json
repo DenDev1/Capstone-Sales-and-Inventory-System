@@ -1,0 +1,39 @@
+[
+  {
+    "ContainingType": "leo.Controllers.RecieveSMSController",
+    "Method": "SendReply",
+    "RelativePath": "api/RecieveSMS/SendReply",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "From",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Body",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "leo.Controllers.SendSMSController",
+    "Method": "SendText",
+    "RelativePath": "api/SendSMS/SendText",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "phonenumber",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

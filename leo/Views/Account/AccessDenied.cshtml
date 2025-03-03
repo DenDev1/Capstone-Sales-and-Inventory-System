@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "404 - Page Not Found";
+    Layout = "_Layout_Login";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <meta name="description" content="404 - Page Not Found.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        main {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        h1 {
+            font-size: 6rem;
+            color: #dc3545;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.5rem;
+            color: #6c757d;
+        }
+
+        a {
+            margin-top: 1.5rem;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+
+        @@keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>404</h1>
+        <p>Oops! The page you're looking for cannot be found.</p>
+        <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-primary">
+            Back to Home
+        </a>
+    </main>
+</body>
+</html>

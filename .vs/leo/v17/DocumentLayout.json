@@ -1,0 +1,1198 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\order\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\order\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\order\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\order\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\services\\auditlogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\services\\auditlogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\properties\\servicedependencies.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\properties\\servicedependencies.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\viewmodels\\transactionviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\viewmodels\\transactionviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\supplierprofiles\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\supplierprofiles\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\controllers\\inventorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\controllers\\inventorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\supplierprofiles\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\supplierprofiles\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\shared\\_layout_login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\shared\\_layout_login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Ralph Allen\\.nuget\\packages\\epplus\\7.4.2\\readme.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\dovtyler\\source\\repos\\leo\\leo\\Views\\Inventory\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\dovtyler\\source\\repos\\leo\\leo\\Controllers\\SuppliersController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\dovtyler\\source\\repos\\leo\\leo\\Views\\Suppliers\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\dovtyler\\source\\repos\\leo\\leo\\Models\\Supplier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\inventory\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\inventory\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\returns\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\returns\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\login\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\login\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\auditlogs\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\auditlogs\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\controllers\\auditslogscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\controllers\\auditslogscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\inventory\\inventoryreport.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\inventory\\inventoryreport.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\viewmodels\\inventoryreportviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\viewmodels\\inventoryreportviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\supplierprofiles\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\supplierprofiles\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\returns\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\returns\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\returns\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\returns\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\roles\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\roles\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\roles\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\roles\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\models\\return.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\models\\return.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\controllers\\sendsmscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\controllers\\sendsmscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\categories\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\categories\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\categories\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\categories\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\users\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\users\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\models\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\models\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\roles\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\roles\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\dashboard\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\dashboard\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\models\\passwordresetrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\models\\passwordresetrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\login\\resetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\login\\resetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\services\\passwordresetservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\services\\passwordresetservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\services\\iemailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\services\\iemailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\models\\auditlog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\models\\auditlog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\inventory\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\inventory\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\categories\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\categories\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\wwwroot\\dist\\css\\alt\\adminlte.light.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\wwwroot\\dist\\css\\alt\\adminlte.light.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\wwwroot\\dist\\css\\alt\\adminlte.plugins.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\wwwroot\\dist\\css\\alt\\adminlte.plugins.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\wwwroot\\dist\\css\\alt\\adminlte.core.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\wwwroot\\dist\\css\\alt\\adminlte.core.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\wwwroot\\dist\\css\\adminlte.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\wwwroot\\dist\\css\\adminlte.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\wwwroot\\dist\\css\\alt\\adminlte.pages.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\wwwroot\\dist\\css\\alt\\adminlte.pages.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\inventory\\deletedproducts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\inventory\\deletedproducts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\viewmodels\\salesreportviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\viewmodels\\salesreportviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\viewmodels\\dashboardviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\viewmodels\\dashboardviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\salesreport\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\salesreport\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\sales\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\sales\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\inventory\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\inventory\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|c:\\users\\dovtyler\\onedrive\\pictures\\capstone-sales-and-inventory-system-with-email-notifications-main\\leo\\views\\users\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C0B649C-EC02-4178-A03D-D6E161DFE702}|leo\\leo.csproj|solutionrelative:leo\\views\\users\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\private\\leo\\leo\\Views\\Order\\PrintInvoice.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Order\\Create.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Order\\Create.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Order\\Create.cshtml",
+              "RelativeToolTip": "leo\\Views\\Order\\Create.cshtml",
+              "ViewState": "AgIAAJgAAAAAAAAAAAAAAKMAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.27Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Order\\Index.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Order\\Index.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Order\\Index.cshtml",
+              "RelativeToolTip": "leo\\Views\\Order\\Index.cshtml",
+              "ViewState": "AgIAAM0AAAAAAAAAAAAswNwAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.207Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OrdersController.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\OrdersController.cs",
+              "RelativeDocumentMoniker": "leo\\Controllers\\OrdersController.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\OrdersController.cs",
+              "RelativeToolTip": "leo\\Controllers\\OrdersController.cs",
+              "ViewState": "AgIAAO8AAAAAAAAAAADwvwYBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T08:07:48.008Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Order.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Models\\Order.cs",
+              "RelativeDocumentMoniker": "leo\\Models\\Order.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Models\\Order.cs",
+              "RelativeToolTip": "leo\\Models\\Order.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAswCkAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.215Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AuditLogService.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Services\\AuditLogService.cs",
+              "RelativeDocumentMoniker": "leo\\Services\\AuditLogService.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Services\\AuditLogService.cs",
+              "RelativeToolTip": "leo\\Services\\AuditLogService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.463Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\_ViewStart.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\_ViewStart.cshtml",
+              "RelativeToolTip": "leo\\Views\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-03T05:11:35.654Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\_ViewImports.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\_ViewImports.cshtml",
+              "RelativeToolTip": "leo\\Views\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-03T05:11:36.592Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "TransactionViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\ViewModels\\TransactionViewModel.cs",
+              "RelativeDocumentMoniker": "leo\\ViewModels\\TransactionViewModel.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\ViewModels\\TransactionViewModel.cs",
+              "RelativeToolTip": "leo\\ViewModels\\TransactionViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.254Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "LoginController.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\LoginController.cs",
+              "RelativeDocumentMoniker": "leo\\Controllers\\LoginController.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\LoginController.cs",
+              "RelativeToolTip": "leo\\Controllers\\LoginController.cs",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAAwFwAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.239Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "LoginViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\ViewModels\\LoginViewModel.cs",
+              "RelativeDocumentMoniker": "leo\\ViewModels\\LoginViewModel.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\ViewModels\\LoginViewModel.cs",
+              "RelativeToolTip": "leo\\ViewModels\\LoginViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T05:04:02.477Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "serviceDependencies.json",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Properties\\serviceDependencies.json",
+              "RelativeDocumentMoniker": "leo\\Properties\\serviceDependencies.json",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Properties\\serviceDependencies.json",
+              "RelativeToolTip": "leo\\Properties\\serviceDependencies.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-12-03T05:04:24.233Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "DashboardController.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\DashboardController.cs",
+              "RelativeDocumentMoniker": "leo\\Controllers\\DashboardController.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\DashboardController.cs",
+              "RelativeToolTip": "leo\\Controllers\\DashboardController.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAADgvxQAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.358Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\SupplierProfiles\\Index.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\SupplierProfiles\\Index.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\SupplierProfiles\\Index.cshtml",
+              "RelativeToolTip": "leo\\Views\\SupplierProfiles\\Index.cshtml",
+              "ViewState": "AgIAAA4AAAAAAAAAAADwv6AAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.058Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "_Layout_Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Shared\\_Layout_Login.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Shared\\_Layout_Login.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Shared\\_Layout_Login.cshtml",
+              "RelativeToolTip": "leo\\Views\\Shared\\_Layout_Login.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.362Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "InventoryController.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\InventoryController.cs",
+              "RelativeDocumentMoniker": "leo\\Controllers\\InventoryController.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\InventoryController.cs",
+              "RelativeToolTip": "leo\\Controllers\\InventoryController.cs",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAgwH4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:17.924Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\SupplierProfiles\\Create.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\SupplierProfiles\\Create.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\SupplierProfiles\\Create.cshtml",
+              "RelativeToolTip": "leo\\Views\\SupplierProfiles\\Create.cshtml",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAAAHgAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.095Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Returns\\Index.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Returns\\Index.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Returns\\Index.cshtml",
+              "RelativeToolTip": "leo\\Views\\Returns\\Index.cshtml",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAAAF0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.067Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Inventory\\Index.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Inventory\\Index.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Inventory\\Index.cshtml",
+              "RelativeToolTip": "leo\\Views\\Inventory\\Index.cshtml",
+              "ViewState": "AQIAAJ0AAAAAAAAAAAAuwK4AAABNAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.034Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "leo\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AQIAAPkAAAAAAAAAAAAAACEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.031Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "site.js",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\wwwroot\\js\\site.js",
+              "RelativeDocumentMoniker": "leo\\wwwroot\\js\\site.js",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\wwwroot\\js\\site.js",
+              "RelativeToolTip": "leo\\wwwroot\\js\\site.js",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAYwB4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-11-19T06:40:26.601Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Login\\Index.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Login\\Index.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Login\\Index.cshtml",
+              "RelativeToolTip": "leo\\Views\\Login\\Index.cshtml",
+              "ViewState": "AQIAACQAAAAAAAAAAAAAADgAAABtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.32Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\AuditLogs\\Index.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\AuditLogs\\Index.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\AuditLogs\\Index.cshtml",
+              "RelativeToolTip": "leo\\Views\\AuditLogs\\Index.cshtml",
+              "ViewState": "AQIAAG4AAAAAAAAAAAAqwIAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.051Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "AuditsLogsController.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\AuditsLogsController.cs",
+              "RelativeDocumentMoniker": "leo\\Controllers\\AuditsLogsController.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\AuditsLogsController.cs",
+              "RelativeToolTip": "leo\\Controllers\\AuditsLogsController.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAwwBoAAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.437Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "InventoryReport.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Inventory\\InventoryReport.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Inventory\\InventoryReport.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Inventory\\InventoryReport.cshtml",
+              "RelativeToolTip": "leo\\Views\\Inventory\\InventoryReport.cshtml",
+              "ViewState": "AQIAAIwAAAAAAAAAAAAAAJkAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.025Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "InventoryReportViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\ViewModels\\InventoryReportViewModel.cs",
+              "RelativeDocumentMoniker": "leo\\ViewModels\\InventoryReportViewModel.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\ViewModels\\InventoryReportViewModel.cs",
+              "RelativeToolTip": "leo\\ViewModels\\InventoryReportViewModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAA+AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.039Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\SupplierProfiles\\Edit.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\SupplierProfiles\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\SupplierProfiles\\Edit.cshtml",
+              "RelativeToolTip": "leo\\Views\\SupplierProfiles\\Edit.cshtml",
+              "ViewState": "AQIAAFoAAAAAAAAAAAAAAG0AAABIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.09Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "Category.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Models\\Category.cs",
+              "RelativeDocumentMoniker": "leo\\Models\\Category.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Models\\Category.cs",
+              "RelativeToolTip": "leo\\Models\\Category.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.122Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Returns\\Edit.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Returns\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Returns\\Edit.cshtml",
+              "RelativeToolTip": "leo\\Views\\Returns\\Edit.cshtml",
+              "ViewState": "AQIAAEYAAAAAAAAAAAAAAGMAAABLAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.132Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Returns\\Create.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Returns\\Create.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Returns\\Create.cshtml",
+              "RelativeToolTip": "leo\\Views\\Returns\\Create.cshtml",
+              "ViewState": "AQIAAFgAAAAAAAAAAAAswGsAAABGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.142Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Roles\\Edit.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Roles\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Roles\\Edit.cshtml",
+              "RelativeToolTip": "leo\\Views\\Roles\\Edit.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADsAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.146Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Roles\\Create.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Roles\\Create.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Roles\\Create.cshtml",
+              "RelativeToolTip": "leo\\Views\\Roles\\Create.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB0AAAAGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.15Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "Return.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Models\\Return.cs",
+              "RelativeDocumentMoniker": "leo\\Models\\Return.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Models\\Return.cs",
+              "RelativeToolTip": "leo\\Models\\Return.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwBQAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.158Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "SendSMSController.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\SendSMSController.cs",
+              "RelativeDocumentMoniker": "leo\\Controllers\\SendSMSController.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\SendSMSController.cs",
+              "RelativeToolTip": "leo\\Controllers\\SendSMSController.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAAAB0AAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.163Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Categories\\Create.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Categories\\Create.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Categories\\Create.cshtml",
+              "RelativeToolTip": "leo\\Views\\Categories\\Create.cshtml",
+              "ViewState": "AQIAAC0AAAAAAAAAAAAAAEEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.169Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Categories\\Index.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Categories\\Index.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Categories\\Index.cshtml",
+              "RelativeToolTip": "leo\\Views\\Categories\\Index.cshtml",
+              "ViewState": "AQIAAC0AAAAAAAAAAAAAAD0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.187Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "CategoriesController.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\CategoriesController.cs",
+              "RelativeDocumentMoniker": "leo\\Controllers\\CategoriesController.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\CategoriesController.cs",
+              "RelativeToolTip": "leo\\Controllers\\CategoriesController.cs",
+              "ViewState": "AQIAAJQAAAAAAAAAAAAAwKkAAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.192Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "leo\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "leo\\Controllers\\HomeController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFkAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.198Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Users\\Index.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Users\\Index.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Users\\Index.cshtml",
+              "RelativeToolTip": "leo\\Views\\Users\\Index.cshtml",
+              "ViewState": "AQIAACMAAAAAAAAAAAAAAEMAAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.203Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "Users.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Models\\Users.cs",
+              "RelativeDocumentMoniker": "leo\\Models\\Users.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Models\\Users.cs",
+              "RelativeToolTip": "leo\\Models\\Users.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAywBoAAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.22Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "Role.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Models\\Role.cs",
+              "RelativeDocumentMoniker": "leo\\Models\\Role.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Models\\Role.cs",
+              "RelativeToolTip": "leo\\Models\\Role.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAA1AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.224Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Roles\\Index.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Roles\\Index.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Roles\\Index.cshtml",
+              "RelativeToolTip": "leo\\Views\\Roles\\Index.cshtml",
+              "ViewState": "AQIAAGkAAAAAAAAAAAAAAG4AAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.229Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Dashboard\\Index.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Dashboard\\Index.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Dashboard\\Index.cshtml",
+              "RelativeToolTip": "leo\\Views\\Dashboard\\Index.cshtml",
+              "ViewState": "AQIAAEkAAAAAAAAAAAAAAGgBAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.235Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Program.cs",
+              "RelativeDocumentMoniker": "leo\\Program.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Program.cs",
+              "RelativeToolTip": "leo\\Program.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAAAAACMAAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.244Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 72,
+              "Title": "PrintInvoice.cshtml",
+              "DocumentMoniker": "C:\\private\\leo\\leo\\Views\\Order\\PrintInvoice.cshtml",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\private\\leo\\leo\\Views\\Order\\PrintInvoice.cshtml",
+              "ToolTip": "C:\\private\\leo\\leo\\Views\\Order\\PrintInvoice.cshtml",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\private\\leo\\leo\\Views\\Order\\PrintInvoice.cshtml",
+              "ViewState": "AQIAAHkAAAAAAAAAAAAswIoAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.262Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "PasswordResetRequest.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Models\\PasswordResetRequest.cs",
+              "RelativeDocumentMoniker": "leo\\Models\\PasswordResetRequest.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Models\\PasswordResetRequest.cs",
+              "RelativeToolTip": "leo\\Models\\PasswordResetRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.279Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "ResetPassword.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Login\\ResetPassword.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Login\\ResetPassword.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Login\\ResetPassword.cshtml",
+              "RelativeToolTip": "leo\\Views\\Login\\ResetPassword.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACUAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.283Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "PasswordResetService.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Services\\PasswordResetService.cs",
+              "RelativeDocumentMoniker": "leo\\Services\\PasswordResetService.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Services\\PasswordResetService.cs",
+              "RelativeToolTip": "leo\\Services\\PasswordResetService.cs",
+              "ViewState": "AQIAAAQAAAAAAAAAAAAkwAgAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.288Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "IEmailService.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Services\\IEmailService.cs",
+              "RelativeDocumentMoniker": "leo\\Services\\IEmailService.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Services\\IEmailService.cs",
+              "RelativeToolTip": "leo\\Services\\IEmailService.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAgwB0AAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.293Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Microsoft.Common.CurrentVersion.targets",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "ViewState": "AQIAABsUAAAAAAAAAAAawCMUAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2024-11-05T15:10:37.22Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "AuditLog.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Models\\AuditLog.cs",
+              "RelativeDocumentMoniker": "leo\\Models\\AuditLog.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Models\\AuditLog.cs",
+              "RelativeToolTip": "leo\\Models\\AuditLog.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAABCAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.325Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "leo\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "leo\\Controllers\\UsersController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.329Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Inventory\\Create.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Inventory\\Create.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Inventory\\Create.cshtml",
+              "RelativeToolTip": "leo\\Views\\Inventory\\Create.cshtml",
+              "ViewState": "AQIAACgAAAAAAAAAAAAAAFoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.339Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 56,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Categories\\Edit.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Categories\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Categories\\Edit.cshtml",
+              "RelativeToolTip": "leo\\Views\\Categories\\Edit.cshtml",
+              "ViewState": "AQIAADIAAAAAAAAAAAAAAEoAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.345Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 57,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "leo\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "leo\\Controllers\\AccountController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.353Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 58,
+              "Title": "adminlte.light.css",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\wwwroot\\dist\\css\\alt\\adminlte.light.css",
+              "RelativeDocumentMoniker": "leo\\wwwroot\\dist\\css\\alt\\adminlte.light.css",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\wwwroot\\dist\\css\\alt\\adminlte.light.css",
+              "RelativeToolTip": "leo\\wwwroot\\dist\\css\\alt\\adminlte.light.css",
+              "ViewState": "AQIAAPUAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-11-19T05:25:18.366Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 59,
+              "Title": "adminlte.plugins.css",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\wwwroot\\dist\\css\\alt\\adminlte.plugins.css",
+              "RelativeDocumentMoniker": "leo\\wwwroot\\dist\\css\\alt\\adminlte.plugins.css",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\wwwroot\\dist\\css\\alt\\adminlte.plugins.css",
+              "RelativeToolTip": "leo\\wwwroot\\dist\\css\\alt\\adminlte.plugins.css",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-11-19T05:25:18.371Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 60,
+              "Title": "adminlte.core.css",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\wwwroot\\dist\\css\\alt\\adminlte.core.css",
+              "RelativeDocumentMoniker": "leo\\wwwroot\\dist\\css\\alt\\adminlte.core.css",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\wwwroot\\dist\\css\\alt\\adminlte.core.css",
+              "RelativeToolTip": "leo\\wwwroot\\dist\\css\\alt\\adminlte.core.css",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-11-19T05:25:18.375Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 61,
+              "Title": "adminlte.css",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\wwwroot\\dist\\css\\adminlte.css",
+              "RelativeDocumentMoniker": "leo\\wwwroot\\dist\\css\\adminlte.css",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\wwwroot\\dist\\css\\adminlte.css",
+              "RelativeToolTip": "leo\\wwwroot\\dist\\css\\adminlte.css",
+              "ViewState": "AQIAADsBAAAAAAAAAAAAABk1AAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-11-19T05:25:18.379Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 62,
+              "Title": "adminlte.pages.css",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\wwwroot\\dist\\css\\alt\\adminlte.pages.css",
+              "RelativeDocumentMoniker": "leo\\wwwroot\\dist\\css\\alt\\adminlte.pages.css",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\wwwroot\\dist\\css\\alt\\adminlte.pages.css",
+              "RelativeToolTip": "leo\\wwwroot\\dist\\css\\alt\\adminlte.pages.css",
+              "ViewState": "AQIAAP8AAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-11-19T05:25:18.382Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 63,
+              "Title": "site.css",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "leo\\wwwroot\\css\\site.css",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "leo\\wwwroot\\css\\site.css",
+              "ViewState": "AQIAAG0BAAAAAAAAAAAAAI8AAAALAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-11-19T05:25:18.387Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 64,
+              "Title": "DeletedProducts.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Inventory\\DeletedProducts.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Inventory\\DeletedProducts.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Inventory\\DeletedProducts.cshtml",
+              "RelativeToolTip": "leo\\Views\\Inventory\\DeletedProducts.cshtml",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAAADQAAAA8AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.392Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "readme.txt",
+              "DocumentMoniker": "C:\\Users\\Ralph Allen\\.nuget\\packages\\epplus\\7.4.2\\readme.txt",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\Ralph Allen\\.nuget\\packages\\epplus\\7.4.2\\readme.txt",
+              "ToolTip": "C:\\Users\\Ralph Allen\\.nuget\\packages\\epplus\\7.4.2\\readme.txt",
+              "RelativeToolTip": "..\\..\\..\\..\\Ralph Allen\\.nuget\\packages\\epplus\\7.4.2\\readme.txt",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2024-11-19T05:25:18.396Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 65,
+              "Title": "SalesReportViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\ViewModels\\SalesReportViewModel.cs",
+              "RelativeDocumentMoniker": "leo\\ViewModels\\SalesReportViewModel.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\ViewModels\\SalesReportViewModel.cs",
+              "RelativeToolTip": "leo\\ViewModels\\SalesReportViewModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.4Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 66,
+              "Title": "DashboardViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\ViewModels\\DashboardViewModel.cs",
+              "RelativeDocumentMoniker": "leo\\ViewModels\\DashboardViewModel.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\ViewModels\\DashboardViewModel.cs",
+              "RelativeToolTip": "leo\\ViewModels\\DashboardViewModel.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAA8wB4AAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.404Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 67,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\SalesReport\\Index.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\SalesReport\\Index.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\SalesReport\\Index.cshtml",
+              "RelativeToolTip": "leo\\Views\\SalesReport\\Index.cshtml",
+              "ViewState": "AQIAAEcAAAAAAAAAAADwv1QAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.413Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 68,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Sales\\Index.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Sales\\Index.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Sales\\Index.cshtml",
+              "RelativeToolTip": "leo\\Views\\Sales\\Index.cshtml",
+              "ViewState": "AQIAAEcAAAAAAAAAAADwv0wAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.42Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 69,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Inventory\\Edit.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Inventory\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Inventory\\Edit.cshtml",
+              "RelativeToolTip": "leo\\Views\\Inventory\\Edit.cshtml",
+              "ViewState": "AQIAADwAAAAAAAAAAAAEwEoAAABWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.425Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 70,
+              "Title": "ErrorViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Models\\ErrorViewModel.cs",
+              "RelativeDocumentMoniker": "leo\\Models\\ErrorViewModel.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Models\\ErrorViewModel.cs",
+              "RelativeToolTip": "leo\\Models\\ErrorViewModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T05:25:18.43Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 71,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Users\\Edit.cshtml",
+              "RelativeDocumentMoniker": "leo\\Views\\Users\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\Views\\Users\\Edit.cshtml",
+              "RelativeToolTip": "leo\\Views\\Users\\Edit.cshtml",
+              "ViewState": "AQIAAGUAAAAAAAAAAAAswH0AAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-19T05:25:18.446Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\source\\repos\\leo\\leo\\Views\\Inventory\\Index.cshtml",
+              "RelativeDocumentMoniker": "..\\..\\..\\source\\repos\\leo\\leo\\Views\\Inventory\\Index.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\source\\repos\\leo\\leo\\Views\\Inventory\\Index.cshtml",
+              "RelativeToolTip": "..\\..\\..\\source\\repos\\leo\\leo\\Views\\Inventory\\Index.cshtml",
+              "ViewState": "AQIAAL0AAAAAAAAAAAAQwOMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-30T02:51:48.826Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "SuppliersController.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\source\\repos\\leo\\leo\\Controllers\\SuppliersController.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\source\\repos\\leo\\leo\\Controllers\\SuppliersController.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\source\\repos\\leo\\leo\\Controllers\\SuppliersController.cs",
+              "RelativeToolTip": "..\\..\\..\\source\\repos\\leo\\leo\\Controllers\\SuppliersController.cs",
+              "ViewState": "AQIAACQBAAAAAAAAAAAowHEBAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T02:51:48.83Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\source\\repos\\leo\\leo\\Views\\Suppliers\\Index.cshtml",
+              "RelativeDocumentMoniker": "..\\..\\..\\source\\repos\\leo\\leo\\Views\\Suppliers\\Index.cshtml",
+              "ToolTip": "C:\\Users\\dovtyler\\source\\repos\\leo\\leo\\Views\\Suppliers\\Index.cshtml",
+              "RelativeToolTip": "..\\..\\..\\source\\repos\\leo\\leo\\Views\\Suppliers\\Index.cshtml",
+              "ViewState": "AQIAAL0AAAAAAAAAAAAQwOMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-30T02:51:48.838Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Supplier.cs",
+              "DocumentMoniker": "C:\\Users\\dovtyler\\source\\repos\\leo\\leo\\Models\\Supplier.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\source\\repos\\leo\\leo\\Models\\Supplier.cs",
+              "ToolTip": "C:\\Users\\dovtyler\\source\\repos\\leo\\leo\\Models\\Supplier.cs",
+              "RelativeToolTip": "..\\..\\..\\source\\repos\\leo\\leo\\Models\\Supplier.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAAABgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T02:51:48.842Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

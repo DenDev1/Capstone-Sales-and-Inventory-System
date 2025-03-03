@@ -1,0 +1,92 @@
+﻿@model leo.Models.Users
+
+@{
+    Layout = "_Layout_Login";
+    ViewData["Title"] = "Login";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - LEOTECH</title>
+    <meta name="description" content="Login to LeoTech, the premier computer trading store management system.">
+    <meta name="keywords" content="LeoTech, computer trading, store management, login">
+    <link rel="icon" href="~/dist/img/AdminLTELogo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/leo.styles.css" asp-append-version="true" />
+</head>
+<body>
+   
+    <div class="container-fluid">
+      
+        <section class="container-right d-flex flex-column align-items-center" aria-labelledby="login-form">
+           
+            <div class="registration">
+                <div class="text-center mb-4">
+                    <img src="~/dist/img/logo.png" alt="LeoTech" class="img-fluid" style="height: 100px;">
+                </div>
+          
+                <p class="text-center" style="font-size: 20px; font-weight: 500; color: #212f3d; ;">
+                    For Access Dashboard
+                </p>
+                <form asp-action="Login" method="post" aria-labelledby="login-form">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Username" class="form-label"><i class="fa fa-user" ></i> Username</label>
+                        <input asp-for="Username" class="form-control rounded-pill" placeholder="Enter Username" aria-required="true" />
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 position-relative">
+                        <label asp-for="Password" class="form-label">
+                            <i class="fa fa-lock"></i> Password
+                        </label>
+                        <div class="position-relative">
+                            <input asp-for="Password" type="password" class="form-control rounded-pill" aria-required="true" id="passwordField" />
+                            <i class="fas fa-eye eye-icon" id="open" onclick="togglePassword()" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>
+                            <i class="fas fa-eye-slash eye-icon d-none" id="closed" onclick="togglePassword()" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="text-center">
+                        <button style=" background:#215B8B;" type="submit" class="btn btn-dark btn-primary rounded-pill w-50">Login</button>
+                 
+                    </div>
+                    <div class="text-center mb-3">
+                        <a asp-controller="Login" asp-action="ForgotPassword" class="btn btn-link">Forgot Password?</a>
+                    </div>
+
+                    
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- JavaScript to toggle password visibility -->
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const passwordField = document.getElementById('passwordField');
+            const openEyeIcon = document.getElementById('open');
+            const closedEyeIcon = document.getElementById('closed');
+
+            openEyeIcon.addEventListener('click', function () {
+                passwordField.setAttribute('type', 'text');
+                openEyeIcon.classList.add('d-none');
+                closedEyeIcon.classList.remove('d-none');
+            });
+
+            closedEyeIcon.addEventListener('click', function () {
+                passwordField.setAttribute('type', 'password');
+                openEyeIcon.classList.remove('d-none');
+                closedEyeIcon.classList.add('d-none');
+            });
+        });
+    </script>
+</body>
+</html>
