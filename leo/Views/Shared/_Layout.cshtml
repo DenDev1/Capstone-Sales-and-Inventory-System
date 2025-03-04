@@ -32,76 +32,48 @@
     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 
+
+
     <style>
 
-        .nav-link:hover, .dropdown-item:hover {
-    background-color: #215B8B;
-    color: white !important;
-}
+
 
         /* Default Sidebar width */
         .main-sidebar {
-            width: 260px;
-            transition: width 0.5s ease-in-out;
+        width: 260px;
+        transition: width 0.5s ease-in-out;
         }
 
-            /* Collapsed Sidebar - pag-collapse ma-hide ang text ug gamay ra ang sidebar */
-            .main-sidebar.collapsed {
-                width: 30px;
-            }
-
-                /* I-hide ang text inig-collapse */
-                .main-sidebar.collapsed .nav-text {
-                    display: none;
-                }
-
-                /* I-center ang icons inig-collapse */
-                .main-sidebar.collapsed .nav-icon {
-                    text-align: center;
-                    width: 100%;
-                }
-
-            /* Transition smooth sa width changes */
-            .main-sidebar.collapsed,
-            .main-sidebar {
-                transition: width 0.5s ease;
-            }
-
-        .dropdown-item {
-            color: black; /* Set text color to black */
+        /* Collapsed Sidebar - pag-collapse ma-hide ang text ug gamay ra ang sidebar */
+        .main-sidebar.collapsed {
+        width: 30px;
         }
 
-            .dropdown-item:hover {
-                background-color: #f8f9fa; /* Optional: set background color on hover */
-                color: black; /* Keep text color black on hover */
-            }
-
-
-        .nav-link.active {
-            background-color: #215B8B !important;
-            color: white !important;
+        /* I-hide ang text inig-collapse */
+        .main-sidebar.collapsed .nav-text {
+        display: none;
         }
 
-            .nav-link.active i {
-                color: white !important;
-            }
-
-        .dropdown-item.active {
-            background-color: #215B8B !important;
-            color: white !important;
+        /* I-center ang icons inig-collapse */
+        .main-sidebar.collapsed .nav-icon {
+        text-align: center;
+        width: 100%;
         }
 
-            .dropdown-item.active i {
-                color: white !important;
-            }
+        /* Transition smooth sa width changes */
+        .main-sidebar.collapsed,
+        .main-sidebar {
+        transition: width 0.5s ease;
+        }
 
     </style>
 </head>
+
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
         <!-- Navbar -->
-        <header class="main-header navbar navbar-expand " style="background:#215B8B">
+        <header class="main-header navbar navbar-expand bg-secondary">
 
 
             <nav>
@@ -118,7 +90,7 @@
                 </ul>
             </nav>
             <div class="profile d-flex align-items-center justify-content-end" style="margin-left: auto; margin-right: 1rem; gap:5px;">
-                <h6 class="text-light ms-3 d-none d-md-block">@HttpContextAccessor.HttpContext.Session.GetString("FullName")</h6>
+                <h6 class="text-light ms-3 d-none d-md-block">@HttpContextAccessor.HttpContext.Session.GetString("Username")</h6>
                 <img src="~/dist/img/profile.png" alt="Profile Picture" class="logo-img" style="width: 50px;">
 
             </div>
@@ -128,223 +100,164 @@
         <aside class="main-sidebar sidebar-light-primary elevation-4">
             <div class="text-center mt-5">
                 <!-- Center the content -->
-                <img src="~/dist/img/logo.png" alt="Profile Picture" class="logo-img img-fluid p-1" style="width: 90px; "> <!-- Use 'img-fluid' for responsive image -->
+                <img src="~/dist/img/leotechs.jpg" alt="Profile Picture" class="logo-img img-fluid p-1" style="width: 90px;">
+
             </div>
 
             <!-- Sidebar -->
             <div style="margin-top: 2rem;" class="sidebar">
-                <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
                         @if (User.Identity.IsAuthenticated)
                         {
-
-
                             <li class="nav-item">
                                 <a asp-area="" asp-controller="Dashboard" asp-action="Index"
-                                   class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Dashboard" ? "active" : "")"
-                                   style=" display: flex; align-items: center; color: #215B8B;"
-                                   onmouseover="this.style.backgroundColor='#215B8B'; this.style.color='white'; this.querySelector('i').style.color='white';"
-                                   onmouseout="if (!this.classList.contains('active')) { this.style.backgroundColor=''; this.style.color='#215B8B'; this.querySelector('i').style.color='#215B8B'; }">
+                                class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Dashboard" ? "active" : "")">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p class="mb-0 ps-2">Dashboard</p>
                                 </a>
                             </li>
 
+                            <li class="nav-item">
+                                <a asp-area="" asp-controller="Categories" asp-action="Index"
+                                class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Categories" ? "active" : "")">
+                                    <!-- Updated icon for Category -->
+                                    <i class="nav-icon fas fa-tags"></i>
+                                    <p class="mb-0 ps-2">Category</p>
+                                </a>
+                            </li>
 
+                            <li class="nav-item">
+                                <a asp-area="" asp-controller="Inventory" asp-action="Index"
+                                class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Inventory" ? "active" : "")">
+                                    <!-- Updated icon for Products -->
+                                    <i class="nav-icon fas fa-cogs"></i>
+                                    <p class="mb-0 ps-2">Inventory</p>
+                                </a>
+                            </li>
 
+                            <!-- Visible only to Admin -->
+                            @if (User.IsInRole("Admin"))
+                            {
 
-                            <!-- Visible to both Admin and Staff -->
-                            @if (User.IsInRole("Staff") || User.IsInRole("Admin"))
+                                <li class="nav-item">
+                                    <a asp-area="" asp-controller="Sales" asp-action="Index"
+                                    class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Sales" ? "active" : "")">
+                                        <!-- Updated icon for Products -->
+                                        <i class="nav-icon fas fa-chart-line"></i>
+                                        <p class="mb-0 ps-2">Sales</p>
+                                    </a>
+                                </li>
+                            }
+                            <li class="nav-item">
+                                <a asp-area="" asp-controller="Order" asp-action="Create"
+                                class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Order" ? "active" : "")">
+                                    <!-- Updated icon for Products -->
+                                    <i class="nav-icon fas fa-shopping-cart"></i>
+                                    <p class="mb-0 ps-2">Sales Order</p>
+                                </a>
+                            </li>
+
+                            <!-- Visible only to Admin -->
+                            @if (User.IsInRole("Admin"))
                             {
 
 
-                                <li class="nav-item">
-                                    <a asp-area="" asp-controller="Inventory" asp-action="Index"
-                                       class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Inventory" ? "active" : "")"
-                                       style="display: flex; align-items: center; color: #215B8B;"
-                                       onmouseover="this.style.backgroundColor='#215B8B'; this.style.color='white'; this.querySelector('i').style.color='white';"
-                                       onmouseout="if (!this.classList.contains('active')) { this.style.backgroundColor=''; this.style.color='#215B8B'; this.querySelector('i').style.color='#215B8B'; }">
-                                        <i class="nav-icon fas fa-boxes"></i>
-                                        <p class="mb-0 ps-2">Inventory</p>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="suppliersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <!-- Updated icon for Settings dropdown -->
+                                        <i class="nav-icon fas fa-people-carry"></i>
+                                        <p>Suppliers</p>
                                     </a>
+
+                                    <ul class="dropdown-menu" aria-labelledby="suppliersDropdown">
+                                        <li>
+                                            <a asp-area="" asp-controller="Suppliers" asp-action="Index"
+                                            class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Suppliers" ? "active" : "")">
+                                                <!-- Updated icon for Person -->
+                                                <i class="nav-icon fas fa-truck"></i>
+                                                <span class="ms-2">Requested </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-area="" asp-controller="SupplierProfiles" asp-action="Index"
+                                            class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "SupplierProfiles" ? "active" : "")">
+                                                <!-- Updated icon for Roles -->
+                                                <i class="nav-icon fas fa-user"></i>
+                                                <span class="ms-2">Supplier Profile</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-area="" asp-controller="TransactionHistories" asp-action="TransactionIndex"
+                                            class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "TransactionHistories" ? "active" : "")">
+                                                <!-- Updated icon for Roles -->
+                                                <i class="nav-icon fas fa-history"></i>
+                                                <span class="ms-2">Transaction History</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                    </ul>
                                 </li>
-
-
-                                <li class="nav-item">
-                                    <a asp-area="" asp-controller="Categories" asp-action="Index"
-                                       class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Categories" ? "active" : "")"
-                                       style=" display: flex; align-items: center; color: #215B8B;"
-                                       onmouseover="this.style.backgroundColor='#215B8B'; this.style.color='white'; this.querySelector('i').style.color='white';"
-                                       onmouseout="if (!this.classList.contains('active')) { this.style.backgroundColor=''; this.style.color='#215B8B'; this.querySelector('i').style.color='#215B8B'; }">
-                                        <i class="nav-icon fas fa-tags"></i>
-                                        <p class="mb-0 ps-2">Category</p>
-                                    </a>
-                                </li>
-
-
-
-
-                                <li class="nav-item">
-                                    <a asp-area="" asp-controller="Order" asp-action="Create"
-                                       class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Order" ? "active" : "")"
-                                       style=" display: flex; align-items: center; color: #215B8B;"
-                                       onmouseover="this.style.backgroundColor='#215B8B'; this.style.color='white'; this.querySelector('i').style.color='white';"
-                                       onmouseout="if (!this.classList.contains('active')) { this.style.backgroundColor=''; this.style.color='#215B8B'; this.querySelector('i').style.color='#215B8B'; }">
-                                        <i class="nav-icon fas fa-shopping-cart"></i>
-                                        <p class="mb-0 ps-2">Sales Order</p>
-                                    </a>
-                                </li>
-
-
-                                <!-- Visible only to Admin -->
-                                @if (User.IsInRole("Admin"))
-                                {
-
-                                    <li class="nav-item">
-                                        <a asp-area="" asp-controller="Sales" asp-action="Index"
-                                           class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Sales" ? "active" : "")"
-                                           style="display: flex; align-items: center; color: #215B8B;"
-                                           onmouseover="this.style.backgroundColor='#215B8B'; this.style.color='white'; this.querySelector('i').style.color='white';"
-                                           onmouseout="if (!this.classList.contains('active')) { this.style.backgroundColor=''; this.style.color='#215B8B'; this.querySelector('i').style.color='#215B8B'; }">
-                                            <i class="nav-icon fas fa-chart-line"></i>
-                                            <p class="mb-0 ps-2">Sales</p>
-                                        </a>
-                                    </li>
-
-
-
-                                }
-                                <!-- Visible only to Admin -->
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="suppliersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-                                           style="color: #215B8B;"
-                                           onmouseover="this.style.backgroundColor='#215B8B'; this.style.color='white'; this.querySelector('i').style.color='white';"
-                                           onmouseout="if (!this.classList.contains('active')) { this.style.backgroundColor=''; this.style.color='#215B8B'; this.querySelector('i').style.color='#215B8B'; }">
-                                            <i class="nav-icon fas fa-people-carry"></i>
-                                            <p>Manage Suppliers</p>
-                                        </a>
-
-
-                                        <ul class="dropdown-menu animated-dropdown" aria-labelledby="suppliersDropdown">
-                                            <li>
-                                                <a asp-area="" asp-controller="Suppliers" asp-action="Index"
-                                                   class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Suppliers" ? "active" : "")"
-                                                   style="color: #215B8B;"
-                                                   onmouseover="this.style.backgroundColor='#215B8B'; this.style.color='white';"
-                                                   onmouseout="if (!this.classList.contains('active')) { this.style.backgroundColor=''; this.style.color='#215B8B'; }">
-                                                    <i class="nav-icon fas fa-truck"></i>
-                                                    <span class="ms-2">Supplier Tracker</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a asp-area="" asp-controller="SupplierProfiles" asp-action="Index"
-                                                   class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "SupplierProfiles" ? "active" : "")"
-                                                   style="color: #215B8B;"
-                                                   onmouseover="this.style.backgroundColor='#215B8B'; this.style.color='white';"
-                                                   onmouseout="if (!this.classList.contains('active')) { this.style.backgroundColor=''; this.style.color='#215B8B'; }">
-                                                    <i class="nav-icon fas fa-user"></i>
-                                                    <span class="ms-2">Supplier Profile</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a asp-area="" asp-controller="TransactionHistories" asp-action="TransactionIndex"
-                                                   class="dropdown-item @(ViewContext.RouteData.Values["Action"]?.ToString() == "TransactionIndex" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Suppliers" ? "active" : "")"
-                                                   style="color: #215B8B;"
-                                                   onmouseover="this.style.backgroundColor='#215B8B'; this.style.color='white';"
-                                                   onmouseout="if (!this.classList.contains('active')) { this.style.backgroundColor=''; this.style.color='#215B8B'; }">
-                                                    <i class="nav-icon fas fa-history"></i>
-                                                    <span class="ms-2">Transaction History</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-
-
-                                }
-
-
-                                <li class="nav-item">
-                                    <a asp-area="" asp-controller="Returns" asp-action="Index"
-                                       class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Returns" ? "active" : "")"
-                                       style="color: #215B8B;  display: flex; align-items: center;"
-                                       onmouseover="this.style.backgroundColor='#215B8B'; this.style.color='white'; this.querySelector('i').style.color='white';"
-                                       onmouseout="if (!this.classList.contains('active')) { this.style.backgroundColor=''; this.style.color='#215B8B'; this.querySelector('i').style.color='#215B8B'; }">
-                                        <i class="nav-icon fas fa-undo-alt"></i>
-                                        <p style="margin: 0; padding-left: 8px;">Returns</p>
-                                    </a>
-                                </li>
-
                             }
 
 
                             <!-- Visible only to Admin -->
                             @if (User.IsInRole("Admin"))
                             {
+
+
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                       style="color: #215B8B;"
-                                       onmouseover="this.style.backgroundColor='#215B8B'; this.style.color='white'; this.querySelector('i').style.color='white';"
-                                       onmouseout="if (!this.classList.contains('active')) { this.style.backgroundColor=''; this.style.color='#215B8B'; this.querySelector('i').style.color='#215B8B'; }">
-                                        <i class="nav-icon fas fa-cog"></i>
+                                    <a class="nav-link dropdown-toggle" href="#" id="suppliersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <!-- Updated icon for Settings dropdown -->
+                                        <i class="nav-icon fas fa-cogs"></i>
                                         <p>Settings</p>
                                     </a>
-                                    <div class="dropdown-menu animated-dropdown" aria-labelledby="settingsDropdown">
-                                        <div class="dropdown-divider"></div>
 
-                                        <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Index"
-                                           class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Users" ? "active" : "")"
-                                           style="color: #215B8B;  display: flex; align-items: center;"
-                                           onmouseover="this.style.backgroundColor='#215B8B'; this.style.color='white'; this.querySelector('i').style.color='white';"
-                                           onmouseout="if (!this.classList.contains('active')) { this.style.backgroundColor=''; this.style.color='#215B8B'; this.querySelector('i').style.color='#215B8B'; }">
-                                            <i class="nav-icon fas fa-users"></i>
-                                            <p style="margin: 0; padding-left: 8px;">Staff Registrations</p>
-                                        </a>
-
-                                        <a class="dropdown-item" asp-area="" asp-controller="Roles" asp-action="Index"
-                                           class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Roles" ? "active" : "")"
-                                           style="color: #215B8B;  display: flex; align-items: center;"
-                                           onmouseover="this.style.backgroundColor='#215B8B'; this.style.color='white'; this.querySelector('i').style.color='white';"
-                                           onmouseout="if (!this.classList.contains('active')) { this.style.backgroundColor=''; this.style.color='#215B8B'; this.querySelector('i').style.color='#215B8B'; }">
-                                            <i class="nav-icon fas fa-user-tag"></i>
-                                            <p style="margin: 0; padding-left: 8px;">Roles</p>
-                                        </a>
-
-                                        <a class="dropdown-item" asp-area="" asp-controller="AuditLogs" asp-action="Index"
-                                           class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "AuditLogs" ? "active" : "")"
-                                           style="color: #215B8B; display: flex; align-items: center;"
-                                           onmouseover="this.style.backgroundColor='#215B8B'; this.style.color='white'; this.querySelector('i').style.color='white';"
-                                           onmouseout="if (!this.classList.contains('active')) { this.style.backgroundColor=''; this.style.color='#215B8B'; this.querySelector('i').style.color='#215B8B'; }">
-                                            <i class="nav-icon fas fa-history"></i>
-                                            <p style="margin: 0; padding-left: 8px;">Activity Log</p>
-                                        </a>
-
-
-                                        <div class="dropdown-divider"></div>
-                                    </div>
+                                    <ul class="dropdown-menu" aria-labelledby="suppliersDropdown">
+                                        <li>
+                                            <a asp-area="" asp-controller="Users" asp-action="Index"
+                                            class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Users" ? "active" : "")">
+                                                <!-- Updated icon for Person -->
+                                                <i class="nav-icon fas fa-user"></i>
+                                                <span class="ms-2">Staff Registrations </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-area="" asp-controller="Roles" asp-action="Index"
+                                            class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Roles" ? "active" : "")">
+                                                <!-- Updated icon for Roles -->
+                                                <i class="nav-icon fas fa-users-cog"></i>
+                                                <span class="ms-2">Roles</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-area="" asp-controller="AuditLogs" asp-action="Index"
+                                            class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "AuditLogs" ? "active" : "")">
+                                                <!-- Updated icon for Roles -->
+                                                <i class="nav-icon fas fa-history"></i>
+                                                <span class="ms-2">Activity Log</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                    </ul>
                                 </li>
                             }
-                            <li class="nav-item mt-5">
-                                <a asp-area="" asp-controller="Login" asp-action="Logout"
-                                   class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Logout" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Login" ? "active" : "")"
-                                   style="color: #215B8B; display: flex; align-items: center;"
-                                   onmouseover="this.style.backgroundColor='#215B8B'; this.style.color='white'; this.querySelector('i').style.color='white';"
-                                   onmouseout="if (!this.classList.contains('active')) { this.style.backgroundColor=''; this.style.color='#215B8B'; this.querySelector('i').style.color='#215B8B'; }">
-                                    <i class="nav-icon fas fa-sign-out-alt"></i>
-                                    <p style="margin: 0; padding-left: 8px;">Logout</p>
-                                </a>
-                            </li>
 
+                                    <li class="nav-item mt-5">
+                                        <a asp-area="" asp-controller="Login" asp-action="Logout"
+                                           class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Logout" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Login" ? "active" : "")">
+                                            <i class="nav-icon fas fa-sign-out-alt"></i>
+                                            <p style="margin: 0; padding-left: 8px;">Logout</p>
+                                        </a>
+                                    </li>
+                                }
 
-                        }
-                    </ul>
-                </nav>
-                <!-- /.sidebar-menu -->
-            </div>
-            <!-- /.sidebar -->
-        </aside>
+                            </ul>
+                        </nav>
+
+                    </div>
+
+                </aside>
 
         <!-- Content Wrapper. Contains page content -->
         <main class="content-wrapper">
