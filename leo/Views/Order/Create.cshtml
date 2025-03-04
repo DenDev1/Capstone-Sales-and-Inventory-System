@@ -147,157 +147,82 @@
         </div>
     </div>
 </div>
-@model leo.ViewModels.OrderDetailsViewModel
+<div class="form-container">
+    <form asp-action="Create" class="needs-validation" novalidate>
+        <!-- Display error message as an alert -->
+ 
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Creation and Invoice</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Your existing styles here... */
-    </style>
-</head>
-<body>
-
-<div class="container">
-
-    <!-- Order Creation Form -->
-    <div class="form-container">
-        <form asp-action="Create" class="needs-validation" novalidate>
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-
-            <div class="row">
-                <!-- Product Dropdown (Select2) -->
-                <div class="col-md-6 mb-8">
-                    <label for="ProductId">Products</label>
-                    <select asp-for="ProductId" id="ProductId" asp-items="ViewBag.ProductId" class="form-control">
-                        <option value="">Select a product</option>
-                    </select>
-                    <span asp-validation-for="ProductId" class="text-danger"></span>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="Quantity">Quantity</label>
-                    <input asp-for="Quantity" id="Quantity" type="number" min="1" class="form-control" required />
-                    <span asp-validation-for="Quantity" class="text-danger"></span>
-                </div>
+        <div class="row">
+            <!-- Product Dropdown (Select2) -->
+            <div class="col-md-6 mb-8">
+                <label for="ProductId">Products</label>
+                <select asp-for="ProductId" id="ProductId" asp-items="ViewBag.ProductId" class="form-control" >
+                    <option value="">Select a product</option>
+                </select>
+                <span asp-validation-for="ProductId" class="text-danger"></span>
             </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="OrderDate">Order Date</label>
-                    <input asp-for="OrderDate" id="OrderDate" type="date" class="form-control" required />
-                    <span asp-validation-for="OrderDate" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label for="CustomerName">Customer Name</label>
-                    <input asp-for="CustomerName" id="CustomerName" type="text" class="form-control" required />
-                    <span asp-validation-for="CustomerName" class="text-danger"></span>
-                </div>
+            <div class="col-md-6 mb-3">
+                <label for="Quantity">Quantity</label>
+                <input asp-for="Quantity" id="Quantity" type="number" min="1" class="form-control" required />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
-
-            <div class="mb-3">
-                <label for="ProductDetails">Product Details</label>
-                <div id="ProductDetails" class="p-3 bg-light border rounded">
-                    <p id="ProductStockStatus" class="mb-1"></p>
-                    <p id="ProductStockQuantity" class="mb-1"></p>
-                    <p id="ProductUnitPrice" class="mb-1"></p>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="PaymentStatus">Payment Status</label>
-                    <select asp-for="PaymentStatus" asp-items="ViewBag.PaymentStatus" class="form-control" aria-label="Select payment status" required>
-                        <option value="">Select payment status</option>
-                    </select>
-                    <span asp-validation-for="PaymentStatus" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label for="TotalAmount">Total Amount</label>
-                    <p id="TotalAmount" class="font-weight-bold text-primary">@Model.TotalAmount.ToString("C", new System.Globalization.CultureInfo("fil-PH"))</p>
-                </div>
-            </div>
-
-            <!-- New section for Partial Payment -->
-            <div id="partialPaymentContainer" class="mb-3">
-                <label for="PartialPayment">Partial Payment</label>
-                <input asp-for="PartialPaymentAmount" id="PartialPayment" type="number" min="0" class="form-control" />
-                <span asp-validation-for="PartialPaymentAmount" class="text-danger"></span>
-            </div>
-
-            <button type="submit" class="submit-btn btn btn-primary mx-2 w-auto mt-auto">Add Order</button>
-        </form>
-
-        <div class="d-flex justify-content-center align-items-center w-100">
-            <a asp-action="Details" class="back-btn btn btn-secondary mx-2 w-auto">Invoice</a>
         </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="OrderDate">Order Date</label>
+                <input asp-for="OrderDate" id="OrderDate" type="date" class="form-control" required />
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="CustomerName">Customer Name</label>
+                <input asp-for="CustomerName" id="CustomerName" type="text" class="form-control" required />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="ProductDetails">Product Details</label>
+            <div id="ProductDetails" class="p-3 bg-light border rounded">
+                <p id="ProductStockStatus" class="mb-1"></p>
+                <p id="ProductStockQuantity" class="mb-1"></p>
+                <p id="ProductUnitPrice" class="mb-1"></p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="PaymentStatus">Payment Status</label>
+                <select asp-for="PaymentStatus" asp-items="ViewBag.PaymentStatus" class="form-control" aria-label="Select payment status" required>
+                    <option value="">Select payment status</option>
+                </select>
+                <span asp-validation-for="PaymentStatus" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="TotalAmount">Total Amount</label>
+                <p id="TotalAmount" class="font-weight-bold text-primary">@Model.TotalAmount.ToString("C", new System.Globalization.CultureInfo("fil-PH"))</p>
+            </div>
+        </div>
+
+        <!-- New section for Partial Payment -->
+        <div id="partialPaymentContainer" class="mb-3">
+            <label for="PartialPayment">Partial Payment</label>
+            <input asp-for="PartialPaymentAmount" id="PartialPayment" type="number" min="0" class="form-control" />
+            <span asp-validation-for="PartialPaymentAmount" class="text-danger"></span>
+        </div>
+        <button type="submit" class="submit-btn btn btn-primary mx-2 w-auto mt-auto">Add Order</button>
+    </form>
+
+    <div class="d-flex justify-content-center align-items-center w-100">
+    
+        <a asp-action="Details" class="back-btn btn btn-secondary mx-2 w-auto">Invoice</a>
+      
     </div>
 
-    <!-- Invoice Section (Visible only after order is created) -->
-    @if (Model.Orders != null && Model.Orders.Any())
-    {
-        <div class="store-info">
-            <h2>LEOTECH COMPUTER STORE</h2>
-            <p>107 Lakandula St, Cebu City, 6000 Cebu</p>
-            <p>Contact No.: 0922-702-5592</p>
-        </div>
 
-        <div class="invoice-header">
-            <h1>Invoice</h1>
-            <img src="~/dist/img/leotechs.jpg" alt="Logo" class="img-fluid" />
-        </div>
-
-        <div class="invoice-details">
-            <p><strong>Order Date:</strong> @Model.Orders.First().OrderDate.ToString("MMMM dd yyyy hh:mm tt")</p>
-            <p><strong>Customer Name:</strong> @Model.Orders.First().CustomerName</p>
-        </div>
-
-        <table class="invoice-table">
-            <thead>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Quantity Ordered</th>
-                    <th>Unit Price</th>
-                    <th>Total Amount</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var order in Model.Orders)
-                {
-                    <tr>
-                        <td>@order.Product.ProductName</td>
-                        <td>@order.Quantity</td>
-                        <td>@order.UnitPrice.ToString("C", new System.Globalization.CultureInfo("fil-PH"))</td>
-                        <td>@order.TotalAmount.ToString("C", new System.Globalization.CultureInfo("fil-PH"))</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        <div class="total-amount">
-            <strong>Total Amount: </strong>
-            @Model.TotalAmount.ToString("C", new System.Globalization.CultureInfo("fil-PH"))
-        </div>
-
-        <div class="d-flex justify-content-between">
-            <button class="btn-custom btn-back" onclick="window.location.href='@Url.Action("Create", "Order")'">Back</button>
-            <button class="btn-custom btn-print" onclick="window.print()">Print Invoice</button>
-        </div>
-
-        <!-- Clear All Button -->
-        <form method="post" asp-action="ClearAll" class="d-inline">
-            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete all records?')">Clear All Records</button>
-        </form>
-    }
-</div>
-
-</body>
-</html>
 
 
 @section Scripts {
