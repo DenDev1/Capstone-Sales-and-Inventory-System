@@ -1,0 +1,69 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "New Swagger",
+    "description": " New Swagger Document",
+    "version": "1"
+  },
+  "paths": {
+    "/api/RecieveSMS/SendReply": {
+      "post": {
+        "tags": [
+          "RecieveSMS"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "From": {
+                    "type": "string"
+                  },
+                  "Body": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "From": {
+                  "style": "form"
+                },
+                "Body": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/SendSMS/SendText": {
+      "post": {
+        "tags": [
+          "SendSMS"
+        ],
+        "parameters": [
+          {
+            "name": "phonenumber",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": { }
+}

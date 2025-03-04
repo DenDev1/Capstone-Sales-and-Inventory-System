@@ -20,13 +20,13 @@ namespace leo.Controllers
             _auditLogService = auditLogService;
         }
 
-        public IActionResult Index()
-        {
-            var orders = _context.Order
-                .Include(o => o.Product) // Include the related Product entity
-                .ToList(); // Fetch orders from the database
-            return View(orders);
-        }
+        //public IActionResult Index()
+        //{
+        //    var orders = _context.Order
+        //        .Include(o => o.Product) // Include the related Product entity
+        //        .ToList(); // Fetch orders from the database
+        //    return View(orders);
+        //}
 
 
         public IActionResult Create()
@@ -150,6 +150,20 @@ namespace leo.Controllers
             };
 
             return View(viewModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ClearAll()
+        {
+            // Remove all orders from the database
+            var allOrders = _context.Order.ToList();
+
+            _context.Order.RemoveRange(allOrders);
+            await _context.SaveChangesAsync();
+
+       
+
+            // After clearing the records, redirect to a page (like the list or index)
+            return RedirectToAction("Create"); // Or redirect to any other page you want
         }
 
 

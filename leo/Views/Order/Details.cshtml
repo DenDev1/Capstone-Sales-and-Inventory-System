@@ -108,6 +108,7 @@
 </head>
 <body>
 
+
     <div class="container">
         <div class="store-info">
             <h2>LEOTECH COMPUTER STORE</h2>
@@ -153,9 +154,13 @@
         </div>
 
         <div class="d-flex justify-content-between">
-            <button class="btn-custom btn-back" onclick="window.location.href='@Url.Action("Index", "Order")'">Back</button>
+            <button class="btn-custom btn-back" onclick="window.location.href='@Url.Action("Create", "Order")'">Back</button>
             <button class="btn-custom btn-print" onclick="window.print()">Print Invoice</button>
         </div>
+        <!-- Add the Clear All Button -->
+        <form method="post" asp-action="ClearAll" class="d-inline">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete all records?')">Clear All Records</button>
+        </form>
     </div>
 
 </body>

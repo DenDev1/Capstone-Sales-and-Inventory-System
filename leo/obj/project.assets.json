@@ -12303,11 +12303,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\leo.csproj",
+      "projectUniqueName": "C:\\Users\\dovtyler\\Source\\Repos\\Capstone-Sales-and-Inventory-System\\leo\\leo.csproj",
       "projectName": "leo",
-      "projectPath": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\leo.csproj",
+      "projectPath": "C:\\Users\\dovtyler\\Source\\Repos\\Capstone-Sales-and-Inventory-System\\leo\\leo.csproj",
       "packagesPath": "C:\\Users\\dovtyler\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\obj\\",
+      "outputPath": "C:\\Users\\dovtyler\\Source\\Repos\\Capstone-Sales-and-Inventory-System\\leo\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

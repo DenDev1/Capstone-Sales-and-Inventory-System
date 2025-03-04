@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dKwDL0qYrXU=",
+  "dgSpecHash": "3sVBG19A/1I=",
   "success": true,
-  "projectFilePath": "C:\\Users\\dovtyler\\OneDrive\\Pictures\\CAPSTONE-Sales-and-Inventory-System-with-Email-Notifications-main\\leo\\leo.csproj",
+  "projectFilePath": "C:\\Users\\dovtyler\\source\\repos\\Capstone-Sales-and-Inventory-System\\leo\\leo.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dovtyler\\.nuget\\packages\\epplus\\7.4.2\\epplus.7.4.2.nupkg.sha512",
     "C:\\Users\\dovtyler\\.nuget\\packages\\epplus.interfaces\\6.1.1\\epplus.interfaces.6.1.1.nupkg.sha512",

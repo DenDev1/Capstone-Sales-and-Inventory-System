@@ -34,154 +34,10 @@ namespace leo.Controllers
             _context = context;
             _auditLogService = auditLogService;
         }
-        //[HttpPost]
-        //public async Task<IActionResult> ImportFromExcel(IFormFile file)
-        //{
-        //    if (file == null || file.Length == 0)
-        //    {
-        //        return BadRequest("No file uploaded.");
-        //    }
-
-        //    var duplicateItems = new List<string>();
-
-        //    using (var stream = new MemoryStream())
-        //    {
-        //        await file.CopyToAsync(stream);
-        //        using (var package = new ExcelPackage(stream))
-        //        {
-        //            var worksheet = package.Workbook.Worksheets[0]; // Assuming data is in the first worksheet
-        //            var rowCount = worksheet.Dimension.Rows;
-
-        //            for (int row = 2; row <= rowCount; row++) // Start from 2 to skip header
-        //            {
-        //                var productName = worksheet.Cells[row, 1].Text;
-        //                var categoryName = worksheet.Cells[row, 2].Text;
-        //                var supplierName = worksheet.Cells[row, 3].Text;
-        //                var realDate = DateTime.Parse(worksheet.Cells[row, 4].Text);
-        //                var unitPrice = decimal.Parse(worksheet.Cells[row, 5].Text);
-        //                var stockQuantity = int.Parse(worksheet.Cells[row, 6].Text);
-        //                var description = worksheet.Cells[row, 7].Text;
-        //                var stockStatus = worksheet.Cells[row, 8].Text;
-
-        //                // Check for duplicates before adding
-        //                var existingItem = _context.Inventory
-        //                    .FirstOrDefault(i => i.ProductName == productName &&
-        //                                         i.Category.CategoryName == categoryName &&
-        //                                         i.SupplierProfile.Supplier == supplierName &&
-        //                                         i.Date == realDate);
-
-        //                if (existingItem != null)
-        //                {
-        //                    // Add duplicate item to the list
-        //                    duplicateItems.Add(productName);
-        //                    continue; // Skip the addition of this item
-        //                }
-
-        //                // Create a new inventory item
-        //                var newItem = new Inventory
-        //                {
-        //                    ProductName = productName,
-        //                    Category = _context.Category.FirstOrDefault(c => c.CategoryName == categoryName),
-        //                    SupplierProfile = _context.SupplierProfile.FirstOrDefault(s => s.Supplier == supplierName),
-        //                    Date = realDate,
-        //                    UnitPrice = unitPrice,
-        //                    StockQuantity = stockQuantity,
-        //                    Description = description,
-        //                    StockStatus = Enum.Parse<StockStatus>(stockStatus) // Ensure your enum type matches
-        //                };
-
-        //                _context.Inventory.Add(newItem);
-        //            }
-
-        //            await _context.SaveChangesAsync();
-        //        }
-        //    }
-
-        //    // Store the duplicates in TempData for display in the view
-        //    if (duplicateItems.Any())
-        //    {
-        //        TempData["DuplicateItems"] = string.Join(", ", duplicateItems);
-        //    }
-
-        //    return RedirectToAction("Index"); // Redirect back to the Index page after import
-        //}
+     
 
 
-        public IActionResult GenerateInventoryReport()
-        {
-            //// Retrieve data for weekly and monthly sales
-            //var weeklySalesItems = _context.Inventory
-            //    .Include(i => i.Category)
-            //    .Include(i => i.SupplierProfile)
-            //    .Where(i => i.Date >= DateTime.Now.AddDays(-7)) // Sales within the last week
-            //    .ToList();
-
-            var monthlySalesItems = _context.Inventory
-                .Include(i => i.Category)
-                .Include(i => i.SupplierProfile)
-                .Where(i => i.Date >= DateTime.Now.AddMonths(-1)) // Sales within the last month
-                .ToList();
-
-            //// Retrieve the email of the authenticated user
-            //var preparedBy = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
-
-
-            // Prepare the data model for the report view
-            var reportData = new InventoryReportViewModel
-            {
-                //WeeklySalesItems = weeklySalesItems,
-                MonthlySalesItems = monthlySalesItems,
-                //PreparedBy = preparedBy
-            };
-
-            return View("InventoryReport", reportData);
-        }
-
-
-        //// Request Stock for the supplier when the product is low stock
-        //public async Task<IActionResult> RequestStock(int productId)
-        //{
-        //    var product = await _context.Inventory.FirstOrDefaultAsync(p => p.ProductId == productId);
-
-        //    // Check if stock is sufficient (above 10)
-        //    if (product.StockQuantity > 10)
-        //    {
-        //        TempData["LoginSuccess"] = $"The product '{product.ProductName}' has sufficient stock.";
-        //    }
-        //    else
-        //    {
-        //        // Check if the supplier already exists for the product
-        //        var existingSupplier = await _context.Supplier
-        //            .AnyAsync(s => s.SupplierName == product.Suppliers && s.ProductsName == product.ProductName);
-
-        //        if (!existingSupplier)
-        //        {
-        //            // Add a new supplier record if none exists
-        //            var supplier = new Supplier
-        //            {
-        //                SupplierName = product.Suppliers,
-        //                ProductsName = product.ProductName,
-        //                Quantity = product.StockQuantity,
-        //                Balance = 0
-        //            };
-
-        //            _context.Supplier.Add(supplier);
-        //            await _context.SaveChangesAsync();
-
-        //            TempData["LoginSuccess"] = $"Stock request for product '{product.ProductName}' was successful.";
-
-        //            // Send SMS notification for stock request
-        //            await SendSMS("9275311943", $"Stock request for {product.ProductName} with current stock quantity {product.StockQuantity}.");
-        //        }
-        //        else
-        //        {
-        //            TempData["LoginSuccess"] = $"The product '{product.ProductName}' already has an existing supplier record.";
-        //        }
-        //    }
-
-        //    return RedirectToAction("Index", "Inventory");
-        //}
-
+     
         public async Task<IActionResult> RequestStock(int productId)
         {
             // Fetch the product from the Inventory table
@@ -310,7 +166,7 @@ namespace leo.Controllers
                 if (product.StockQuantity <= 5 && product.StockQuantity > 0) // Low stock check
 
                 {
-                    await SendSMS("9666087724", $"Alert: {product.ProductName} is LOW OF STOCK.");
+                    //await SendSMS("9666087724", $"Alert: {product.ProductName} is LOW OF STOCK.");
                     if (supplier != null && !string.IsNullOrEmpty(product.ProductName))
                     {
                         // Configure and send the email for low stock
@@ -346,7 +202,7 @@ namespace leo.Controllers
                 }
                 else if (product.StockQuantity == 0) // Out of stock check
                 {
-                    await SendSMS("9666087724", $"Alert: {product.ProductName} is OUT OF STOCK.");
+                    //await SendSMS("9666087724", $"Alert: {product.ProductName} is OUT OF STOCK.");
                     if (supplier != null && !string.IsNullOrEmpty(product.ProductName))
                     {
                         // Configure and send the email for out of stock
