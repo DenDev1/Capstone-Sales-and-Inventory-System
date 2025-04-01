@@ -112,7 +112,7 @@
                         {
                             <li class="nav-item">
                                 <a asp-area="" asp-controller="Dashboard" asp-action="Index"
-                                class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Dashboard" ? "active" : "")">
+                                   class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Dashboard" ? "active" : "")">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p class="mb-0 ps-2">Dashboard</p>
                                 </a>
@@ -120,7 +120,7 @@
 
                             <li class="nav-item">
                                 <a asp-area="" asp-controller="Categories" asp-action="Index"
-                                class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Categories" ? "active" : "")">
+                                   class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Categories" ? "active" : "")">
                                     <!-- Updated icon for Category -->
                                     <i class="nav-icon fas fa-tags"></i>
                                     <p class="mb-0 ps-2">Category</p>
@@ -129,7 +129,7 @@
 
                             <li class="nav-item">
                                 <a asp-area="" asp-controller="Inventory" asp-action="Index"
-                                class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Inventory" ? "active" : "")">
+                                   class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Inventory" ? "active" : "")">
                                     <!-- Updated icon for Products -->
                                     <i class="nav-icon fas fa-cogs"></i>
                                     <p class="mb-0 ps-2">Inventory</p>
@@ -142,7 +142,7 @@
 
                                 <li class="nav-item">
                                     <a asp-area="" asp-controller="Sales" asp-action="Index"
-                                    class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Sales" ? "active" : "")">
+                                       class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Sales" ? "active" : "")">
                                         <!-- Updated icon for Products -->
                                         <i class="nav-icon fas fa-chart-line"></i>
                                         <p class="mb-0 ps-2">Sales</p>
@@ -151,7 +151,7 @@
                             }
                             <li class="nav-item">
                                 <a asp-area="" asp-controller="Order" asp-action="Create"
-                                class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Order" ? "active" : "")">
+                                   class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Order" ? "active" : "")">
                                     <!-- Updated icon for Products -->
                                     <i class="nav-icon fas fa-shopping-cart"></i>
                                     <p class="mb-0 ps-2">Sales Order</p>
@@ -173,7 +173,7 @@
                                     <ul class="dropdown-menu" aria-labelledby="suppliersDropdown">
                                         <li>
                                             <a asp-area="" asp-controller="Suppliers" asp-action="Index"
-                                            class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Suppliers" ? "active" : "")">
+                                               class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Suppliers" ? "active" : "")">
                                                 <!-- Updated icon for Person -->
                                                 <i class="nav-icon fas fa-truck"></i>
                                                 <span class="ms-2">Requested </span>
@@ -181,7 +181,7 @@
                                         </li>
                                         <li>
                                             <a asp-area="" asp-controller="SupplierProfiles" asp-action="Index"
-                                            class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "SupplierProfiles" ? "active" : "")">
+                                               class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "SupplierProfiles" ? "active" : "")">
                                                 <!-- Updated icon for Roles -->
                                                 <i class="nav-icon fas fa-user"></i>
                                                 <span class="ms-2">Supplier Profile</span>
@@ -189,7 +189,7 @@
                                         </li>
                                         <li>
                                             <a asp-area="" asp-controller="TransactionHistories" asp-action="TransactionIndex"
-                                            class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "TransactionHistories" ? "active" : "")">
+                                               class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "TransactionHistories" ? "active" : "")">
                                                 <!-- Updated icon for Roles -->
                                                 <i class="nav-icon fas fa-history"></i>
                                                 <span class="ms-2">Transaction History</span>
@@ -216,7 +216,7 @@
                                     <ul class="dropdown-menu" aria-labelledby="suppliersDropdown">
                                         <li>
                                             <a asp-area="" asp-controller="Users" asp-action="Index"
-                                            class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Users" ? "active" : "")">
+                                               class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Users" ? "active" : "")">
                                                 <!-- Updated icon for Person -->
                                                 <i class="nav-icon fas fa-user"></i>
                                                 <span class="ms-2">Staff Registrations </span>
@@ -224,7 +224,7 @@
                                         </li>
                                         <li>
                                             <a asp-area="" asp-controller="Roles" asp-action="Index"
-                                            class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Roles" ? "active" : "")">
+                                               class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Roles" ? "active" : "")">
                                                 <!-- Updated icon for Roles -->
                                                 <i class="nav-icon fas fa-users-cog"></i>
                                                 <span class="ms-2">Roles</span>
@@ -232,7 +232,7 @@
                                         </li>
                                         <li>
                                             <a asp-area="" asp-controller="AuditLogs" asp-action="Index"
-                                            class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "AuditLogs" ? "active" : "")">
+                                               class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "AuditLogs" ? "active" : "")">
                                                 <!-- Updated icon for Roles -->
                                                 <i class="nav-icon fas fa-history"></i>
                                                 <span class="ms-2">Activity Log</span>
@@ -243,21 +243,21 @@
                                 </li>
                             }
 
-                                    <li class="nav-item mt-5">
-                                        <a asp-area="" asp-controller="Login" asp-action="Logout"
-                                           class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Logout" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Login" ? "active" : "")">
-                                            <i class="nav-icon fas fa-sign-out-alt"></i>
-                                            <p style="margin: 0; padding-left: 8px;">Logout</p>
-                                        </a>
-                                    </li>
-                                }
+                            <li class="nav-item mt-5">
+                                <a asp-area="" asp-controller="Login" asp-action="Logout"
+                                   class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Logout" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Login" ? "active" : "")">
+                                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                                    <p style="margin: 0; padding-left: 8px;">Logout</p>
+                                </a>
+                            </li>
+                        }
 
-                            </ul>
-                        </nav>
+                    </ul>
+                </nav>
 
-                    </div>
+            </div>
 
-                </aside>
+        </aside>
 
         <!-- Content Wrapper. Contains page content -->
         <main class="content-wrapper">

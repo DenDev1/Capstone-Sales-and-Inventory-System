@@ -1,11 +1,10 @@
 ﻿@model leo.ViewModels.OrderDetailsViewModel
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice</title>
+    <title>All Products Summary</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .store-info {
@@ -75,6 +74,7 @@
             font-weight: bold;
             font-size: 1.1rem;
             text-align: right;
+            margin-top: 20px;
         }
 
         .btn-custom {
@@ -95,21 +95,36 @@
             color: #ffffff;
         }
 
+        .btn-clear {
+            background-color: #dc3545;
+            color: #ffffff;
+        }
+
         @@media print {
-            .btn-print {
-                display: none;
+            .no-print {
+                display: none !important;
             }
 
-            .btn-back {
-                display: none;
+            body * {
+                visibility: hidden;
+            }
+
+            #printContent, #printContent * {
+                visibility: visible;
+            }
+
+            #printContent {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
-
-
-    <div class="container">
+    <div class="container" id="printContent">
         <div class="store-info">
             <h2>LEOTECH COMPUTER STORE</h2>
             <p>107 Lakandula St, Cebu City, 6000 Cebu</p>
@@ -117,51 +132,73 @@
         </div>
 
         <div class="invoice-header">
-            <h1>Invoice</h1>
+            <h1>All Products Summary</h1>
             <img src="~/dist/img/leotechs.jpg" alt="Logo" class="img-fluid" />
         </div>
 
         <div class="invoice-details">
-            <p><strong>Order Date:</strong> @Model.Orders.First().OrderDate.ToString("MMMM dd yyyy hh:mm tt")</p>
-            <p><strong>Customer Name:</strong> @Model.Orders.First().CustomerName</p>
+            <p><strong>Generated on:</strong> @DateTime.Now.ToString("MMMM dd yyyy hh:mm tt")</p>
         </div>
 
         <table class="invoice-table">
             <thead>
                 <tr>
-                    <th>Product Name</th>
-                    <th>Quantity Ordered</th>
+                    <th>#</th>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Customer</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
                     <th>Unit Price</th>
-                    <th>Total Amount</th>
+                    <th>Total</th>
+                    <th>Payment Status</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var order in Model.Orders)
-                {
-                    <tr>
-                        <td>@order.Product.ProductName</td>
-                        <td>@order.Quantity</td>
-                        <td>@order.UnitPrice.ToString("C", new System.Globalization.CultureInfo("fil-PH"))</td>
-                        <td>@order.TotalAmount.ToString("C", new System.Globalization.CultureInfo("fil-PH"))</td>
-                    </tr>
+                @{
+                    int counter = 1;
+                    foreach (var order in Model.Orders)
+                    {
+                        <tr>
+                            <td>@counter</td>
+                            <td>@order.OrderId</td>
+                            <td>@order.OrderDate.ToString("MM/dd/yyyy")</td>
+                            <td>@order.CustomerName</td>
+                            <td>@order.Product.ProductName</td>
+                            <td>@order.Quantity</td>
+                            <td>@order.UnitPrice.ToString("C", new System.Globalization.CultureInfo("fil-PH"))</td>
+                            <td>@((order.Quantity * order.UnitPrice).ToString("C", new System.Globalization.CultureInfo("fil-PH")))</td>
+                            <td>@order.PaymentStatus</td>
+                        </tr>
+                        counter++;
+                    }
                 }
             </tbody>
         </table>
 
         <div class="total-amount">
-            <strong>Total Amount: </strong>
+            <strong>Grand Total Amount: </strong>
             @Model.TotalAmount.ToString("C", new System.Globalization.CultureInfo("fil-PH"))
         </div>
-
-        <div class="d-flex justify-content-between">
-            <button class="btn-custom btn-back" onclick="window.location.href='@Url.Action("Create", "Order")'">Back</button>
-            <button class="btn-custom btn-print" onclick="window.print()">Print Invoice</button>
-        </div>
-        <!-- Add the Clear All Button -->
-        <form method="post" asp-action="ClearAll" class="d-inline">
-            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete all records?')">Clear All Records</button>
-        </form>
     </div>
 
+    <div class="container mt-4 no-print">
+        <div class="d-flex justify-content-between">
+            <button class="btn-custom btn-back" onclick="window.location.href='@Url.Action("Create", "Order")'">Back to Orders</button>
+            <button class="btn-custom btn-print" onclick="printAllProducts()">Print Summary</button>
+        </div>
+       
+    </div>
+
+    <script>
+        function printAllProducts() {
+            var printContents = document.getElementById('printContent').innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
+    </script>
 </body>
 </html>

@@ -103,7 +103,7 @@ namespace leo.Controllers
                 // Set TempData for login success
                 TempData["LoginSuccess"] = "Added  successfully";
 
-                // Generate the invoice
+
                 return RedirectToAction(nameof(Create), new { id = order.OrderId });
             }
 
@@ -127,11 +127,57 @@ namespace leo.Controllers
         //    // Ipa-display ang tanan nga orders sa view
         //    return View(orders);
         //}
+        // Add these to your existing OrderController
+
+        [HttpGet]
+        public async Task<IActionResult> GetProductPrice(int id)
+        {
+            var product = await _context.Inventory.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Json(product.UnitPrice);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetRecentOrders(bool forPrint = false)
+        {
+            var query = _context.Order
+                .Include(o => o.Product)
+                .OrderByDescending(o => o.OrderDate)
+                .Take(10); // Get last 10 orders
+
+            if (forPrint)
+            {
+                var orders = await query.ToListAsync();
+                return View("PrintRecentOrders", orders);
+            }
+
+            var recentOrders = await query
+                .Select(o => new
+                {
+                    orderId = o.OrderId,
+                    productName = o.Product.ProductName,
+                    quantity = o.Quantity,
+                    unitPrice = o.UnitPrice,
+                    totalAmount = o.TotalAmount,
+                    customerName = o.CustomerName,
+                    orderDate = o.OrderDate,
+                    paymentStatus = o.PaymentStatus.ToString()
+                })
+                .ToListAsync();
+
+            return Json(recentOrders);
+        }
         public async Task<IActionResult> Details(int id)
         {
+            // For multiple products per order, you'll need to adjust your data model
+            // to have OrderItems collection in your Order class
+
             var orders = await _context.Order
                 .Include(o => o.Product)
-            
+                .Where(o => o.OrderId == id) // Or whatever condition groups your orders
                 .ToListAsync();
 
             if (orders == null || !orders.Any())
@@ -139,14 +185,10 @@ namespace leo.Controllers
                 return NotFound();
             }
 
-            // Calculate the total amount
-            var totalAmount = orders.Sum(o => o.TotalAmount);
-
-            // Pass both orders and totalAmount to the view
             var viewModel = new OrderDetailsViewModel
             {
                 Orders = orders,
-                TotalAmount = totalAmount
+                TotalAmount = orders.Sum(o => o.Quantity * o.UnitPrice)
             };
 
             return View(viewModel);
@@ -171,9 +213,10 @@ namespace leo.Controllers
 
         public async Task<IActionResult> PrintAllInvoices()
         {
-            // Kuhaon tanan nga orders gikan sa database
+            // Get all orders that need to be printed (you might want to filter by date or status)
             var orders = await _context.Order
-                .Include(o => o.Product)  // Kasama ang product details
+                .Include(o => o.Product)
+                .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
 
             if (orders == null || !orders.Any())
@@ -181,14 +224,13 @@ namespace leo.Controllers
                 return NotFound();
             }
 
-            // Calculate the total for all orders
-            var totalAmount = orders.Sum(o => o.TotalAmount); // Calculating total of all orders
+            var viewModel = new OrderDetailsViewModel
+            {
+                Orders = orders,
+                TotalAmount = orders.Sum(o => o.Quantity * o.UnitPrice)
+            };
 
-            // Ipasok ang totalAmount sa ViewBag para magamit sa view
-            ViewBag.TotalAmount = totalAmount;
-
-            // Return view to print the invoice for all orders
-            return View(orders);
+            return View("Details", viewModel);
         }
 
 
