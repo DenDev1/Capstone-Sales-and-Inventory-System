@@ -6,6 +6,7 @@ namespace leo.ViewModels
     {
         public IEnumerable<Order> Orders { get; set; }
         public decimal TotalAmount { get; set; }
+       
     }
 
 }

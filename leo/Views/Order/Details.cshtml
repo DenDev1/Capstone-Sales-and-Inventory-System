@@ -4,201 +4,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Products Summary</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>All Products Summary - LEOTECH</title>
     <style>
-        .store-info {
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .header {
             text-align: center;
             margin-bottom: 20px;
         }
 
-            .store-info h2 {
-                margin: 0;
-                font-size: 1.5rem;
-                font-weight: bold;
-            }
+        .store-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
 
-            .store-info p {
-                margin: 0;
-                font-size: 0.9rem;
-            }
+        .address {
+            margin-bottom: 5px;
+        }
 
-        .invoice-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .summary-title {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 20px;
+        }
+
+        .generated-date {
+            text-align: right;
             margin-bottom: 20px;
         }
 
-            .invoice-header img {
-                max-height: 50px;
-            }
-
-            .invoice-header h1 {
-                font-size: 1.5rem;
-                margin: 0;
-            }
-
-        .invoice-details {
-            margin-bottom: 20px;
-        }
-
-            .invoice-details p {
-                margin: 5px 0;
-                font-size: 0.9rem;
-            }
-
-        .invoice-table {
+        table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
 
-            .invoice-table th, .invoice-table td {
-                border: 1px solid #dddddd;
-                padding: 8px;
-                text-align: left;
-                font-size: 0.9rem;
-            }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
 
-            .invoice-table th {
-                background-color: #f9f9f9;
-                font-weight: bold;
-            }
+        th {
+            background-color: #f2f2f2;
+        }
 
-            .invoice-table td {
-                background-color: #ffffff;
-            }
-
-        .total-amount {
-            font-weight: bold;
-            font-size: 1.1rem;
+        .grand-total {
             text-align: right;
+            font-weight: bold;
+            font-size: 18px;
             margin-top: 20px;
         }
 
-        .btn-custom {
-            border: none;
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-            border-radius: 3px;
-            cursor: pointer;
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 12px;
+            color: #666;
         }
 
-        .btn-print {
-            background-color: #007bff;
-            color: #ffffff;
-        }
-
-        .btn-back {
-            background-color: #6c757d;
-            color: #ffffff;
-        }
-
-        .btn-clear {
-            background-color: #dc3545;
-            color: #ffffff;
+        .no-print {
+            margin-top: 20px;
         }
 
         @@media print {
             .no-print {
-                display: none !important;
-            }
-
-            body * {
-                visibility: hidden;
-            }
-
-            #printContent, #printContent * {
-                visibility: visible;
-            }
-
-            #printContent {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                padding: 20px;
+                display: none;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container" id="printContent">
-        <div class="store-info">
-            <h2>LEOTECH COMPUTER STORE</h2>
-            <p>107 Lakandula St, Cebu City, 6000 Cebu</p>
-            <p>Contact No.: 0922-702-5592</p>
-        </div>
+    <div class="header">
+        <div class="store-name">LEOTECH COMPUTER STORE</div>
+        <div class="address">107 Lakandula St, Cebu City, 6000 Cebu</div>
+        <div class="contact">Contact No.: 0922-702-5592</div>
+    </div>
 
-        <div class="invoice-header">
-            <h1>All Products Summary</h1>
-            <img src="~/dist/img/leotechs.jpg" alt="Logo" class="img-fluid" />
-        </div>
+    <hr>
 
-        <div class="invoice-details">
-            <p><strong>Generated on:</strong> @DateTime.Now.ToString("MMMM dd yyyy hh:mm tt")</p>
-        </div>
+    <div class="summary-title">All Products Summary</div>
 
-        <table class="invoice-table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Order ID</th>
-                    <th>Date</th>
-                    <th>Customer</th>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Unit Price</th>
-                    <th>Total</th>
-                    <th>Payment Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    int counter = 1;
-                    foreach (var order in Model.Orders)
-                    {
-                        <tr>
-                            <td>@counter</td>
-                            <td>@order.OrderId</td>
-                            <td>@order.OrderDate.ToString("MM/dd/yyyy")</td>
-                            <td>@order.CustomerName</td>
-                            <td>@order.Product.ProductName</td>
-                            <td>@order.Quantity</td>
-                            <td>@order.UnitPrice.ToString("C", new System.Globalization.CultureInfo("fil-PH"))</td>
-                            <td>@((order.Quantity * order.UnitPrice).ToString("C", new System.Globalization.CultureInfo("fil-PH")))</td>
-                            <td>@order.PaymentStatus</td>
-                        </tr>
-                        counter++;
-                    }
+    <div class="generated-date">
+        <strong>Generated on:</strong> @DateTime.Now.ToString("MMMM dd yyyy hh:mm tt")
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+                <th>Payment Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int counter = 1;
+                foreach (var order in Model.Orders)
+                {
+                    <tr>
+                        <td>@counter</td>
+                        <td>@order.OrderId</td>
+                        <td>@order.OrderDate.ToString("MM/dd/yyyy")</td>
+                        <td>@order.CustomerName</td>
+                        <td>@order.Product.ProductName</td>
+                        <td>@order.Quantity</td>
+                        <td>P@(order.UnitPrice.ToString("N2"))</td>
+                        <td>P@((order.Quantity * order.UnitPrice).ToString("N2"))</td>
+                        <td>@order.PaymentStatus</td>
+                    </tr>
+                    counter++;
                 }
-            </tbody>
-        </table>
+            }
+        </tbody>
+    </table>
 
-        <div class="total-amount">
-            <strong>Grand Total Amount: </strong>
-            @Model.TotalAmount.ToString("C", new System.Globalization.CultureInfo("fil-PH"))
-        </div>
+    <div class="grand-total">
+        <strong>Grand Total Amount:</strong> P@(Model.TotalAmount.ToString("N2"))
     </div>
 
-    <div class="container mt-4 no-print">
-        <div class="d-flex justify-content-between">
-            <button class="btn-custom btn-back" onclick="window.location.href='@Url.Action("Create", "Order")'">Back to Orders</button>
-            <button class="btn-custom btn-print" onclick="printAllProducts()">Print Summary</button>
-        </div>
-       
+    <div class="footer">
+        Copyright © @DateTime.Now.Year LEOTECH. All rights reserved.
     </div>
 
-    <script>
-        function printAllProducts() {
-            var printContents = document.getElementById('printContent').innerHTML;
-            var originalContents = document.body.innerHTML;
-
-            document.body.innerHTML = printContents;
-            window.print();
-            document.body.innerHTML = originalContents;
-        }
-    </script>
+    <div class="no-print">
+        <button onclick="window.print()" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Print Summary</button>
+        <a href="@Url.Action("Create")" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 4px; text-decoration: none; margin-left: 10px;">Back to Orders</a>
+    </div>
 </body>
 </html>

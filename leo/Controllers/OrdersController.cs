@@ -111,23 +111,6 @@ namespace leo.Controllers
             ViewData["PaymentStatus"] = new SelectList(Enum.GetValues(typeof(PaymentStatus)), order.PaymentStatus);
             return View(order);
         }
-        //public async Task<IActionResult> Details()
-        //{
-        //    // Kuhaa tanan nga order gikan sa database
-        //    var orders = await _context.Order
-        //        .Include(o => o.Product)  // Kasama ang Product details sa kada order
-        //        .ToListAsync();
-
-        //    // Kung walay orders, balika ang NotFound
-        //    if (orders == null || !orders.Any())
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    // Ipa-display ang tanan nga orders sa view
-        //    return View(orders);
-        //}
-        // Add these to your existing OrderController
 
         [HttpGet]
         public async Task<IActionResult> GetProductPrice(int id)
@@ -235,19 +218,6 @@ namespace leo.Controllers
 
 
 
-        //public async Task<IActionResult> PrintInvoice(int id)
-        //{
-        //    var order = await _context.Order
-        //        .Include(o => o.Product)
-        //        .FirstOrDefaultAsync(o => o.OrderId == id);
-
-        //    if (order == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(order);
-        //}
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
