@@ -1,13 +1,18 @@
 ﻿@model Order
-
+<style>
+    .select2-container .select2-selection--single {
+        height: 37px;
+  
+    }
+</style>
 <div class="container">
-    <h2>Create New Order</h2>
+    <h2>New Order</h2>
     <form asp-action="Create" method="post">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="ProductId" class="control-label">Select a product</label>
-                    <select asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId">
+                    <select asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId" id="ProductId">
                         <option value="">-- Select Product --</option>
                     </select>
                     <span asp-validation-for="ProductId" class="text-danger"></span>
@@ -64,6 +69,8 @@
 
     <h3>Recent Orders</h3>
     <div class="table-responsive">
+    
+     
         <table class="table table-striped" id="ordersTable">
             <thead>
                 <tr>
@@ -96,7 +103,21 @@
 </div>
 
 @section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery (required for Select2) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script>
+                $(document).ready(function () {
+            // Apply Select2 to the ProductId dropdown
+            $('#ProductId').select2({
+
+                // allowClear: true,  // Allow clearing the selection
+                width: '100%'  // Make the select box take up full width (optional)
+            });
+        });
         $(document).ready(function() {
             // Load orders when page loads
             loadOrders();
