@@ -32,7 +32,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(option =>
 {
     option.Cookie.Name = "LEOTECH101.Session";
-    //option.IdleTimeout = TimeSpan.FromMinutes(59);
+    option.IdleTimeout = TimeSpan.FromMinutes(59);
     option.Cookie.IsEssential = true;
 });
 

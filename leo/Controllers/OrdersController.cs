@@ -34,7 +34,7 @@ namespace leo.Controllers
             var order = new Order(); // Initialize the model
 
             // Get the enum values for PaymentStatus and exclude FullyPaid
-            var paymentStatuses = Enum.GetValues(typeof(PaymentStatus))
+            var paymentStatuses = Enum.GetValues(typeof(PaymentStatus)) 
                 .Cast<PaymentStatus>()
                 .Where(ps => ps != PaymentStatus.FullyPaid) // Exclude FullyPaid
                 .Select(ps => new SelectListItem
