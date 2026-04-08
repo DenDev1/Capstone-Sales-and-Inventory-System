@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using leo.Data;
 using leo.Services;
@@ -71,6 +71,47 @@ builder.Services.AddScoped<PasswordResetService>();
 builder.Services.AddScoped<AuditLogService>();
 
 var app = builder.Build();
+
+try
+{
+    using var scope = app.Services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<leoContext>();
+    dbContext.Database.Migrate();
+
+    // --- SEED DATA ---
+    // 1. Ensure Roles exist
+    if (!dbContext.Role.Any(r => r.RoleName == "Admin"))
+    {
+        dbContext.Role.Add(new Role { RoleName = "Admin" });
+        if (!dbContext.Role.Any(r => r.RoleName == "Staff"))
+        {
+            dbContext.Role.Add(new Role { RoleName = "Staff" });
+        }
+        dbContext.SaveChanges();
+    }
+
+    // 2. Ensure Default Admin User exists
+    var adminRole = dbContext.Role.FirstOrDefault(r => r.RoleName == "Admin");
+    if (adminRole != null && !dbContext.Users.Any(u => u.Username == "admin"))
+    {
+        var adminUser = new Users
+        {
+            FirstName = "System",
+            LastName = "Admin",
+            Email = "admin123@gmail.com",
+            Username = "admin",
+            Password = HashingServices.HashData("admin"), // Direct requested password "admin"
+            RoleId = adminRole.RoleId
+        };
+        dbContext.Users.Add(adminUser);
+        dbContext.SaveChanges();
+    }
+    // -----------------
+}
+catch (Exception ex)
+{
+    // Log error if needed: Console.WriteLine(ex.Message);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
