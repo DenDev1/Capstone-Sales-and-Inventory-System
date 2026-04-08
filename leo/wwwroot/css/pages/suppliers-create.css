@@ -1,0 +1,84 @@
+﻿.dynamic-textarea {
+        resize: none;
+        overflow-y: hidden;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1050;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.5s ease;
+    }
+
+    .overlay.active {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .spinner {
+        border: 5px solid rgba(255, 255, 255, 0.2);
+        border-top: 5px solid white;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .form-container {
+        background-color: #f8f9fa;
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #495057;
+    }
+
+    .form-control {
+        border-radius: 50px;
+        box-shadow: none;
+    }
+
+    .btn-primary, .btn-outline-secondary, .btn-success {
+        border-radius: 50px;
+        padding: 0.5rem 1.5rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+    }
+
+    .custom-textarea {
+        font-family: 'Courier New', monospace;
+        white-space: pre-wrap;
+        background-color: #ffffff;
+        border: 2px solid #007bff;
+        padding: 10px;
+        line-height: 1.8;
+        overflow-x: auto;
+        resize: none;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 6px;
+    }

@@ -25,9 +25,9 @@ namespace leo.Migrations
                 {
                     table.PrimaryKey("PK_Return", x => x.ReturnId);
                     table.ForeignKey(
-                        name: "FK_Return_Products_ProductId",
+                        name: "FK_Return_Inventory_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Products",
+                        principalTable: "Inventory",
                         principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
                 });

@@ -1,0 +1,179 @@
+:root {
+    --inv-primary: #215B8B;
+    --inv-success: #10b981;
+    --inv-warning: #f59e0b;
+    --inv-danger: #ef4444;
+    --inv-info: #3b82f6;
+    --inv-bg: #f8fafc;
+    --inv-card: #ffffff;
+    --inv-text: #1e293b;
+    --inv-muted: #64748b;
+}
+
+.inventory-container {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    font-family: 'Manrope', sans-serif;
+}
+
+.inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.header-info h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--inv-text);
+    margin: 0;
+}
+
+/* KPI Bar */
+.inv-kpi-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.kpi-stat-card {
+    background: var(--inv-card);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 4px solid transparent;
+}
+
+.kpi-stat-card.total { border-color: var(--inv-primary); }
+.kpi-stat-card.low { border-color: var(--inv-warning); }
+.kpi-stat-card.out { border-color: var(--inv-danger); }
+.kpi-stat-card.value { border-color: var(--inv-success); }
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.total .stat-icon { background: rgba(33, 91, 139, 0.1); color: var(--inv-primary); }
+.low .stat-icon { background: rgba(245, 158, 11, 0.1); color: var(--inv-warning); }
+.out .stat-icon { background: rgba(239, 68, 68, 0.1); color: var(--inv-danger); }
+.value .stat-icon { background: rgba(16, 185, 129, 0.1); color: var(--inv-success); }
+
+.stat-content .label { font-size: 0.75rem; font-weight: 700; color: var(--inv-muted); text-transform: uppercase; }
+.stat-content .value { font-size: 1.25rem; font-weight: 800; color: var(--inv-text); }
+
+/* Table System */
+.inv-card {
+    background: var(--inv-card);
+    border-radius: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card-toolbar {
+    padding: 20px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.inv-table {
+    width: 100%;
+}
+
+.inv-table th {
+    padding: 15px 20px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--inv-muted);
+    text-transform: uppercase;
+    background: #ffffff;
+}
+
+.inv-table td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+
+/* Product Thumbnail */
+.prod-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.prod-details .name { font-weight: 700; color: var(--inv-text); display: block; }
+.prod-details .barcode { font-size: 0.75rem; color: var(--inv-muted); }
+
+/* Stock Status */
+.stock-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.stock-badge.in { background: #dcfce7; color: #16a34a; }
+.stock-badge.low { background: #fffbeb; color: #d97706; }
+.stock-badge.out { background: #fee2e2; color: #ef4444; }
+
+/* Price Tag */
+.price-tag {
+    font-weight: 800;
+    color: var(--inv-primary);
+}
+
+@media (max-width: 768px) {
+    .inventory-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .header-actions {
+        width: 100%;
+        margin-top: 15px;
+    }
+    
+    .header-actions .btn {
+        width: 100%;
+    }
+    
+    .card-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-group {
+        flex-direction: column;
+    }
+}

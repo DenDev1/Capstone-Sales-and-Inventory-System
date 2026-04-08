@@ -1,0 +1,33 @@
+.deleted-container {
+    padding: 10px;
+}
+
+.deleted-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.deleted-header {
+    background: #fff;
+    padding: 20px;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.deleted-table th {
+    background: #111827 !important;
+    color: #fff !important;
+}
+
+.badge-deleted {
+    background: #fee2e2;
+    color: #ef4444;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+}

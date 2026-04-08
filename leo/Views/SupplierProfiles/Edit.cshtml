@@ -4,82 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<style>
-    /* Overlay Styles */
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.6); /* Darker semi-transparent background */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1050;
-        visibility: hidden;
-        opacity: 0;
-        transition: visibility 0s, opacity 0.5s ease;
-    }
 
-        .overlay.active {
-            visibility: visible;
-            opacity: 1;
-        }
-
-    .spinner {
-        border: 4px solid rgba(255, 255, 255, 0.3);
-        border-top: 4px solid #ffffff;
-        border-radius: 50%;
-        width: 45px;
-        height: 45px;
-        animation: spin 1s linear infinite;
-    }
-
-    .success-message {
-        color: white;
-        font-size: 1.2rem;
-        margin-top: 15px;
-        text-align: center;
-    }
-
-    @@keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    /* Form Card Styles */
-    .card {
-        border-radius: 15px;
-    }
-
-    .form-control, .btn {
-        border-radius: 30px; /* Rounded-pill style */
-    }
-
-        .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-
-    .btn-primary {
-        background-color: #007bff;
-        border: none;
-    }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-    .btn-outline-secondary {
-        border-color: #6c757d;
-    }
-</style>
 
 <div class="overlay" id="loadingOverlay">
     <div class="spinner"></div>
@@ -152,3 +77,5 @@
         }, 1000);
     });
 </script>
+
+

@@ -16,6 +16,8 @@ using OfficeOpenXml;
 using leo.ViewModels;
 using System.Net.Mail;
 using System.Net;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace leo.Controllers
 {
@@ -26,13 +28,15 @@ namespace leo.Controllers
     {
         private readonly leoContext _context;
         private readonly AuditLogService _auditLogService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly string accountSid = "ACc0e7f08cb7409ec84fe6ff91d1c84fd1";
         private readonly string authToken = "d934277abaaedb3e006c6e577d52fb40";
             
-        public InventoryController(leoContext context, AuditLogService auditLogService)
+        public InventoryController(leoContext context, AuditLogService auditLogService, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _auditLogService = auditLogService;
+            _webHostEnvironment = webHostEnvironment;
         }
      
 
@@ -41,8 +45,13 @@ namespace leo.Controllers
         public async Task<IActionResult> RequestStock(int productId)
         {
             // Fetch the product from the Inventory table
+            if (_context.Inventory == null)
+            {
+                TempData["Error"] = "Database error.";
+                return RedirectToAction("Index", "Inventory");
+            }
+
             var product = await _context.Inventory
-                .Include(p => p.SupplierProfile) // Ensure you load the related SupplierProfile
                 .FirstOrDefaultAsync(p => p.ProductId == productId);
 
             if (product == null)
@@ -58,35 +67,25 @@ namespace leo.Controllers
             }
             else
             {
-                // Check if a supplier already exists for this product
-                var existingSupplier = await _context.Supplier
-                    .AnyAsync(s => s.SupplierName == product.SupplierProfile.Supplier &&
-                                   s.ProductsName == product.ProductName);
-
-                if (!existingSupplier)
+                // Add stock request without supplier profile reference
+                var supplier = new Supplier
                 {
-                    // Add a new supplier record if none exists
-                    var supplier = new Supplier
-                    {
-                        SupplierName = product.SupplierProfile.Supplier,
-                        ProductsName = product.ProductName,
-                        Email = product.SupplierProfile.ContactEmail, // Use the SupplierProfile's email if available
-                        Status = "Requested" // Set the Status to "Requested"
-                    };
+                    SupplierName = "Pending",
+                    ProductsName = product.ProductName,
+                    Email = "pending@leostore.com",
+                    Status = "Requested"
+                };
 
-                    // Add the new supplier to the Supplier table
+                if (_context.Supplier != null)
+                {
                     _context.Supplier.Add(supplier);
                     await _context.SaveChangesAsync();
-
-                    TempData["LoginSuccess"] = $"Stock request for product '{product.ProductName}' was successful.";
-
-                    //// Send SMS notification for stock request
-                    await SendSMS("9666087724", $"Stock request for {product.ProductName} with current stock quantity {product.StockQuantity}.");
                 }
-                else
-                {
-                    TempData["LoginSuccess"] = $"The product '{product.ProductName}' already has an existing supplier record.";
-                }
+
+                TempData["LoginSuccess"] = $"Stock request for product '{product.ProductName}' was successful.";
+
+                //// Send SMS notification for stock request
+                await SendSMS("9666087724", $"Stock request for {product.ProductName} with current stock quantity {product.StockQuantity}.");
             }
 
             return RedirectToAction("Index", "Inventory");
@@ -146,9 +145,13 @@ namespace leo.Controllers
         public async Task<IActionResult> Index(bool showDeleted = false)
         {
             ViewData["ShowDeleted"] = showDeleted;
+            if (_context.Inventory == null)
+            {
+                return NotFound();
+            }
+
             var productsQuery = _context.Inventory
-                .Include(p => p.Category)
-                .Include(p => p.SupplierProfile); // Ensure SupplierProfile is included
+                .Include(p => p.Category);
 
             // Retrieve products based on showDeleted flag
             var products = showDeleted
@@ -161,13 +164,10 @@ namespace leo.Controllers
                 // Null check for product before sending notifications
                 if (product == null) continue;
 
-                var supplier = product.SupplierProfile;
-
                 if (product.StockQuantity <= 5 && product.StockQuantity > 0) // Low stock check
-
                 {
                     //await SendSMS("9666087724", $"Alert: {product.ProductName} is LOW OF STOCK.");
-                    if (supplier != null && !string.IsNullOrEmpty(product.ProductName))
+                    if (!string.IsNullOrEmpty(product.ProductName))
                     {
                         // Configure and send the email for low stock
                         var smtpClient = new SmtpClient("smtp.gmail.com")
@@ -181,9 +181,8 @@ namespace leo.Controllers
                         {
                             From = new MailAddress("leotech@gmail.com"),
                             Subject = "Leostore - Low Stock Alert",
-                            Body = $"Dear {supplier.Supplier},\n\n" +
-                                   $"This is to notify you that the product '{product.ProductName}' is low on stock with only {product.StockQuantity} units remaining.\n" +
-                                   "Please take action to replenish the stock soon.\n\n",
+                            Body = $"Product '{product.ProductName}' is low on stock with only {product.StockQuantity} units remaining.\n" +
+                                   "Please take action to replenish the stock soon.\n",
                             IsBodyHtml = false,
                         };
 
@@ -192,7 +191,7 @@ namespace leo.Controllers
                         try
                         {
                             await smtpClient.SendMailAsync(mailMessage);
-                            TempData["SuccessMessage"] = $"Low stock email sent to {supplier.Supplier} for product '{product.ProductName}'.";
+                            TempData["SuccessMessage"] = $"Low stock email sent for product '{product.ProductName}'.";
                         }
                         catch (Exception ex)
                         {
@@ -203,7 +202,7 @@ namespace leo.Controllers
                 else if (product.StockQuantity == 0) // Out of stock check
                 {
                     //await SendSMS("9666087724", $"Alert: {product.ProductName} is OUT OF STOCK.");
-                    if (supplier != null && !string.IsNullOrEmpty(product.ProductName))
+                    if (!string.IsNullOrEmpty(product.ProductName))
                     {
                         // Configure and send the email for out of stock
                         var smtpClient = new SmtpClient("smtp.gmail.com")
@@ -217,9 +216,8 @@ namespace leo.Controllers
                         {
                             From = new MailAddress("leotech@gmail.com"),
                             Subject = "Leostore - Stock Out Alert",
-                            Body = $"Dear {supplier.Supplier},\n\n" +
-                                   $"We regret to inform you that the product '{product.ProductName}' is currently out of stock.\n" +
-                                   "Please update the stock status as soon as possible.\n\n",
+                            Body = $"Product '{product.ProductName}' is currently out of stock.\n" +
+                                   "Please update the stock status as soon as possible.\n",
                             IsBodyHtml = false,
                         };
 
@@ -229,7 +227,7 @@ namespace leo.Controllers
                         try
                         {
                             await smtpClient.SendMailAsync(mailMessage);
-                            TempData["SuccessMessage"] = $"Out of stock email sent to {supplier.Supplier} for product '{product.ProductName}'.";
+                            TempData["SuccessMessage"] = $"Out of stock email sent for product '{product.ProductName}'.";
                         }
                         catch (Exception ex)
                         {
@@ -387,46 +385,84 @@ namespace leo.Controllers
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryName");
-            ViewData["ProfileId"] = new SelectList(_context.SupplierProfile, "ProfileId", "Supplier");
+            // ProfileId removed - SupplierProfile no longer used
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,CategoryId,Date,UnitPrice,StockQuantity,Description,ProfileId")] Inventory products)
+        public async Task<IActionResult> Create([Bind("ProductId,ProductName,CategoryId,Date,UnitPrice,StockQuantity,Description,ProfileId,Barcode,Suppliers")] Inventory products, IFormFile? imageFile)
         {
+            products.ProductName = products.ProductName?.Trim() ?? string.Empty;
+            products.Description = products.Description?.Trim() ?? string.Empty;
+            products.Barcode = products.Barcode?.Trim() ?? string.Empty;
+            products.Suppliers = products.Suppliers?.Trim() ?? string.Empty;
+
+            if (products.Date == default)
+            {
+                products.Date = DateTime.Now;
+            }
+
             if (ModelState.IsValid)
             {
-
-                // Determine StockStatus based on StockQuantity
-                if (products.StockQuantity <= 0)
+                try
                 {
-                    products.StockStatus = StockStatus.OutOfStock;
+                    // Determine StockStatus based on StockQuantity
+                    if (products.StockQuantity <= 0)
+                    {
+                        products.StockStatus = StockStatus.OutOfStock;
+                    }
+                    else if (products.StockQuantity < 5)
+                    {
+                        products.StockStatus = StockStatus.LowStock;
+                    }
+                    else
+                    {
+                        products.StockStatus = StockStatus.InStock;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(products.Suppliers))
+                    {
+                        products.Suppliers = products.Barcode;
+                    }
+
+                    products.ImagePath = await SaveProductImageAsync(imageFile);
+
+                    _context.Add(products);
+                    await _context.SaveChangesAsync();
+                    TempData["LoginSuccess"] = "Added successfully";
+
+                    await _auditLogService.LogActionAsync("Added", $"Inventory: '{products.ProductName}'Quantity: {products.StockQuantity}");
+
+                    if (Request.Headers["X-Requested-With"] == "XMLHttpRequest" || Request.ContentType?.Contains("application/json") == true)
+                    {
+                        return Json(new { success = true, message = "Inventory item created successfully!" });
+                    }
+
+                    return RedirectToAction(nameof(Create));
                 }
-                else if (products.StockQuantity < 5)
+                catch (DbUpdateException ex)
                 {
-                    products.StockStatus = StockStatus.LowStock;
+                    var dbError = ex.InnerException?.Message ?? ex.Message;
+
+                    if (Request.Headers["X-Requested-With"] == "XMLHttpRequest" || Request.ContentType?.Contains("application/json") == true)
+                    {
+                        return StatusCode(500, new { success = false, message = dbError });
+                    }
+
+                    ModelState.AddModelError(string.Empty, dbError);
                 }
-                else
-                {
-                    products.StockStatus = StockStatus.InStock;
-                }
-
-                _context.Add(products);
-                await _context.SaveChangesAsync();
-                // Set TempData for login success
-                TempData["LoginSuccess"] = "Added successfully";
-
-
-                await _auditLogService.LogActionAsync("Added", $"Inventory: '{products.ProductName}'Quantity: {products.StockQuantity}");
-
-
-
-
-                return RedirectToAction(nameof(Create)); // Redirect to Index instead of Create
             }
-            ViewData["ProfileId"] = new SelectList(_context.SupplierProfile, "ProfileId", "Supplier", products.SupplierProfile);
+            // ProfileId removed - SupplierProfile no longer used
             ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryName", products.CategoryId);
+            
+            // Check if it's an AJAX request
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest" || Request.ContentType?.Contains("application/json") == true)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                return Json(new { success = false, message = string.Join(", ", errors) });
+            }
+            
             return View(products);
         }
         //// POST: Products/Create
@@ -489,7 +525,6 @@ namespace leo.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProfileId"] = new SelectList(_context.SupplierProfile, "ProfileId", "Supplier", products.ProfileId);
             ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryName", products.CategoryId);
             return View(products);
         }
@@ -497,22 +532,30 @@ namespace leo.Controllers
         // POST: Products/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,CategoryId,Date,UnitPrice,StockQuantity,Description,ProfileId")] Inventory products)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,CategoryId,Date,UnitPrice,StockQuantity,Description,ProfileId,Barcode,Suppliers,ImagePath")] Inventory products, IFormFile? imageFile)
         {
             if (id != products.ProductId)
             {
                 return NotFound();
             }
 
+            products.ProductName = products.ProductName?.Trim() ?? string.Empty;
+            products.Description = products.Description?.Trim() ?? string.Empty;
+            products.Barcode = products.Barcode?.Trim() ?? string.Empty;
+            products.Suppliers = products.Suppliers?.Trim() ?? string.Empty;
+
+            if (products.Date == default)
+            {
+                products.Date = DateTime.Now;
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (await _context.Inventory.AnyAsync(p => p.ProductName == products.ProductName && p.ProductId != id))
+                    if (_context.Inventory != null && await _context.Inventory.AnyAsync(p => p.ProductName == products.ProductName && p.ProductId != id))
                     {
                         ModelState.AddModelError("ProductName", "A product with this name already exists.");
-                        ViewData["ProfileId"] = new SelectList(_context.SupplierProfile, "ProfileId", "Supplier", products.ProfileId);
-
                         ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryName", products.CategoryId);
                         return View(products);
                     }
@@ -529,6 +572,16 @@ namespace leo.Controllers
                     else
                     {
                         products.StockStatus = StockStatus.InStock;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(products.Suppliers))
+                    {
+                        products.Suppliers = products.Barcode;
+                    }
+
+                    if (imageFile != null && imageFile.Length > 0)
+                    {
+                        products.ImagePath = await SaveProductImageAsync(imageFile);
                     }
 
                     _context.Update(products);
@@ -552,7 +605,6 @@ namespace leo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProfileId"] = new SelectList(_context.SupplierProfile, "ProfileId", "Supplier", products.ProfileId);
             ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryName", products.CategoryId);
             return View(products);
         }
@@ -579,6 +631,11 @@ namespace leo.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            if (_context.Inventory == null)
+            {
+                return NotFound();
+            }
+
             var product = await _context.Inventory.FindAsync(id);
             if (product == null)
             {
@@ -602,6 +659,11 @@ namespace leo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (_context.Inventory == null)
+            {
+                return NotFound();
+            }
+
             var product = await _context.Inventory.FindAsync(id);
             if (product == null)
             {
@@ -621,6 +683,11 @@ namespace leo.Controllers
 
         public async Task<IActionResult> DeletedProducts()
         {
+            if (_context.Inventory == null)
+            {
+                return NotFound();
+            }
+
             var deletedProducts = await _context.Inventory
                 .Where(p => p.IsDeleted)
                 .ToListAsync();
@@ -630,6 +697,11 @@ namespace leo.Controllers
 
         public async Task<IActionResult> Restore(int id)
         {
+            if (_context.Inventory == null)
+            {
+                return NotFound();
+            }
+
             var product = await _context.Inventory.FindAsync(id);
             if (product == null || !product.IsDeleted)
             {
@@ -649,6 +721,11 @@ namespace leo.Controllers
 
         public async Task<IActionResult> DeletePermanent(int id)
         {
+            if (_context.Inventory == null)
+            {
+                return NotFound();
+            }
+
             var product = await _context.Inventory.FindAsync(id);
             if (product == null)
             {
@@ -684,12 +761,178 @@ namespace leo.Controllers
         //    return RedirectToAction(nameof(Index));
         //}
 
+        // Category Management Actions
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateCategory(string categoryName)
+        {
+            if (string.IsNullOrWhiteSpace(categoryName))
+            {
+                return Json(new { success = false, message = "Category name is required." });
+            }
 
+            categoryName = categoryName.Trim();
 
+            // Validate that category name contains only letters
+            if (!System.Text.RegularExpressions.Regex.IsMatch(categoryName, @"^[a-zA-Z]+$"))
+            {
+                return Json(new { success = false, message = "Category name can only contain letters." });
+            }
+
+            if (await _context.Category.AnyAsync(c => c.CategoryName == categoryName))
+            {
+                return Json(new { success = false, message = "A category with this name already exists." });
+            }
+
+            try
+            {
+                var category = new Category { CategoryName = categoryName };
+                _context.Add(category);
+                await _context.SaveChangesAsync();
+                
+                // Try to log, but don't fail if audit logging fails
+                try
+                {
+                    await _auditLogService.LogActionAsync("Create", $"Category: {category.CategoryName}");
+                }
+                catch { /* Audit logging failed, but category was created */ }
+                
+                return Json(new { success = true, message = "Category added successfully.", categoryId = category.CategoryId, categoryName = category.CategoryName });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occurred while creating the category: " + ex.InnerException?.Message ?? ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCategory(int id, string categoryName)
+        {
+            if (string.IsNullOrWhiteSpace(categoryName))
+            {
+                return Json(new { success = false, message = "Category name is required." });
+            }
+
+            categoryName = categoryName.Trim();
+
+            // Validate that category name contains only letters
+            if (!System.Text.RegularExpressions.Regex.IsMatch(categoryName, @"^[a-zA-Z]+$"))
+            {
+                return Json(new { success = false, message = "Category name can only contain letters." });
+            }
+
+            var category = await _context.Category.FindAsync(id);
+            if (category == null)
+            {
+                return Json(new { success = false, message = "Category not found." });
+            }
+
+            if (await _context.Category.AnyAsync(c => c.CategoryName == categoryName && c.CategoryId != id))
+            {
+                return Json(new { success = false, message = "A category with this name already exists." });
+            }
+
+            try
+            {
+                category.CategoryName = categoryName;
+                _context.Update(category);
+                await _context.SaveChangesAsync();
+                
+                // Try to log, but don't fail if audit logging fails
+                try
+                {
+                    await _auditLogService.LogActionAsync("Update", $"Category: {category.CategoryName}");
+                }
+                catch { /* Audit logging failed, but category was updated */ }
+                
+                return Json(new { success = true, message = "Category updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occurred while updating the category: " + ex.InnerException?.Message ?? ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            var category = await _context.Category.FindAsync(id);
+            if (category == null)
+            {
+                return Json(new { success = false, message = "Category not found." });
+            }
+
+            try
+            {
+                _context.Category.Remove(category);
+                await _context.SaveChangesAsync();
+                
+                // Try to log, but don't fail if audit logging fails
+                try
+                {
+                    await _auditLogService.LogActionAsync("Delete", $"Category: {category.CategoryName}");
+                }
+                catch { /* Audit logging failed, but category was deleted */ }
+                
+                return Json(new { success = true, message = "Category deleted successfully." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occurred while deleting the category: " + ex.InnerException?.Message ?? ex.Message });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCategories()
+        {
+            var categories = await _context.Category.ToListAsync();
+            return Json(categories);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProducts()
+        {
+            var products = await _context.Inventory
+                .Where(p => !p.IsDeleted)
+                .OrderBy(p => p.ProductName)
+                .Select(p => new 
+                { 
+                    p.ProductId,
+                    p.ProductName,
+                    p.UnitPrice,
+                    p.StockQuantity,
+                    p.Barcode,
+                    p.ImagePath
+                })
+                .ToListAsync();
+            return Json(products);
+        }
 
         private bool ProductsExists(int id)
         {
             return (_context.Inventory?.Any(e => e.ProductId == id)).GetValueOrDefault();
+        }
+
+        private async Task<string> SaveProductImageAsync(IFormFile? imageFile)
+        {
+            if (imageFile == null || imageFile.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", "products");
+            Directory.CreateDirectory(uploadsFolder);
+
+            var extension = Path.GetExtension(imageFile.FileName);
+            var fileName = $"{Guid.NewGuid():N}{extension}";
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            using var stream = new FileStream(filePath, FileMode.Create);
+            await imageFile.CopyToAsync(stream);
+
+            return $"/uploads/products/{fileName}";
         }
     }
 }

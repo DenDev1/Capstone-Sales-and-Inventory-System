@@ -1,0 +1,50 @@
+:root {
+    --ret-primary: #215B8B;
+    --ret-warning: #f59e0b;
+    --ret-danger: #ef4444;
+    --ret-info: #3b82f6;
+    --ret-bg: #f8fafc;
+    --ret-card: #ffffff;
+}
+
+.returns-container {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.returns-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.ret-card {
+    background: var(--ret-card);
+    border-radius: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.ret-table th {
+    background: #111827 !important;
+    color: #fff !important;
+    padding: 15px 20px;
+}
+
+.status-badge-ret {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+    .returns-header { flex-direction: column; align-items: flex-start; }
+    .header-actions { width: 100%; }
+    .header-actions .btn { width: 100%; }
+}

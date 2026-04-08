@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -153,6 +153,15 @@ namespace leo.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetRoleDetails(int? id)
+        {
+            if (id == null) return BadRequest();
+            var role = await _context.Role.FindAsync(id);
+            if (role == null) return NotFound();
+            return Json(new { roleId = role.RoleId, roleName = role.RoleName });
         }
 
         private bool RoleExists(int id)

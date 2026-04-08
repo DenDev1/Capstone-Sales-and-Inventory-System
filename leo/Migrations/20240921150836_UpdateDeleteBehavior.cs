@@ -13,7 +13,7 @@ namespace leo.Migrations
                 table: "AuditLogs");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Order_Products_ProductId",
+                name: "FK_Order_Inventory_ProductId",
                 table: "Order");
 
             migrationBuilder.AlterColumn<int>(
@@ -32,10 +32,10 @@ namespace leo.Migrations
                 principalColumn: "UserId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Order_Products_ProductId",
+                name: "FK_Order_Inventory_ProductId",
                 table: "Order",
                 column: "ProductId",
-                principalTable: "Products",
+                principalTable: "Inventory",
                 principalColumn: "ProductId",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -47,7 +47,7 @@ namespace leo.Migrations
                 table: "AuditLogs");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Order_Products_ProductId",
+                name: "FK_Order_Inventory_ProductId",
                 table: "Order");
 
             migrationBuilder.AlterColumn<int>(
@@ -69,10 +69,10 @@ namespace leo.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Order_Products_ProductId",
+                name: "FK_Order_Inventory_ProductId",
                 table: "Order",
                 column: "ProductId",
-                principalTable: "Products",
+                principalTable: "Inventory",
                 principalColumn: "ProductId",
                 onDelete: ReferentialAction.Cascade);
         }

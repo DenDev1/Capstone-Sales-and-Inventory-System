@@ -1,0 +1,191 @@
+:root {
+    --user-primary: #215B8B;
+    --user-success: #10b981;
+    --user-warning: #f59e0b;
+    --user-danger: #ef4444;
+    --user-bg: #f8fafc;
+    --user-card: #ffffff;
+    --user-text: #1e293b;
+    --user-muted: #64748b;
+}
+
+.users-container {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    font-family: 'Manrope', sans-serif;
+}
+
+.users-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.header-info h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--user-text);
+    margin: 0;
+}
+
+.header-info p {
+    color: var(--user-muted);
+    margin: 5px 0 0;
+}
+
+/* User Card Wrapper */
+.users-card {
+    background: var(--user-card);
+    border-radius: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.users-table {
+    width: 100%;
+}
+
+.users-table th {
+    background: #f8fafc;
+    padding: 15px 20px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--user-muted);
+    text-transform: uppercase;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.users-table td {
+    padding: 18px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.9rem;
+    color: var(--user-text);
+    vertical-align: middle;
+}
+
+/* Avatar Circle */
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    background: #eff6ff;
+    color: var(--user-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.85rem;
+}
+
+.staff-identity {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.staff-name {
+    font-weight: 700;
+    color: var(--user-text);
+    display: block;
+}
+
+.staff-username {
+    font-size: 0.75rem;
+    color: var(--user-muted);
+}
+
+/* Role Badges */
+.role-pill {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.role-pill.admin { background: #fee2e2; color: #ef4444; }
+.role-pill.staff { background: #dcfce7; color: #16a34a; }
+.role-pill.default { background: #f1f5f9; color: #64748b; }
+
+/* Modal Styles */
+.modal-modern .modal-content {
+    border: none;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.modal-modern .modal-header {
+    background: #f8fafc;
+    border-radius: 24px 24px 0 0;
+    padding: 25px 30px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-modern .modal-title {
+    font-weight: 800;
+    color: var(--user-text);
+}
+
+.modal-modern .modal-body {
+    padding: 30px;
+}
+
+.form-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--user-muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.form-control-modern {
+    height: 50px;
+    border: 2px solid #f1f5f9;
+    border-radius: 12px;
+    padding: 0 15px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.form-control-modern:focus {
+    border-color: var(--user-primary);
+    box-shadow: 0 0 0 4px rgba(33, 91, 139, 0.1);
+    outline: none;
+}
+
+.btn-modern {
+    height: 50px;
+    border-radius: 12px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+
+.btn-modern:hover { transform: translateY(-2px); }
+
+@media (max-width: 768px) {
+    .users-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header-actions {
+        width: 100%;
+    }
+
+    .btn-modern {
+        width: 100%;
+    }
+
+    .users-table th:nth-child(2),
+    .users-table td:nth-child(2) {
+        display: none; /* Hide username on small mobile if needed, or rely on responsive datatables */
+    }
+}

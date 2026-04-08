@@ -18,11 +18,14 @@ namespace leo.Models
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Quantity must be greater than 1.")]
         public int Quantity { get; set; }
+
+        [Range(typeof(decimal), "0.01", "9999999999", ErrorMessage = "Unit price must be greater than 0.")]
+        public decimal UnitPrice { get; set; }
         public string? ProductsAndQuantities { get; set; }  // Nullable string
 
         public string Description { get; set; }
 
-        //public decimal Balance { get; set; }
+        public decimal Balance { get; set; } = 0m;
 
         // Editable Status property without any dependency on Balance
         public string? Status { get; set; }

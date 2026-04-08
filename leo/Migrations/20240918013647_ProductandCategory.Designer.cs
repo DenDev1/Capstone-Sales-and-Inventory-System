@@ -42,7 +42,7 @@ namespace leo.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("leo.Models.Products", b =>
+            modelBuilder.Entity("leo.Models.Inventory", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
@@ -81,7 +81,7 @@ namespace leo.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Inventory");
                 });
 
             modelBuilder.Entity("leo.Models.Role", b =>

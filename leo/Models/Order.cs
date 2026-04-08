@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace leo.Models
 {
@@ -23,23 +24,28 @@ namespace leo.Models
 
         public decimal TotalAmount { get; set; }
 
-        // New property for partial payment amount
+        // Kept in the model for UI/business logic compatibility, but the live DB may not have this column yet.
+        [NotMapped]
         public decimal PartialPaymentAmount { get; set; }
 
         [Required]
         public PaymentStatus PaymentStatus { get; set; }
         public DateTime OrderDate { get; set; } = DateTime.Now;
 
+        public string ReferenceNo { get; set; } = string.Empty;
 
         [Required]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Customer name must contain only letters.")]
-        public string CustomerName { get; set; } // Add this property
+        public string CustomerName { get; set; } = string.Empty; // Add this property
+
+        // Kept in the model for UI/business logic compatibility, but the live DB may not have this column yet.
+        [NotMapped]
+        public string Barcode { get; set; } = string.Empty;
 
         // Computed property to calculate remaining balance after partial payment
+        [NotMapped]
         public decimal RemainingBalance => TotalAmount - PartialPaymentAmount;
 
- 
-        // public string ReferenceNo { get; set; } // Add this property
     }
 
     public enum PaymentStatus

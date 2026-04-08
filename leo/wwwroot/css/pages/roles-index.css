@@ -1,0 +1,64 @@
+:root {
+    --role-primary: #215B8B;
+    --role-card: #ffffff;
+    --role-text: #1e293b;
+    --role-muted: #64748b;
+}
+
+.roles-container {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    font-family: 'Manrope', sans-serif;
+}
+
+.roles-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.roles-card {
+    background: var(--role-card);
+    border-radius: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.roles-table {
+    width: 100%;
+}
+
+.roles-table th {
+    padding: 15px 20px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--role-muted);
+    text-transform: uppercase;
+    background: #f8fafc;
+}
+
+.roles-table td {
+    padding: 18px 20px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.role-badge-large {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    background: #eff6ff;
+    color: var(--role-primary);
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.9rem;
+}
+
+/* Modal Modern */
+.modal-modern .modal-content {
+    border: none;
+    border-radius: 20px;
+}

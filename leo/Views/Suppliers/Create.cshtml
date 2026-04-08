@@ -1,105 +1,16 @@
-﻿@model leo.ViewModels.SupplierViewModel
+﻿@using System.Text.Json
+@model leo.ViewModels.SupplierCreateViewModel
 
 @{
     ViewData["Title"] = "Create Supplier";
 }
 
-<style>
-    .dynamic-textarea {
-        resize: none;
-        overflow-y: hidden;
-    }
 
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1050;
-        visibility: hidden;
-        opacity: 0;
-        transition: visibility 0s, opacity 0.5s ease;
-    }
-
-    .overlay.active {
-        visibility: visible;
-        opacity: 1;
-    }
-
-    .spinner {
-        border: 5px solid rgba(255, 255, 255, 0.2);
-        border-top: 5px solid white;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        animation: spin 1s linear infinite;
-    }
-
-    @@keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
-    .form-container {
-        background-color: #f8f9fa;
-        padding: 2rem;
-        border-radius: 20px;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .form-label {
-        font-weight: bold;
-        color: #495057;
-    }
-
-    .form-control {
-        border-radius: 50px;
-        box-shadow: none;
-    }
-
-    .btn-primary, .btn-outline-secondary, .btn-success {
-        border-radius: 50px;
-        padding: 0.5rem 1.5rem;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        border: none;
-    }
-
-    .btn-success {
-        background-color: #28a745;
-        border: none;
-    }
-
-    .custom-textarea {
-        font-family: 'Courier New', monospace;
-        white-space: pre-wrap;
-        background-color: #ffffff;
-        border: 2px solid #007bff;
-        padding: 10px;
-        line-height: 1.8;
-        overflow-x: auto;
-        resize: none;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 6px;
-    }
-</style>
-
-<div class="overlay" id="loadingOverlay">
-    <div class="spinner"></div>
-    <div class="success-message" id="successMessage"></div>
-</div>
 
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <form asp-action="Create" class="bg-light p-4 rounded shadow-sm form-container">
+            <form asp-action="Create" method="post" class="bg-light p-4 rounded shadow-sm form-container">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                 <div class="container">
@@ -119,57 +30,58 @@
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                         </div>
-
-                      
                     </div>
 
-                    <style>
-                        /* Hide the entire row */
-                        .hidden-row {
-                            display: none;
-                        }
-                    </style>
-
-                    <div class="row hidden-row" id="productQuantityRow">
+                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <div class="form-group">
-                                <label asp-for="ProductName" class="form-label">Products</label>
-                                <input asp-for="ProductName" class="form-control shadow-sm" id="ProductName" value="NULL" />
-                                <span asp-validation-for="ProductName" class="text-danger"></span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <div class="form-group">
-                                <label asp-for="Quantity" class="form-label">Quantity</label>
-                                <input asp-for="Quantity" class="form-control shadow-sm" id="ProductName" value="1" />
-                                <span asp-validation-for="Quantity" class="text-danger"></span>
+                                <label asp-for="UnitPrice" class="form-label">Unit Price</label>
+                                <input asp-for="UnitPrice" type="number" min="0.01" step="0.01" class="form-control shadow-sm" placeholder="Enter unit price" />
+                                <span asp-validation-for="UnitPrice" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
 
-
-                    <div class="form-group">
-                        <label class="form-label">Add Product and Quantity</label>
-                        <div class="d-flex align-items-center mb-3">
-                            <input type="text" id="productInput" class="form-control me-2" placeholder="Enter product name">
-                            <input type="number" id="quantityInput" class="form-control me-2" placeholder="Enter quantity">
-                            <button type="button" class="btn btn-success" onclick="addProductAndQuantity()">Add</button>
+                    <div class="form-group mb-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <label class="form-label mb-0">Requested Products &amp; Quantities</label>
+                            <button type="button"
+                                    id="openAddItemModal"
+                                    class="btn btn-success"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#addItemModal"
+                                    data-toggle="modal"
+                                    data-target="#addItemModal">
+                                Add Item
+                            </button>
                         </div>
+                        <span asp-validation-for="LineItems" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="ProductsAndQuantities" class="form-label">Requested Products & Quantities</label>
+                    <div class="form-group mb-3">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-striped align-middle mb-2">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 70%;">Product</th>
+                                        <th style="width: 20%;">Qty</th>
+                                        <th style="width: 10%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lineItemsBody"></tbody>
+                            </table>
+                        </div>
+                        <div id="lineItemsInputs"></div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="ProductsAndQuantities" class="form-label">Summary</label>
                         <textarea asp-for="ProductsAndQuantities"
                                   id="productsAndQuantities"
-                                  class="form-control shadow-sm dynamic-textarea custom-textarea"
+                                  class="form-control shadow-sm custom-textarea"
                                   rows="10"
-                                  placeholder="Product Name     | Quantity"
-                                  readonly>
-Product A       | 10
-Product B       | 20
-Product C       | 15
-                        </textarea>
+                                  placeholder="Product Name | Quantity"
+                                  readonly></textarea>
                     </div>
 
                     <div class="form-group">
@@ -188,26 +100,221 @@ Product C       | 15
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-<script>
-    function addProductAndQuantity() {
-        const productInput = document.getElementById('productInput');
-        const quantityInput = document.getElementById('quantityInput');
-        const productsAndQuantities = document.getElementById('productsAndQuantities');
+<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addItemModalLabel">Add Requested Item</h5>
+                <button type="button"
+                        class="close btn-close"
+                        data-bs-dismiss="modal"
+                        data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="modalProductName" class="form-label">Product</label>
+                    <input type="text" id="modalProductName" class="form-control" placeholder="Enter product name" maxlength="200" />
+                    <div class="invalid-feedback">Product name is required.</div>
+                </div>
+                <div class="mb-0">
+                    <label for="modalQuantity" class="form-label">Quantity</label>
+                    <input type="number" id="modalQuantity" class="form-control" placeholder="Enter quantity" min="1" />
+                    <div class="invalid-feedback">Quantity must be at least 1.</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmAddItem">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-        const product = productInput.value.trim();
-        const quantity = quantityInput.value.trim();
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 
-        if (!product || !quantity) {
-            alert('Please enter both product name and quantity.');
-            return;
-        }
+    <script>
+        (function () {
+            const initialItems = @Html.Raw(JsonSerializer.Serialize(Model.LineItems ?? new List<leo.ViewModels.SupplierLineItemViewModel>()));
 
-        const newEntry = `${product.padEnd(15)}| ${quantity}`;
-        productsAndQuantities.value += `\n${newEntry}`;
+            const lineItemsBody = document.getElementById('lineItemsBody');
+            const lineItemsInputs = document.getElementById('lineItemsInputs');
+            const summaryTextarea = document.getElementById('productsAndQuantities');
+            const openAddItemModal = document.getElementById('openAddItemModal');
 
-        productInput.value = '';
-        quantityInput.value = '';
-    }
-</script>
+            const modalEl = document.getElementById('addItemModal');
+            const modalProductName = document.getElementById('modalProductName');
+            const modalQuantity = document.getElementById('modalQuantity');
+            const confirmAddItem = document.getElementById('confirmAddItem');
+
+            const items = (initialItems || []).map(i => ({
+                productName: (i.productName || i.ProductName || '').toString(),
+                quantity: Number(i.quantity || i.Quantity || 0)
+            })).filter(i => i.productName.trim().length > 0 && i.quantity > 0);
+
+            function normalizeName(name) {
+                return (name || '').trim();
+            }
+
+            function escapeHtml(value) {
+                const div = document.createElement('div');
+                div.innerText = value;
+                return div.innerHTML;
+            }
+
+            function findIndexByProductName(name) {
+                const needle = normalizeName(name).toLowerCase();
+                return items.findIndex(x => normalizeName(x.productName).toLowerCase() === needle);
+            }
+
+            function buildSummary() {
+                if (items.length === 0) return '';
+                const lines = ['Product Name | Quantity'];
+                for (const item of items) {
+                    lines.push(`${normalizeName(item.productName)} | ${item.quantity}`);
+                }
+                return lines.join('\n');
+            }
+
+            function render() {
+                lineItemsBody.innerHTML = '';
+                lineItemsInputs.innerHTML = '';
+
+                items.forEach((item, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${escapeHtml(normalizeName(item.productName))}</td>
+                        <td>${item.quantity}</td>
+                        <td class="text-end">
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-index="${idx}">Remove</button>
+                        </td>
+                    `;
+                    lineItemsBody.appendChild(tr);
+
+                    const nameInput = document.createElement('input');
+                    nameInput.type = 'hidden';
+                    nameInput.name = `LineItems[${idx}].ProductName`;
+                    nameInput.value = normalizeName(item.productName);
+                    lineItemsInputs.appendChild(nameInput);
+
+                    const qtyInput = document.createElement('input');
+                    qtyInput.type = 'hidden';
+                    qtyInput.name = `LineItems[${idx}].Quantity`;
+                    qtyInput.value = item.quantity.toString();
+                    lineItemsInputs.appendChild(qtyInput);
+                });
+
+                summaryTextarea.value = buildSummary();
+            }
+
+            function setInvalid(el, invalid) {
+                el.classList.toggle('is-invalid', invalid);
+            }
+
+            function showAddItemModal() {
+                if (window.bootstrap && bootstrap.Modal) {
+                    bootstrap.Modal.getOrCreateInstance(modalEl).show();
+                    return;
+                }
+
+                if (window.jQuery && typeof window.jQuery.fn.modal === 'function') {
+                    window.jQuery(modalEl).modal('show');
+                }
+            }
+
+            function hideAddItemModal() {
+                if (window.bootstrap && bootstrap.Modal) {
+                    bootstrap.Modal.getOrCreateInstance(modalEl).hide();
+                    return;
+                }
+
+                if (window.jQuery && typeof window.jQuery.fn.modal === 'function') {
+                    window.jQuery(modalEl).modal('hide');
+                }
+            }
+
+            function validateModalInputs() {
+                const name = normalizeName(modalProductName.value);
+                const qty = Number(modalQuantity.value);
+
+                const invalidName = !name;
+                const invalidQty = !Number.isFinite(qty) || qty < 1;
+
+                setInvalid(modalProductName, invalidName);
+                setInvalid(modalQuantity, invalidQty);
+
+                return !(invalidName || invalidQty);
+            }
+
+            confirmAddItem.addEventListener('click', function () {
+                if (!validateModalInputs()) return;
+
+                const name = normalizeName(modalProductName.value);
+                const qty = Number(modalQuantity.value);
+
+                const existingIndex = findIndexByProductName(name);
+                if (existingIndex >= 0) {
+                    items[existingIndex].quantity += qty;
+                } else {
+                    items.push({ productName: name, quantity: qty });
+                }
+
+                render();
+
+                modalProductName.value = '';
+                modalQuantity.value = '';
+                setInvalid(modalProductName, false);
+                setInvalid(modalQuantity, false);
+
+                hideAddItemModal();
+            });
+
+            openAddItemModal?.addEventListener('click', function (e) {
+                e.preventDefault();
+                showAddItemModal();
+            });
+
+            modalEl.addEventListener('shown.bs.modal', function () {
+                modalProductName.focus();
+            });
+
+            modalEl.addEventListener('hidden.bs.modal', function () {
+                modalProductName.value = '';
+                modalQuantity.value = '';
+                setInvalid(modalProductName, false);
+                setInvalid(modalQuantity, false);
+            });
+
+            if (window.jQuery) {
+                window.jQuery(modalEl).on('shown.bs.modal', function () {
+                    modalProductName.focus();
+                });
+
+                window.jQuery(modalEl).on('hidden.bs.modal', function () {
+                    modalProductName.value = '';
+                    modalQuantity.value = '';
+                    setInvalid(modalProductName, false);
+                    setInvalid(modalQuantity, false);
+                });
+            }
+
+            lineItemsBody.addEventListener('click', function (e) {
+                const btn = e.target.closest('button[data-index]');
+                if (!btn) return;
+
+                const idx = Number(btn.getAttribute('data-index'));
+                if (!Number.isFinite(idx) || idx < 0 || idx >= items.length) return;
+
+                items.splice(idx, 1);
+                render();
+            });
+
+            render();
+        })();
+    </script>
+}
+
+

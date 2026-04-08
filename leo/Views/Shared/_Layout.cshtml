@@ -1,4 +1,11 @@
 ﻿@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var currentController = ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLowerInvariant();
+    var currentAction = ViewContext.RouteData.Values["Action"]?.ToString()?.ToLowerInvariant();
+    var pageCssPath = !string.IsNullOrWhiteSpace(currentController) && !string.IsNullOrWhiteSpace(currentAction)
+        ? $"~/css/pages/{currentController}-{currentAction}.css"
+        : null;
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,48 +35,23 @@
     <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
     <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="~/css/premium-theme.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/pages/layout-custom.css" asp-append-version="true" />
+    @if (!string.IsNullOrWhiteSpace(pageCssPath))
+    {
+        <link rel="stylesheet" href="@pageCssPath" asp-append-version="true" />
+    }
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 
 
 
-    <style>
-
-
-
-        /* Default Sidebar width */
-        .main-sidebar {
-        width: 260px;
-        transition: width 0.5s ease-in-out;
-        }
-
-        /* Collapsed Sidebar - pag-collapse ma-hide ang text ug gamay ra ang sidebar */
-        .main-sidebar.collapsed {
-        width: 30px;
-        }
-
-        /* I-hide ang text inig-collapse */
-        .main-sidebar.collapsed .nav-text {
-        display: none;
-        }
-
-        /* I-center ang icons inig-collapse */
-        .main-sidebar.collapsed .nav-icon {
-        text-align: center;
-        width: 100%;
-        }
-
-        /* Transition smooth sa width changes */
-        .main-sidebar.collapsed,
-        .main-sidebar {
-        transition: width 0.5s ease;
-        }
-
-    </style>
+    
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed app-premium">
     <div class="wrapper">
 
         <!-- Navbar -->
@@ -119,15 +101,6 @@
                             </li>
 
                             <li class="nav-item">
-                                <a asp-area="" asp-controller="Categories" asp-action="Index"
-                                   class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Categories" ? "active" : "")">
-                                    <!-- Updated icon for Category -->
-                                    <i class="nav-icon fas fa-tags"></i>
-                                    <p class="mb-0 ps-2">Category</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
                                 <a asp-area="" asp-controller="Inventory" asp-action="Index"
                                    class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Inventory" ? "active" : "")">
                                     <!-- Updated icon for Products -->
@@ -154,7 +127,7 @@
                                    class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Order" ? "active" : "")">
                                     <!-- Updated icon for Products -->
                                     <i class="nav-icon fas fa-shopping-cart"></i>
-                                    <p class="mb-0 ps-2">Sales Order</p>
+                                    <p class="mb-0 ps-2">POS Order</p>
                                 </a>
                             </li>
 
@@ -177,14 +150,6 @@
                                                 <!-- Updated icon for Person -->
                                                 <i class="nav-icon fas fa-truck"></i>
                                                 <span class="ms-2">Requested </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a asp-area="" asp-controller="SupplierProfiles" asp-action="Index"
-                                               class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "SupplierProfiles" ? "active" : "")">
-                                                <!-- Updated icon for Roles -->
-                                                <i class="nav-icon fas fa-user"></i>
-                                                <span class="ms-2">Supplier Profile</span>
                                             </a>
                                         </li>
                                         <li>
@@ -280,7 +245,7 @@
 
         <!-- Footer -->
         <footer class="main-footer">
-            <strong>Copyright &copy; 2024 <a href="#">LEOTECH</a>.</strong> All rights reserved.
+            <strong>Copyright &copy; 2026 <a href="#">LEOTECH</a>.</strong> All rights reserved.
         </footer>
     </div>
 
@@ -309,12 +274,17 @@
 
 
         $(function () {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-        
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            if ($.fn.DataTable && $('#example1').length) {
+                const table = $("#example1").DataTable({
+                    "responsive": true,
+                    "lengthChange": false,
+                    "autoWidth": false,
+                });
+
+                if (typeof table.buttons === 'function') {
+                    table.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                }
+            }
 
             // $('#example2').DataTable({
             //     "paging": true,
@@ -330,14 +300,18 @@
         // Select the sidebar element
         const sidebar = document.querySelector('.main-sidebar');
         const toggleButton = document.querySelector('.header_toggle');
-
-        // Add click event listener to toggle between collapsed and expanded states
-        toggleButton.addEventListener('click', function () {
-            sidebar.classList.toggle('collapsed');
-        });
+        if (sidebar && toggleButton) {
+            toggleButton.addEventListener('click', function () {
+                sidebar.classList.toggle('collapsed');
+            });
+        }
 
 
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+
+
+

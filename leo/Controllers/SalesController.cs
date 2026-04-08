@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -20,38 +20,42 @@ namespace SOI_LEOTECH.Controllers
 
         public IActionResult Index(DateTime? startDate, DateTime? endDate, string searchQuery)
         {
-            // Set default date range if none is provided (e.g., last month)
-            var startDateValue = startDate ?? DateTime.Now.AddMonths(-1);
-            var endDateValue = endDate ?? DateTime.Now;
+            var startDateValue = (startDate ?? DateTime.Today.AddMonths(-1)).Date;
+            var endDateValue = (endDate ?? DateTime.Today).Date.AddDays(1).AddTicks(-1);
 
-
-            var ordersQuery = _context.Order
-                .Include(o => o.Product) // Make sure to include Product data
-                .Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate);
+            var ordersQuery = _context.Order!
+                .AsNoTracking()
+                .Include(o => o.Product)
+                .Where(o => o.OrderDate >= startDateValue && o.OrderDate <= endDateValue);
 
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                ordersQuery = ordersQuery.Where(o => o.Product.ProductName.Contains(searchQuery)); // Assuming Product has a Name property
+                var trimmedSearch = searchQuery.Trim();
+                ordersQuery = ordersQuery.Where(o =>
+                    o.Product != null &&
+                    o.Product.ProductName.Contains(trimmedSearch));
             }
 
             var orders = ordersQuery.ToList();
 
             var dailySales = orders
-                .GroupBy(o => o.OrderDate.Date)
-                .Select(g => new DailySalesViewModel
+                .OrderByDescending(o => o.OrderDate)
+                .Select(o => new DailySalesViewModel
                 {
-                    OrderDate = g.Key,
-                    ProductName = g.First().Product.ProductName, // Assuming Product has a Name property
-                    UnitPrice = g.First().UnitPrice,
-                    Quantity = g.First().Quantity,
-                    Subtotal = g.Sum(o => o.UnitPrice * o.Quantity),
-                    TotalAmount = g.Sum(o => o.TotalAmount),
-                    PaymentMethod = g.First().PaymentStatus.ToString() // Adjust based on actual enum
+                    OrderDate = o.OrderDate,
+                    ProductName = o.Product?.ProductName ?? "Unknown Product",
+                    UnitPrice = o.UnitPrice,
+                    Quantity = o.Quantity,
+                    Subtotal = o.UnitPrice * o.Quantity,
+                    TotalAmount = o.TotalAmount,
+                    PaymentMethod = o.PaymentStatus.ToString()
                 })
                 .ToList();
 
             var monthlySales = orders
                 .GroupBy(o => new { o.OrderDate.Year, o.OrderDate.Month })
+                .OrderByDescending(g => g.Key.Year)
+                .ThenByDescending(g => g.Key.Month)
                 .Select(g => new MonthlySalesViewModel
                 {
                     Month = $"{g.Key.Year}-{g.Key.Month:D2}",
@@ -59,18 +63,56 @@ namespace SOI_LEOTECH.Controllers
                 })
                 .ToList();
 
+            // Calculate Top Products
+            var topProducts = orders
+                .GroupBy(o => o.Product?.ProductName ?? "Unknown Product")
+                .Select(g => new TopProductViewModel
+                {
+                    ProductName = g.Key,
+                    Quantity = g.Sum(o => o.Quantity),
+                    Revenue = g.Sum(o => o.TotalAmount)
+                })
+                .OrderByDescending(x => x.Revenue)
+                .Take(5)
+                .ToList();
+
+            // Calculate Sales Trends (Daily)
+            var salesTrends = orders
+                .GroupBy(o => o.OrderDate.Date)
+                .OrderBy(g => g.Key)
+                .Select(g => new SalesTrendViewModel
+                {
+                    DateLabel = g.Key.ToString("MMM dd"),
+                    Revenue = g.Sum(o => o.TotalAmount)
+                })
+                .ToList();
+
+            // Calculate Payment Method Distribution
+            var paymentMethods = orders
+                .GroupBy(o => o.PaymentStatus)
+                .Select(g => new PaymentMethodViewModel
+                {
+                    Method = g.Key.ToString(),
+                    Revenue = g.Sum(o => o.TotalAmount),
+                    Count = g.Count()
+                })
+                .ToList();
+
             var viewModel = new SalesIndexViewModel
             {
-                StartDate = startDate, // Use the nullable type directly
-                EndDate = endDate,     // Use the nullable type directly
+                StartDate = startDateValue,
+                EndDate = endDateValue.Date,
                 DailySales = dailySales,
                 MonthlySales = monthlySales,
-                SearchQuery = searchQuery,
-                TotalProfit = dailySales.Sum(ds => ds.TotalAmount) // Example calculation for TotalProfit
+                TopProducts = topProducts,
+                SalesTrends = salesTrends,
+                PaymentMethods = paymentMethods,
+                SearchQuery = searchQuery ?? string.Empty,
+                TotalProfit = dailySales.Sum(ds => ds.TotalAmount)
             };
-            // Pass the start and end date to the view for display purposes
+
             ViewBag.StartDate = startDateValue;
-            ViewBag.EndDate = endDateValue;
+            ViewBag.EndDate = endDateValue.Date;
             return View(viewModel);
         }
     }

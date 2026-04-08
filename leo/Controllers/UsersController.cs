@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,6 +25,7 @@ namespace leo.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
+            ViewData["RoleId"] = new SelectList(_context.Set<Role>(), "RoleId", "RoleName");
             var leoContext = _context.Users.Include(p => p.Roles);
             return View(await leoContext.ToListAsync());
         }
@@ -159,6 +160,22 @@ namespace leo.Controllers
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserDetails(int? id)
+        {
+            if (id == null) return BadRequest();
+            var user = await _context.Users.FindAsync(id);
+            if (user == null) return NotFound();
+            return Json(new {
+                userId = user.UserId,
+                firstName = user.FirstName,
+                lastName = user.LastName,
+                email = user.Email,
+                username = user.Username,
+                roleId = user.RoleId
+            });
         }
 
         private bool UsersExists(int id)

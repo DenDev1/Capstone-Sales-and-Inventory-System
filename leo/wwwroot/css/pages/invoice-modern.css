@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+:root {
+    --invoice-primary: #215B8B;
+    --invoice-secondary: #64748b;
+    --invoice-text: #1e293b;
+}
+
+body.invoice-rendering {
+    background: #f1f5f9;
+    font-family: 'Inter', sans-serif;
+    color: var(--invoice-text);
+    padding: 40px 0;
+}
+
+.modern-invoice {
+    max-width: 850px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Watermark */
+.modern-invoice::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: rgba(33, 91, 139, 0.03);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.invoice-header-modern {
+    padding: 60px 60px 40px;
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    z-index: 1;
+}
+
+.brand-section h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--invoice-primary);
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.invoice-label {
+    background: var(--invoice-primary);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.meta-section {
+    text-align: right;
+}
+
+.meta-section h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #f1f5f9;
+    margin: 0;
+    line-height: 1;
+}
+
+.invoice-body {
+    padding: 0 60px 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.bill-to {
+    margin-bottom: 40px;
+}
+
+.bill-to label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--invoice-secondary);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.bill-to .name {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.invoice-table-modern {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 30px 0;
+}
+
+.invoice-table-modern th {
+    text-align: left;
+    padding: 15px 0;
+    border-bottom: 2px solid #f1f5f9;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--invoice-secondary);
+    text-transform: uppercase;
+}
+
+.invoice-table-modern td {
+    padding: 20px 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.95rem;
+}
+
+.invoice-summary-modern {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+.summary-box {
+    width: 300px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+.summary-row.grand-total {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 10px;
+    border: 1px solid #e2e8f0;
+}
+
+.grand-total span:last-child {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--invoice-primary);
+}
+
+.invoice-footer-modern {
+    padding: 40px 60px;
+    background: #f8fafc;
+    border-top: 1px solid #f1f5f9;
+    font-size: 0.8rem;
+    color: var(--invoice-secondary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.no-print {
+    margin-top: 30px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    body.invoice-rendering { padding: 10px; }
+    .modern-invoice { border-radius: 12px; }
+    .invoice-header-modern { padding: 30px 20px; flex-direction: column; gap: 30px; }
+    .meta-section { text-align: left; }
+    .meta-section h2 { font-size: 2rem; }
+    .invoice-body { padding: 0 20px 30px; }
+    .invoice-table-modern th:nth-child(3), 
+    .invoice-table-modern td:nth-child(3) { display: none; } /* Hide unit price on very small mobile */
+    .invoice-footer-modern { padding: 30px 20px; flex-direction: column; gap: 20px; text-align: center; }
+    .invoice-footer-modern .text-end { text-align: center !important; }
+}
+
+@media print {
+    .no-print { display: none; }
+    body.invoice-rendering { padding: 0; background: #fff; }
+    .modern-invoice { box-shadow: none; border: none; width: 100%; border-radius: 0; }
+}

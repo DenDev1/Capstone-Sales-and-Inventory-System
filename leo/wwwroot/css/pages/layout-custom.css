@@ -1,0 +1,44 @@
+/* Default Sidebar width */
+        .main-sidebar {
+        width: 260px;
+        transition: width 0.5s ease-in-out;
+        }
+
+        /* Collapsed Sidebar - pag-collapse ma-hide ang text ug gamay ra ang sidebar */
+        .main-sidebar.collapsed {
+        width: 30px;
+        }
+
+        /* I-hide ang text inig-collapse */
+        .main-sidebar.collapsed .nav-text {
+        display: none;
+        }
+
+        /* I-center ang icons inig-collapse */
+        .main-sidebar.collapsed .nav-icon {
+        text-align: center;
+        width: 100%;
+        }
+
+        /* Transition smooth sa width changes */
+        .main-sidebar.collapsed,
+        .main-sidebar {
+        transition: width 0.3s ease;
+        }
+
+        @media (max-width: 991.98px) {
+            .main-sidebar {
+                width: 250px;
+                left: -250px;
+                position: fixed;
+            }
+            .sidebar-open .main-sidebar {
+                left: 0;
+            }
+            .main-sidebar.collapsed {
+                left: -250px;
+            }
+            .content-wrapper {
+                margin-left: 0 !important;
+            }
+        }

@@ -1,0 +1,130 @@
+:root {
+    --log-primary: #215B8B;
+    --log-success: #10b981;
+    --log-warning: #f59e0b;
+    --log-danger: #ef4444;
+    --log-info: #3b82f6;
+    --log-bg: #f8fafc;
+    --log-card: #ffffff;
+    --log-text: #1e293b;
+    --log-muted: #64748b;
+}
+
+.audit-container {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    font-family: 'Manrope', sans-serif;
+}
+
+.audit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.header-info h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--log-text);
+    margin: 0;
+}
+
+.header-info p {
+    color: var(--log-muted);
+    margin: 5px 0 0;
+}
+
+/* KPI Dash */
+.audit-kpi-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.kpi-stat-card {
+    background: var(--log-card);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 4px solid transparent;
+}
+
+.kpi-stat-card.total { border-color: var(--log-primary); }
+.kpi-stat-card.checkout { border-color: var(--log-info); }
+.kpi-stat-card.admin { border-color: var(--log-warning); }
+.kpi-stat-card.critical { border-color: var(--log-danger); }
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.total .stat-icon { background: rgba(33, 91, 139, 0.1); color: var(--log-primary); }
+.checkout .stat-icon { background: rgba(59, 130, 246, 0.1); color: var(--log-info); }
+.admin .stat-icon { background: rgba(245, 158, 11, 0.1); color: var(--log-warning); }
+.critical .stat-icon { background: rgba(239, 68, 68, 0.1); color: var(--log-danger); }
+
+.stat-content .label { font-size: 0.75rem; font-weight: 700; color: var(--log-muted); text-transform: uppercase; }
+.stat-content .value { font-size: 1.25rem; font-weight: 800; color: var(--log-text); }
+
+/* Table System */
+.audit-card {
+    background: var(--log-card);
+    border-radius: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.audit-table {
+    width: 100%;
+}
+
+.audit-table th {
+    background: #f8fafc;
+    padding: 15px 20px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--log-muted);
+    text-transform: uppercase;
+}
+
+.audit-table td {
+    padding: 18px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.9rem;
+    color: var(--log-text);
+}
+
+.email-cell { font-weight: 600; color: var(--log-muted); font-size: 0.85rem; }
+.role-badge { padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+.role-badge.admin { background: #fee2e2; color: #ef4444; }
+.role-badge.user { background: #dcfce7; color: #16a34a; }
+
+/* Action Badges */
+.action-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.action-pill.add { background: #ecfdf5; color: #10b981; }
+.action-pill.checkout { background: #eff6ff; color: #3b82f6; }
+.action-pill.modify { background: #fffbeb; color: #d97706; }
+.action-pill.delete { background: #fef2f2; color: #ef4444; }
+.action-pill.default { background: #f1f5f9; color: #64748b; }

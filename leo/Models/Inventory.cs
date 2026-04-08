@@ -10,18 +10,17 @@ namespace leo.Models
         public int ProductId { get; set; }
 
 
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "The product name can only contain letters.")]
-        public string ProductName { get; set; }
+        [Required(ErrorMessage = "Product name is required.")]
+        [RegularExpression(@"^[0-9A-Za-z\s\-.]+$", ErrorMessage = "The product name can only contain letters, numbers, spaces, hyphens, and periods.")]
+        public string ProductName { get; set; } = string.Empty;
 
+        [RegularExpression(@"^[0-9A-Za-z\-]+$", ErrorMessage = "Invalid barcode format.")]
+        public string Barcode { get; set; } = string.Empty;
+
+        public string Suppliers { get; set; } = string.Empty;
 
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
-
-        [ForeignKey("SupplierProfile")] // Ensure this is correct if using Data Annotations
-        public int ProfileId { get; set; }	
-
-        public  SupplierProfile? SupplierProfile { get; set; }
-
 
         public DateTime Date { get; set; }
         // UnitPrice should only be a valid decimal number
@@ -32,7 +31,11 @@ namespace leo.Models
         [Range(0, int.MaxValue, ErrorMessage = "Stock quantity must be a non-negative integer.")]
         public int StockQuantity { get; set; }
 
-        public string Description { get; set; }
+        [Required(ErrorMessage = "Description is required.")]
+        public string Description { get; set; } = string.Empty;
+
+        [StringLength(255, ErrorMessage = "Image path cannot exceed 255 characters.")]
+        public string ImagePath { get; set; } = string.Empty; // Path to uploaded product image (e.g., /uploads/products/123.jpg)
 
         public bool IsDeleted { get; set; } = false; // Flag for soft delete
 

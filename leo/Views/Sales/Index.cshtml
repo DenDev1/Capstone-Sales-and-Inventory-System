@@ -1,168 +1,257 @@
-﻿@model leo.ViewModels.SalesIndexViewModel
-
+@model leo.ViewModels.SalesIndexViewModel
 @using System.Globalization
 
-<!-- Custom CSS for Additional Styling -->
-<style>
-    body {
-        background-color: #f4f4f9;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+@{
+    var culture = new CultureInfo("en-PH");
+    var salesTrendLabels = System.Text.Json.JsonSerializer.Serialize(Model.SalesTrends.Select(x => x.DateLabel));
+    var salesTrendData = System.Text.Json.JsonSerializer.Serialize(Model.SalesTrends.Select(x => x.Revenue));
+    
+    var topProductLabels = System.Text.Json.JsonSerializer.Serialize(Model.TopProducts.Select(x => x.ProductName));
+    var topProductData = System.Text.Json.JsonSerializer.Serialize(Model.TopProducts.Select(x => x.Revenue));
 
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-        transition: background-color 0.3s, border-color 0.3s;
-    }
+    var paymentLabels = System.Text.Json.JsonSerializer.Serialize(Model.PaymentMethods.Select(x => x.Method));
+    var paymentData = System.Text.Json.JsonSerializer.Serialize(Model.PaymentMethods.Select(x => x.Revenue));
+}
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004085;
-        }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        border-color: #6c757d;
-        transition: background-color 0.3s, border-color 0.3s;
-    }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            border-color: #4e555b;
-        }
-
-    .table {
-        border-radius: 0.5rem;
-        overflow: hidden;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .table-striped tbody tr:nth-of-type(odd) {
-        background-color: #f9f9f9;
-    }
-
-    .table-hover tbody tr:hover {
-        background-color: #e9ecef;
-    }
-
-    .thead-dark th {
-        background-color: #343a40;
-        color: #fff;
-    }
-
-    .container {
-        margin-top: 50px;
-        margin-bottom: 30px;
-    }
-
-    h2 {
-        color: #343a40;
-        margin-bottom: 20px;
-    }
-
-    .form-control {
-        border-radius: 0.25rem;
-        border: 1px solid #ced4da;
-    }
-
-        .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-        }
-
-    label {
-        font-weight: bold;
-        color: #343a40;
-    }
-</style>
-
-@* <!-- Link to Sales Report -->
-<div class="container mb-4">
-    <div class="row">
-        <div class="col-md-6">
-            <a href="@Url.Action("Index", "SalesReport")" class="btn btn-primary btn-lg">View Sales Report</a>
+<div class="analytics-container">
+    <!-- Header & Filters -->
+    <div class="analytics-header">
+        <div class="header-title">
+            <h1><i class="fas fa-chart-line"></i> Sales Analytics</h1>
+            <p>Performance insights and financial summary</p>
         </div>
-    </div>
-</div>
- *@
-<!-- End Date Form -->
-<div class="container mb-4">
-    <div class="row">
-        <div class="col-md-6 offset-md-6">
-            @using (Html.BeginForm("Index", "Sales", FormMethod.Get))
+        <div class="header-filters">
+            @using (Html.BeginForm("Index", "Sales", FormMethod.Get, new { @class = "filter-form" }))
             {
-                <div class="row">
-                    <div class="col-md-4">
-                        <label for="StartDate">Start Date:</label>
-                        <input type="date" name="StartDate" id="StartDate" class="form-control" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+                <div class="filter-group">
+                    <div class="date-input">
+                        <label>Start Date</label>
+                        <input type="date" name="StartDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" class="form-control" />
                     </div>
-                    <div class="col-md-4">
-                        <label for="EndDate">End Date:</label>
-                        <input type="date" name="EndDate" id="EndDate" class="form-control" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
+                    <div class="date-input">
+                        <label>End Date</label>
+                        <input type="date" name="EndDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" class="form-control" />
                     </div>
-                    <div class="col-md-4 align-self-end">
-                        <button type="submit" class="btn btn-primary">Search</button>
+                    <div class="search-input">
+                        <label>Search Product</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-search"></i>
+                            <input type="text" name="searchQuery" value="@Model.SearchQuery" placeholder="Filter by item..." class="form-control" />
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-filter"></i> Apply</button>
+                        <a href="@Url.Action("Index", "Sales")" class="btn btn-light"><i class="fas fa-undo"></i></a>
                     </div>
                 </div>
             }
         </div>
     </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+        <div class="kpi-card revenue">
+            <div class="kpi-icon"><i class="fas fa-wallet"></i></div>
+            <div class="kpi-content">
+                <span class="kpi-label">Total Revenue</span>
+                <h3 class="kpi-value">@((Model.TotalProfit ?? 0).ToString("C", culture))</h3>
+            </div>
+            <div class="kpi-trend positive"><i class="fas fa-chart-line"></i> Summary View</div>
+        </div>
+        <div class="kpi-card orders">
+            <div class="kpi-icon"><i class="fas fa-shopping-bag"></i></div>
+            <div class="kpi-content">
+                <span class="kpi-label">Sales Count</span>
+                <h3 class="kpi-value">@Model.TotalTransactions</h3>
+            </div>
+            <div class="kpi-trend">Total Volume</div>
+        </div>
+        <div class="kpi-card aov">
+            <div class="kpi-icon"><i class="fas fa-tag"></i></div>
+            <div class="kpi-content">
+                <span class="kpi-label">Avg. Order Value</span>
+                <h3 class="kpi-value">@Model.AverageOrderValue.ToString("C", culture)</h3>
+            </div>
+            <div class="kpi-trend">Per Transaction</div>
+        </div>
+        <div class="kpi-card best-seller">
+            <div class="kpi-icon"><i class="fas fa-star"></i></div>
+            <div class="kpi-content">
+                <span class="kpi-label">Top Product</span>
+                <h3 class="kpi-value" style="font-size: 1.1rem;">@(Model.TopProducts.FirstOrDefault()?.ProductName ?? "N/A")</h3>
+            </div>
+            <div class="kpi-trend">Highest Revenue</div>
+        </div>
+    </div>
+
+    <!-- Visualization Grid -->
+    <div class="viz-grid">
+        <!-- Sales Trend Line Chart -->
+        <div class="viz-card trend">
+            <div class="card-header">
+                <h3><i class="fas fa-history"></i> Revenue Trend</h3>
+            </div>
+            <div class="chart-container">
+                <canvas id="salesTrendChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Top Products Bar Chart -->
+        <div class="viz-card products">
+            <div class="card-header">
+                <h3><i class="fas fa-trophy"></i> Top 5 Products</h3>
+            </div>
+            <div class="chart-container">
+                <canvas id="topProductsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Payment Method Doughnut Chart -->
+        <div class="viz-card payments">
+            <div class="card-header">
+                <h3><i class="fas fa-credit-card"></i> Payment Methods</h3>
+            </div>
+            <div class="chart-container">
+                <canvas id="paymentMethodChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Tables -->
+    <div class="data-grid">
+        <div class="table-card transactions">
+            <div class="card-header">
+                <h3><i class="fas fa-list-ul"></i> Recent Transactions</h3>
+            </div>
+            <div class="table-wrapper">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Product</th>
+                            <th>Qty</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.DailySales.Take(10))
+                        {
+                            <tr>
+                                <td>@item.OrderDate.ToString("hh:mm tt")</td>
+                                <td class="item-name">@item.ProductName</td>
+                                <td>@item.Quantity</td>
+                                <td class="price">@item.TotalAmount.ToString("C", culture)</td>
+                                <td>
+                                    <span class="status-badge @(item.PaymentMethod.ToLower().Contains("cash") ? "cash" : "online")">
+                                        @item.PaymentMethod
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="table-card monthly">
+            <div class="card-header">
+                <h3><i class="fas fa-calendar-alt"></i> Monthly Summary</h3>
+            </div>
+            <div class="table-wrapper">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Sales Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.MonthlySales)
+                        {
+                            <tr>
+                                <td>@item.Month</td>
+                                <td class="price font-weight-bold">@item.TotalSales.ToString("C", culture)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- Daily Sales Table -->
-<div class="container mb-4">
-    <h2>Daily Sales</h2>
-    <table class="table table-striped table-hover">
-        <thead class="thead-dark">
-            <tr>
-                <th>Date</th>
-                <th>Product</th>
-                <th>Unit Price</th>
-                <th>Quantity</th>
-                <th>Subtotal</th>
-                <th>Total Amount</th>
-                <th>Payment Method</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.DailySales)
-            {
-                <tr>
-                    <td>@item.OrderDate.ToString("d")</td>
-                    <td>@item.ProductName</td>
-                    <td>@item.UnitPrice.ToString("C", new CultureInfo("en-PH"))</td>
-                    <td>@item.Quantity</td>
-                    <td>@item.Subtotal.ToString("C", new CultureInfo("en-PH"))</td>
-                    <td>@item.TotalAmount.ToString("C", new CultureInfo("en-PH"))</td>
-                    <td>@item.PaymentMethod</td>
-                </tr>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Sales Trend Chart
+        new Chart(document.getElementById('salesTrendChart'), {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(salesTrendLabels),
+                datasets: [{
+                    label: 'Revenue',
+                    data: @Html.Raw(salesTrendData),
+                    borderColor: '#215B8B',
+                    backgroundColor: 'rgba(33, 91, 139, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#215B8B'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { borderDash: [5, 5] } },
+                    x: { grid: { display: false } }
+                }
             }
-        </tbody>
-    </table>
-</div>
+        });
 
-<!-- Monthly Sales Table -->
-<div class="container mb-4">
-    <h2>Monthly Sales</h2>
-    <table class="table table-striped table-hover">
-        <thead class="thead-dark">
-            <tr>
-                <th>Month</th>
-                <th>Total Sales</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.MonthlySales)
-            {
-                <tr>
-                    <td>@item.Month</td>
-                    <td>@item.TotalSales.ToString("C", new CultureInfo("en-PH"))</td>
-                </tr>
+        // Top Products Chart
+        new Chart(document.getElementById('topProductsChart'), {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(topProductLabels),
+                datasets: [{
+                    label: 'Revenue',
+                    data: @Html.Raw(topProductData),
+                    backgroundColor: [
+                        '#215B8B', '#1e40af', '#3b82f6', '#60a5fa', '#93c5fd'
+                    ],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } }
             }
-        </tbody>
-    </table>
-</div>
+        });
 
-<!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+        // Payment Method Chart
+        new Chart(document.getElementById('paymentMethodChart'), {
+            type: 'doughnut',
+            data: {
+                labels: @Html.Raw(paymentLabels),
+                datasets: [{
+                    data: @Html.Raw(paymentData),
+                    backgroundColor: ['#215B8B', '#3498db', '#f59e0b'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } }
+                },
+                cutout: '70%'
+            }
+        });
+    </script>
+}

@@ -1,143 +1,130 @@
-﻿@model leo.ViewModels.OrderDetailsViewModel
+@model leo.ViewModels.OrderDetailsViewModel
+@{
+    Layout = null;
+    var firstOrder = Model.Orders.FirstOrDefault();
+    var customerName = firstOrder?.CustomerName ?? "Walking Customer";
+    var referenceNo = firstOrder?.ReferenceNo?.Split('-').Last() ?? "INV-0000";
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Products Summary - LEOTECH</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .store-name {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .address {
-            margin-bottom: 5px;
-        }
-
-        .summary-title {
-            text-align: center;
-            margin: 20px 0;
-            font-size: 20px;
-        }
-
-        .generated-date {
-            text-align: right;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .grand-total {
-            text-align: right;
-            font-weight: bold;
-            font-size: 18px;
-            margin-top: 20px;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 12px;
-            color: #666;
-        }
-
-        .no-print {
-            margin-top: 20px;
-        }
-
-        @@media print {
-            .no-print {
-                display: none;
-            }
-        }
-    </style>
+    <title>Invoice @referenceNo - LEOTECH</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/pages/invoice-modern.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
-<body>
-    <div class="header">
-        <div class="store-name">LEOTECH COMPUTER STORE</div>
-        <div class="address">107 Lakandula St, Cebu City, 6000 Cebu</div>
-        <div class="contact">Contact No.: 0922-702-5592</div>
-    </div>
+<body class="invoice-rendering">
 
-    <hr>
+    <div class="modern-invoice">
+        <!-- Header Section -->
+        <div class="invoice-header-modern">
+            <div class="brand-section">
+                <h1>LEOTECH COMPUTER STORE</h1>
+                <p class="text-muted small mb-0">107 Lakandula St, Cebu City</p>
+                <p class="text-muted small">0922-702-5592 · leotech@store.com</p>
+                <div class="invoice-label">Official Invoice</div>
+            </div>
+            <div class="meta-section">
+                <h2>INVOICE</h2>
+                <div class="mt-3">
+                    <p class="mb-0 small fw-bold text-muted text-uppercase">Reference</p>
+                    <p class="fw-bold text-primary">#@referenceNo</p>
+                </div>
+                <div>
+                    <p class="mb-0 small fw-bold text-muted text-uppercase">Issue Date</p>
+                    <p class="fw-bold">@DateTime.Now.ToString("MMMM dd, yyyy")</p>
+                </div>
+            </div>
+        </div>
 
-    <div class="summary-title">All Products Summary</div>
+        <div class="invoice-body">
+            <!-- Customer Info -->
+            <div class="row mb-5">
+                <div class="col-6">
+                    <div class="bill-to">
+                        <label>Bill To</label>
+                        <div class="name">@customerName</div>
+                        <div class="small text-muted">Customer Account</div>
+                    </div>
+                </div>
+                <div class="col-6 text-end">
+                    <div class="bill-to">
+                        <label>Payment Method</label>
+                        <div class="fw-bold text-uppercase">@(firstOrder?.PaymentStatus.ToString() ?? "CASH")</div>
+                    </div>
+                </div>
+            </div>
 
-    <div class="generated-date">
-        <strong>Generated on:</strong> @DateTime.Now.ToString("MMMM dd yyyy hh:mm tt")
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Order ID</th>
-                <th>Date</th>
-                <th>Customer</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Total</th>
-                <th>Payment Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                int counter = 1;
-                foreach (var order in Model.Orders)
-                {
+            <!-- Items Table -->
+            <table class="invoice-table-modern">
+                <thead>
                     <tr>
-                        <td>@counter</td>
-                        <td>@order.OrderId</td>
-                        <td>@order.OrderDate.ToString("MM/dd/yyyy")</td>
-                        <td>@order.CustomerName</td>
-                        <td>@order.Product.ProductName</td>
-                        <td>@order.Quantity</td>
-                        <td>P@(order.UnitPrice.ToString("N2"))</td>
-                        <td>P@((order.Quantity * order.UnitPrice).ToString("N2"))</td>
-                        <td>@order.PaymentStatus</td>
+                        <th width="50%">Description</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-end">Unit Price</th>
+                        <th class="text-end">Total</th>
                     </tr>
-                    counter++;
-                }
-            }
-        </tbody>
-    </table>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.Orders)
+                    {
+                        <tr>
+                            <td>
+                                <div class="fw-bold text-dark">@order.Product?.ProductName</div>
+                                <div class="small text-muted">SKU: @(order.Barcode ?? "N/A")</div>
+                            </td>
+                            <td class="text-center fw-bold">@order.Quantity</td>
+                            <td class="text-end">₱@order.UnitPrice.ToString("N2")</td>
+                            <td class="text-end fw-bold">₱@((order.Quantity * order.UnitPrice).ToString("N2"))</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
 
-    <div class="grand-total">
-        <strong>Grand Total Amount:</strong> P@(Model.TotalAmount.ToString("N2"))
+            <!-- Summary -->
+            <div class="invoice-summary-modern">
+                <div class="summary-box">
+                    <div class="summary-row">
+                        <span class="text-muted fw-bold small text-uppercase">Subtotal</span>
+                        <span class="fw-bold">₱@Model.TotalAmount.ToString("N2")</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="text-muted fw-bold small text-uppercase">Tax (0%)</span>
+                        <span class="fw-bold">₱0.00</span>
+                    </div>
+                    <div class="summary-row grand-total">
+                        <span class="fw-800 text-uppercase" style="color: #64748b; font-size: 0.8rem;">Amount Due</span>
+                        <span class="fw-800">₱@Model.TotalAmount.ToString("N2")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="invoice-footer-modern">
+            <div>
+                <p class="mb-0 fw-bold">Thank you for your purchase!</p>
+                <p class="mb-0 small">Warranty valid for 7 days with original receipt.</p>
+            </div>
+            <div class="text-end">
+                <p class="mb-0 small fw-bold text-uppercase">Verified By</p>
+                <p class="mb-0 text-dark fw-bold">LEOTECH Management</p>
+            </div>
+        </div>
     </div>
 
-
+    <!-- Actions -->
     <div class="no-print">
-        <button onclick="window.print()" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Print Summary</button>
-        <a href="@Url.Action("Create")" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 4px; text-decoration: none; margin-left: 10px;">Back to Orders</a>
+        <button onclick="window.print()" class="btn btn-primary btn-lg rounded-pill px-5 me-3 shadow">
+            <i class="fas fa-print me-2"></i> Print Official Invoice
+        </button>
+        <a href="@Url.Action("Create")" class="btn btn-light btn-lg rounded-pill px-5 border">
+            <i class="fas fa-arrow-left me-2"></i> Return to POS
+        </a>
     </div>
+
 </body>
 </html>

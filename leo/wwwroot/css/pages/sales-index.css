@@ -1,0 +1,252 @@
+:root {
+    --ana-primary: #215B8B;
+    --ana-secondary: #3498db;
+    --ana-accent: #f59e0b;
+    --ana-bg: #f8fafc;
+    --ana-card: #ffffff;
+    --ana-text: #1e293b;
+    --ana-muted: #64748b;
+    --ana-radius: 16px;
+    --ana-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.analytics-container {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    background: var(--ana-bg);
+    font-family: 'Manrope', sans-serif;
+}
+
+/* Header & Filters */
+.analytics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.header-title h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--ana-text);
+    margin: 0;
+}
+
+.header-title p {
+    color: var(--ana-muted);
+    margin: 5px 0 0;
+}
+
+.filter-form {
+    background: var(--ana-card);
+    padding: 15px 25px;
+    border-radius: var(--ana-radius);
+    box-shadow: var(--ana-shadow);
+}
+
+.filter-group {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.filter-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--ana-muted);
+    margin-bottom: 5px;
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    padding: 8px 15px;
+    height: 42px;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ana-muted);
+}
+
+.input-with-icon .form-control {
+    padding-left: 35px;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* KPI Cards */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.kpi-card {
+    background: var(--ana-card);
+    padding: 20px;
+    border-radius: var(--ana-radius);
+    box-shadow: var(--ana-shadow);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    border-left: 5px solid var(--ana-primary);
+    transition: transform 0.2s;
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px);
+}
+
+.kpi-icon {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    font-size: 4rem;
+    opacity: 0.05;
+}
+
+.kpi-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ana-muted);
+}
+
+.kpi-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--ana-text);
+    margin: 5px 0;
+}
+
+.kpi-trend {
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.kpi-trend.positive { color: #10b981; }
+
+/* Visualization Grid */
+.viz-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 20px;
+}
+
+.viz-card {
+    background: var(--ana-card);
+    padding: 20px;
+    border-radius: var(--ana-radius);
+    box-shadow: var(--ana-shadow);
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--ana-text);
+}
+
+.chart-container {
+    flex: 1;
+    position: relative;
+    min-height: 0;
+}
+
+/* Data Tables */
+.data-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.table-card {
+    background: var(--ana-card);
+    padding: 20px;
+    border-radius: var(--ana-radius);
+    box-shadow: var(--ana-shadow);
+}
+
+.modern-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.modern-table th {
+    text-align: left;
+    padding: 12px 15px;
+    color: var(--ana-muted);
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.modern-table td {
+    padding: 15px;
+    font-size: 0.9rem;
+    color: var(--ana-text);
+    border-bottom: 1px solid #f8fafc;
+}
+
+.modern-table tr:last-child td {
+    border-bottom: none;
+}
+
+.item-name {
+    font-weight: 700;
+}
+
+.price {
+    font-weight: 800;
+    color: var(--ana-primary);
+}
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.status-badge.cash { background: #ecfdf5; color: #10b981; }
+.status-badge.online { background: #eff6ff; color: #3b82f6; }
+
+/* Responsive */
+@media (max-width: 1400px) {
+    .viz-grid { grid-template-columns: 1fr 1fr; }
+    .viz-card.trend { grid-column: span 2; }
+}
+
+@media (max-width: 992px) {
+    .viz-grid { grid-template-columns: 1fr; }
+    .viz-card.trend { grid-column: auto; }
+    .data-grid { grid-template-columns: 1fr; }
+    .analytics-header { flex-direction: column; align-items: flex-start; }
+}

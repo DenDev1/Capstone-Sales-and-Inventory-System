@@ -5,60 +5,7 @@
     Layout = "_Layout"; // Ensure this points to your main layout file
 
 }
-<style>
-    .select2-container .select2-selection--single {
-        height: 37px;
-        border-radius: 20px;
-    }
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 1050; /* Ensure it's above all other content */
-        visibility: hidden; /* Start hidden */
-        opacity: 0; /* Start invisible */
-        transition: visibility 0s, opacity 0.5s ease; /* Smooth transition */
-    }
 
-        .overlay.active {
-            visibility: visible; /* Show overlay */
-            opacity: 1; /* Make visible */
-        }
-
-    .spinner {
-        border: 5px solid rgba(255, 255, 255, 0.2);
-        border-top: 5px solid white; /* White top for contrast */
-        border-radius: 50%;
-        width: 50px; /* Size of the spinner */
-        height: 50px;
-        animation: spin 1s linear infinite; /* Spin animation */
-        margin-bottom: 20px; /* Space between spinner and text */
-    }
-
-    @@keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    .success-message {
-        color: white; /* Ensure text is white for visibility */
-        font-size: 1.25rem; /* Adjust font size as needed */
-        text-align: center;
-        margin-top: 10px; /* Space between spinner and text */
-    }
-</style>
 
 <div class="overlay" id="loadingOverlay">
     <div class="spinner"></div> <!-- Spinner for loading effect -->
@@ -69,7 +16,7 @@
 <div class="container bg-light p-5 shadow rounded">
 
 
-    <form asp-action="Create">
+    <form asp-action="Create" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
         <div class="row">
@@ -79,6 +26,14 @@
                     <input asp-for="ProductName" class="form-control rounded-pill" placeholder="Enter product name" />
 
                     <span asp-validation-for="ProductName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="form-group">
+                    <label asp-for="Barcode" class="control-label fw-bold">Barcode</label>
+                    <input asp-for="Barcode" class="form-control rounded-pill" placeholder="Enter barcode" />
+                    <span asp-validation-for="Barcode" class="text-danger"></span>
                 </div>
             </div>
 
@@ -94,16 +49,6 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6 mb-3">
-                <div class="form-group">
-                    <label asp-for="ProfileId"  class="control-label fw-bold">Suppliers</label>
-                    <select asp-for="ProfileId" id="ProfileId" class="form-control rounded-pill" asp-items="ViewBag.ProfileId">
-                        <option value="">Select a Suppliers</option> <!-- Placeholder option -->
-                    </select>
-                    <span asp-validation-for="ProfileId" class="text-danger"></span> <!-- Validation message -->
-                </div>
-            </div>
-
             <div class="col-md-6 mb-3">
                 <div class="form-group">
                     <label asp-for="Date" class="control-label fw-bold"></label>
@@ -135,6 +80,11 @@
             <label asp-for="Description" class="control-label fw-bold"></label>
             <textarea asp-for="Description" class="form-control rounded-pill" placeholder="Enter description"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="imageFile" class="control-label fw-bold">Upload Image</label>
+            <input type="file" id="imageFile" name="imageFile" class="form-control" accept="image/*" />
         </div>
 
         <!-- Hidden field for IsDeleted -->
@@ -196,3 +146,5 @@
 
 
 }
+
+

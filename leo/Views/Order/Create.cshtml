@@ -1,236 +1,161 @@
-﻿@model Order
-<style>
-    .select2-container .select2-selection--single {
-        height: 37px;
+@model Order
 
-        }
-        .overlay
+@{
+    var initialProductsJson = System.Text.Json.JsonSerializer.Serialize(ViewBag.PosProducts ?? new object[0]);
+    var initialProducts = ViewBag.PosProducts as System.Collections.IEnumerable;
+    var categories = ViewBag.Categories as List<Category> ?? new List<Category>();
+    var productIcons = new[] { "📦", "🏷️", "✨", "🔥", "💎", "🌟", "⚡", "🌈" };
+}
 
-    {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 1050; /* Ensure it's above all other content */
-        visibility: hidden; /* Start hidden */
-        opacity: 0; /* Start invisible */
-        transition: visibility 0s, opacity 0.5s ease; /* Smooth transition */
-    }
-
-    .overlay.active {
-        visibility: visible; /* Show overlay */
-        opacity: 1; /* Make visible */
-    }
-
-    .spinner {
-        border: 5px solid rgba(255, 255, 255, 0.2);
-        border-top: 5px solid white; /* White top for contrast */
-        border-radius: 50%;
-        width: 50px; /* Size of the spinner */
-        height: 50px;
-        animation: spin 1s linear infinite; /* Spin animation */
-        margin-bottom: 20px; /* Space between spinner and text */
-    }
-
-    @@keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    .success-message {
-        color: white; /* Ensure text is white for visibility */
-        font-size: 1.25rem; /* Adjust font size as needed */
-        text-align: center;
-        margin-top: 10px; /* Space between spinner and text */
-    }
-    
-</style>
-
-<div class="container">
-    <div class="overlay" id="loadingOverlay">
-        <div class="spinner"></div> <!-- Spinner for loading effect -->
-        <div class="success-message" id="successMessage"></div>
+<div class="pos-wrapper">
+    @Html.AntiForgeryToken()
+    <div class="pos-header">
+        <h1><i class="fas fa-cash-register"></i> LEOTECH POS System</h1>
+        <div class="header-info">
+            <span id="currentTime"><i class="far fa-clock"></i> Loading...</span>
+        </div>
     </div>
 
-    <form asp-action="Create" method="post">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label asp-for="ProductId" class="control-label">Select a product</label>
-                    <select asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId" id="ProductId">
-                        <option value="">-- Select Product --</option>
-                    </select>
-                    <span asp-validation-for="ProductId" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Quantity" class="control-label"></label>
-                    <input asp-for="Quantity" class="form-control" min="1" />
-                    <span asp-validation-for="Quantity" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="CustomerName" class="control-label"></label>
-                    <input asp-for="CustomerName" class="form-control" />
-                    <span asp-validation-for="CustomerName" class="text-danger"></span>
+    <div class="pos-main">
+        <div class="products-section">
+            <div class="products-header">
+                <h2><i class="fas fa-th-large"></i> Products</h2>
+                <div class="products-search-wrapper" style="flex: 1; max-width: 400px; position: relative;">
+                    <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+                    <input type="text" id="searchProducts" class="search-bar" placeholder="Search products or scan barcode..." style="padding-left: 45px;" />
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label asp-for="OrderDate" class="control-label"></label>
-                    <input asp-for="OrderDate" class="form-control" type="date" value="@DateTime.Now.ToString("MMMM dd yyyy hh:mm tt")" />
-                    <span asp-validation-for="OrderDate" class="text-danger"></span>
-                </div>
+            <!-- Categories Filter -->
+            <div class="categories-filter" style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; margin-bottom: 5px;">
+                <button class="btn-category active" onclick="filterByCategory('all')" data-category="all" 
+                    style="padding: 8px 20px; border-radius: 10px; border: 1px solid #e2e8f0; background: white; font-weight: 700; white-space: nowrap; cursor: pointer; transition: all 0.2s;">
+                    All Items
+                </button>
+                @foreach (var cat in categories)
+                {
+                    <button class="btn-category" onclick="filterByCategory('@cat.CategoryName')" data-category="@cat.CategoryName"
+                        style="padding: 8px 20px; border-radius: 10px; border: 1px solid #e2e8f0; background: white; font-weight: 700; white-space: nowrap; cursor: pointer; transition: all 0.2s;">
+                        @cat.CategoryName
+                    </button>
+                }
+            </div>
 
-                <div class="form-group">
-                    <label asp-for="PaymentStatus" class="control-label"></label>
-                    <select asp-for="PaymentStatus" class="form-control" asp-items="ViewBag.PaymentStatus">
-                        <option value="">-- Select Payment Status --</option>
-                    </select>
-                    <span asp-validation-for="PaymentStatus" class="text-danger"></span>
-                </div>
+            <div class="products-grid" id="productsGrid">
+                @{ var productIndex = 0; }
+                @if (initialProducts != null)
+                {
+                    foreach (var product in initialProducts)
+                    {
+                        var productType = product?.GetType();
+                        var productId = Convert.ToString(productType?.GetProperty("ProductId")?.GetValue(product));
+                        var productName = Convert.ToString(productType?.GetProperty("ProductName")?.GetValue(product)) ?? "Product";
+                        var unitPrice = Convert.ToDecimal(productType?.GetProperty("UnitPrice")?.GetValue(product) ?? 0m);
+                        var imagePath = Convert.ToString(productType?.GetProperty("ImagePath")?.GetValue(product));
+                        var categoryName = Convert.ToString(productType?.GetProperty("CategoryName")?.GetValue(product)) ?? "Uncategorized";
+                        var icon = productIcons[productIndex % productIcons.Length];
+                        productIndex++;
 
-                <div class="form-group">
-                    <label class="control-label">Total Amount</label>
-                    <input type="text" class="form-control" id="totalAmount" value="P0.00" readonly />
-                </div>
+                        <div class="product-card" 
+                             data-product-id="@productId" 
+                             data-product-name="@productName" 
+                             data-product-price="@unitPrice"
+                             data-category="@categoryName"
+                             onclick="addToCart('@productId', '@productName.Replace("'", "\\'")', @unitPrice.ToString(System.Globalization.CultureInfo.InvariantCulture))">
+                            <div class="product-icon">
+                                @if (!string.IsNullOrWhiteSpace(imagePath))
+                                {
+                                    <img src="@imagePath" alt="@productName" style="width:100%;height:100%;object-fit:cover;" />
+                                }
+                                else
+                                {
+                                    @icon
+                                }
+                            </div>
+                            <div class="product-name">@productName</div>
+                            <div class="product-price">₱@unitPrice.ToString("N2")</div>
+                            <div style="font-size: 0.7rem; color: #94a3b8; margin-top: -5px;">@categoryName</div>
+                        </div>
+                    }
+                }
             </div>
         </div>
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Add Order</button>
+        <div class="checkout-section">
+            <div class="checkout-header">
+                <i class="fas fa-shopping-basket"></i> Cart Summary
+            </div>
+
+            <div class="checkout-items" id="checkoutItems">
+                <div class="empty-cart">
+                    <i class="fas fa-shopping-cart fa-3x" style="opacity: 0.2; margin-bottom: 10px;"></i>
+                    <span>No items selected</span>
+                </div>
+            </div>
+
+            <div class="checkout-totals">
+                <div class="total-row">
+                    <span>Subtotal</span>
+                    <span>₱<span id="subtotal">0.00</span></span>
+                </div>
+                <div class="total-row final">
+                    <span>Total</span>
+                    <span class="final-total-value">₱<span id="total">0.00</span></span>
+                </div>
+            </div>
+
+            <div class="customer-info">
+                <div style="position: relative;">
+                    <i class="fas fa-user" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+                    <input type="text" id="customerName" placeholder="Customer Name" style="padding-left: 45px;" />
+                </div>
+            </div>
+
+            <div id="paymentFeedback" class="payment-feedback"></div>
+            <div id="paymentErrorDetails" class="payment-error-details"></div>
+
+            <div class="payment-method-group">
+                <label><i class="fas fa-credit-card"></i> Payment Method</label>
+                <div class="payment-options">
+                    <div class="payment-option">
+                        <input type="radio" id="paymentCash" name="paymentMethod" value="Cash" checked />
+                        <label for="paymentCash"><i class="fas fa-money-bill-wave"></i> Cash</label>
+                    </div>
+                    <div class="payment-option">
+                        <input type="radio" id="paymentOnline" name="paymentMethod" value="FullyPaid" />
+                        <label for="paymentOnline"><i class="fas fa-mobile-alt"></i> Online</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button type="button" id="printInvoiceBtn" class="btn-print" onclick="printInvoice()" hidden>
+                    <i class="fas fa-print"></i> Print Invoice
+                </button>
+                <div class="checkout-buttons">
+                    <button type="button" class="btn btn-cancel" onclick="clearCart()">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                    <button type="button" class="btn btn-hold" onclick="holdOrder()">
+                        <i class="fas fa-pause"></i> Hold
+                    </button>
+                    <button type="button" class="btn btn-checkout" onclick="completeCheckout()">
+                        Pay ₱<span id="btnTotal">0.00</span>
+                    </button>
+                </div>
+            </div>
         </div>
-    </form>
-
-    @if (ViewData["ErrorMessage"] != null)
-    {
-        <div class="alert alert-danger">
-            @ViewData["ErrorMessage"]
-        </div>
-    }
-
-    <hr />
-
-    <h3>Recent Orders</h3>
-    <div class="table-responsive">
-    
-     
-        <table class="table table-striped" id="ordersTable">
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Unit Price</th>
-                    <th>Total Amount</th>
-                    <th>Customer</th>
-                    <th>Date</th>
-                    <th>Payment Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- This will be populated dynamically via AJAX -->
-            </tbody>
-        </table>
-
-    </div>
-    <div class="d-inline-block">
-        <!-- Or remove this div if not needed -->
-        <a asp-action="PrintAllInvoices" class="btn btn-primary me-3">Print</a>
-
-        <form method="post" asp-action="ClearAll" class="d-inline">
-            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete all records?')">
-                Clear
-            </button>
-        </form>
     </div>
 </div>
 
 @section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- jQuery (required for Select2) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Select2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script>
-               $(document).ready(function () {
-            // Show loading overlay and success message
-            const successMessage = '@TempData["LoginSuccess"]'; // Get success message
-            $('#successMessage').text(successMessage); // Set the success message
-            $('#loadingOverlay').addClass('active'); // Show overlay
-
-            // Automatically close the loading overlay and redirect after a few seconds (e.g., 1 seconds)
-            setTimeout(function () {
-                $('#loadingOverlay').removeClass('active'); // Hide overlay
-
-            }, 1000); // 1000 milliseconds = 1seconds
-        });
-
-                $(document).ready(function () {
-            // Apply Select2 to the ProductId dropdown
-            $('#ProductId').select2({
-
-                // allowClear: true,  // Allow clearing the selection
-                width: '100%'  // Make the select box take up full width (optional)
-            });
-        });
-        $(document).ready(function() {
-            // Load orders when page loads
-            loadOrders();
-
-            // Calculate total amount when product or quantity changes
-            $('#ProductId, #Quantity').change(function() {
-                calculateTotal();
-            });
-
-            function calculateTotal() {
-                var productId = $('#ProductId').val();
-                var quantity = $('#Quantity').val();
-
-                if (productId && quantity > 0) {
-                    $.get('@Url.Action("GetProductPrice", "Order")', { id: productId }, function(data) {
-                        var total = data * quantity;
-                        $('#totalAmount').val('P' + total.toFixed(2));
-                    });
-                }
-            }
-
-            function loadOrders() {
-                $.get('@Url.Action("GetRecentOrders", "Order")', function(data) {
-                    var tableBody = $('#ordersTable tbody');
-                    tableBody.empty();
-
-                           // In your loadOrders() function, modify the row creation:
-        $.each(data, function(index, order) {
-            var row = $('<tr>');
-            row.append($('<td>').text(order.orderId));
-            row.append($('<td>').text(order.productName));
-            row.append($('<td>').text(order.quantity));
-            row.append($('<td>').text('P' + order.unitPrice.toFixed(2)));
-            row.append($('<td>').text('P' + order.totalAmount.toFixed(2)));
-            row.append($('<td>').text(order.customerName));
-            row.append($('<td>').text(new Date(order.orderDate).toLocaleDateString()));
-            row.append($('<td>').text(order.paymentStatus));
-
-
-            tableBody.append(row);
-        });
-                });
-            }
-        });
-         
+        window.orderCreateConfig = {
+            getProductsUrl: '@Url.Action("GetProducts", "Inventory")',
+            checkoutUrl: '@Url.Action("Checkout", "Order")',
+            createOrderUrl: '@Url.Action("Create", "Order")',
+            initialProducts: @Html.Raw(initialProductsJson)
+        };
     </script>
+    <script src="~/js/order-create.js" asp-append-version="true"></script>
 }

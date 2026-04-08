@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +10,7 @@ using leo.ViewModels;
 using leo.Services;
 using System.Net.Mail;
 using System.Net;
+using System.Collections.Generic;
 
 namespace leo.Controllers
 {
@@ -19,7 +20,9 @@ namespace leo.Controllers
 
         private readonly leoContext _context;
         private readonly AuditLogService _auditLogService;
-        private SupplierProfile supplierProfile;
+        private DbSet<Supplier> Suppliers => _context.Supplier!;
+        private DbSet<Inventory> InventoryItems => _context.Inventory!;
+        private DbSet<TransactionHistory> Transactions => _context.TransactionHistory!;
 
         public SuppliersController(leoContext context, AuditLogService auditLogService)
         {
@@ -31,7 +34,7 @@ namespace leo.Controllers
         public async Task<IActionResult> SendEmail(int supplierId)
         {
             // Find the supplier by ID
-            var supplier = await _context.Supplier.FindAsync(supplierId);
+            var supplier = await Suppliers.FindAsync(supplierId);
 
             if (supplier == null)
             {
@@ -52,6 +55,16 @@ namespace leo.Controllers
                 Credentials = new NetworkCredential("dendopulgo123@gmail.com", "didegpdzeqmvnztj"),
                 EnableSsl = true,
             };
+
+            var requestedItems = ParseProductsAndQuantitiesText(supplier.ProductsAndQuantities);
+            if (requestedItems.Count == 0)
+            {
+                requestedItems.Add((supplier.ProductsName, supplier.Quantity));
+            }
+
+            var itemsRowsHtml = string.Join("",
+                requestedItems.Select(i =>
+                    $"<tr><td>{WebUtility.HtmlEncode(i.ProductName)}</td><td>{i.Quantity}</td></tr>"));
             var mailMessage = new MailMessage
             {
                 From = new MailAddress("leotech@gmail.com"),
@@ -86,8 +99,17 @@ namespace leo.Controllers
               
                 
                     <tr>
-                        <th>Products and Quantity </th>
-                        <td>{supplier.ProductsAndQuantities ?? "Not Available"}</td>
+                        <th>Requested Items</th>
+                        <td>
+                            <table>
+                                <thead>
+                                    <tr><th>Product</th><th>Quantity</th></tr>
+                                </thead>
+                                <tbody>
+                                    {itemsRowsHtml}
+                                </tbody>
+                            </table>
+                        </td>
                     </tr>
    <tr>
                         <th>Description </th>
@@ -135,7 +157,7 @@ namespace leo.Controllers
                 };
 
                 // Add the transaction history to the database
-                _context.TransactionHistory.Add(transaction);
+                Transactions.Add(transaction);
                 await _context.SaveChangesAsync(); // Save the transaction record
 
                 // Set TempData for success message
@@ -156,7 +178,7 @@ namespace leo.Controllers
         public IActionResult UpdateStatusToInTransit(int supplierId, bool redirectToGmail = false)
         {
             // Find the supplier by ID
-            var supplier = _context.Supplier.Find(supplierId);
+            var supplier = Suppliers.Find(supplierId);
 
             if (supplier == null)
             {
@@ -176,7 +198,7 @@ namespace leo.Controllers
             };
 
             // Add the transaction history to the database
-            _context.TransactionHistory.Add(transaction);
+            Transactions.Add(transaction);
        
             // Update the supplier's status to 'In Transit'
             supplier.Status = "Notice";
@@ -203,7 +225,7 @@ namespace leo.Controllers
         public async Task<IActionResult> MarkAsDelivered(int supplierId)
         {
             // Find the supplier by ID
-            var supplier = await _context.Supplier.FindAsync(supplierId);
+            var supplier = await Suppliers.FindAsync(supplierId);
 
             if (supplier == null)
             {
@@ -227,7 +249,7 @@ namespace leo.Controllers
             };
 
             // Add the transaction history to the database
-            _context.TransactionHistory.Add(transaction);
+            Transactions.Add(transaction);
             await _context.SaveChangesAsync(); // Save the transaction record
 
             // Redirect back to the list or details page
@@ -237,7 +259,7 @@ namespace leo.Controllers
         // GET: Suppliers  
         public async Task<IActionResult> Index()
         {
-            var suppliers = await _context.Supplier.ToListAsync(); // Get suppliers from the database
+            var suppliers = await Suppliers.ToListAsync(); // Get suppliers from the database
 
             // Map to SupplierViewModel
             var supplierViewModels = suppliers.Select(s => new SupplierViewModel
@@ -249,6 +271,7 @@ namespace leo.Controllers
                 ProductsAndQuantities = s.ProductsAndQuantities ?? "No items", // Default value if NULL
                 Email = s.Email ,     // Fallback for null Email
                 Quantity = s.Quantity,
+                UnitPrice = s.UnitPrice,
                 Status = s.Status,  // Ensure Status is mapped here
                 //Balance = s.Balance,
 
@@ -259,25 +282,32 @@ namespace leo.Controllers
         public IActionResult Create(int? productId)
         {
             // If a product ID is provided, retrieve the product to pre-fill information (optional)
-            Inventory product = null;
+            Inventory? product = null;
             if (productId.HasValue)
             {
-                product = _context.Inventory.Find(productId);
+                product = InventoryItems.Find(productId);
                 if (product == null)
                 {
                     return NotFound();
                 }
             }
 
-            // Create and pass the SupplierViewModel to the view
-            var viewModel = new SupplierViewModel
+            // Create and pass the SupplierCreateViewModel to the view
+            var viewModel = new SupplierCreateViewModel
             {
-                SupplierName = product?.SupplierProfile.Supplier, // Default empty string to enter a new supplier name
-                ProductName = product?.ProductName, // Pre-fill product name if a product is found
-
-                Quantity = 0, // Default value
-                //Balance = 0.0M // Default value
+                SupplierName = string.Empty, // Enter a new supplier name
+                Email = string.Empty,
+                UnitPrice = 1m
             };
+
+            if (product != null)
+            {
+                viewModel.LineItems.Add(new SupplierLineItemViewModel
+                {
+                    ProductName = product.ProductName,
+                    Quantity = 1
+                });
+            }
 
             return View(viewModel);
         }
@@ -289,6 +319,8 @@ namespace leo.Controllers
             // Determine the transaction status based on the supplier's status
             switch (supplier.Status)
             {
+                case "Requested":
+                    return "Requested";
                 case "Pending":
                     return "Pending"; // If the supplier status is 'Pending'
                 case "Delivered":
@@ -304,31 +336,49 @@ namespace leo.Controllers
         // POST: Suppliers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(SupplierViewModel viewModel)
+        public async Task<IActionResult> Create(SupplierCreateViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            var isAjaxRequest = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            var normalizedItems = NormalizeLineItems(viewModel.LineItems);
+            if (normalizedItems.Count == 0)
             {
-                // Check for duplicate supplier name
-                if (await SupplierNameExists(viewModel.SupplierName))
+                if (isAjaxRequest)
                 {
-                    ModelState.AddModelError("SupplierName", "A supplier with this name already exists.");
-                    return View(viewModel);
+                    return BadRequest(new
+                    {
+                        success = false,
+                        message = "Please add at least one product and quantity."
+                    });
                 }
+
+                ModelState.AddModelError(nameof(viewModel.LineItems), "Please add at least one product and quantity.");
+                return View(viewModel);
+            }
+
+            viewModel.SupplierName = await ResolveSupplierNameForCreateAsync(viewModel.SupplierName);
+            viewModel.Email = NormalizeEmailOrDefault(viewModel.Email);
+            viewModel.UnitPrice = viewModel.UnitPrice > 0 ? viewModel.UnitPrice : 1m;
+
+            try
+            {
+                var productsAndQuantities = BuildProductsAndQuantitiesText(normalizedItems);
 
                 // Create a new Supplier entity
                 var supplier = new Supplier
                 {
                     SupplierName = viewModel.SupplierName,
-                    ProductsName = viewModel.ProductName,
-                    Quantity = viewModel.Quantity,
-                    ProductsAndQuantities = viewModel.ProductsAndQuantities, // This now correctly binds the Products and Quantities
-                    Description = viewModel.Description,
+                    ProductsName = normalizedItems[0].ProductName, // legacy single-item field
+                    Quantity = normalizedItems[0].Quantity, // legacy single-item field
+                    UnitPrice = viewModel.UnitPrice,
+                    Balance = viewModel.UnitPrice * normalizedItems.Sum(i => i.Quantity),
+                    ProductsAndQuantities = productsAndQuantities,
+                    Description = viewModel.Description ?? string.Empty,
                     Email = viewModel.Email, // Ensure email is not null
-                    Status = viewModel.Status
+                    Status = "Requested"
                 };
 
                 // Add the supplier to the context
-                _context.Supplier.Add(supplier);
+                Suppliers.Add(supplier);
                 await _context.SaveChangesAsync();
 
                 // Log the creation of a supplier
@@ -342,13 +392,13 @@ namespace leo.Controllers
                     ProductsAndQuantities = supplier.ProductsAndQuantities, // Bind the Products and Quantities to the transaction
                     ProductType = supplier.ProductsName,
                     TransactionDate = DateTime.Now,
-                    Quantity = supplier.Quantity, // This might need to be adjusted based on your logic
+                    Quantity = normalizedItems.Sum(i => i.Quantity),
                     Description = supplier.Description,
                     TransactionType = GetTransactionStatusFromSupplier(supplier) // Ensure this method handles nulls
                 };
 
                 // Add the transaction to the context
-                _context.TransactionHistory.Add(transaction);
+                Transactions.Add(transaction);
                 await _context.SaveChangesAsync(); // Save changes to persist the transaction
 
                 // Log the action of adding the supplier
@@ -357,11 +407,139 @@ namespace leo.Controllers
                 // Set TempData for login success
                 TempData["LoginSuccess"] = "Added successfully";
 
-                // Redirect to the TransactionIndex view in the TransactionHistories controller
-                return RedirectToAction("Create", "Suppliers");
+                if (isAjaxRequest)
+                {
+                    return Ok(new
+                    {
+                        success = true,
+                        message = "Supplier added successfully."
+                    });
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                if (isAjaxRequest)
+                {
+                    return BadRequest(new
+                    {
+                        success = false,
+                        message = ex.InnerException?.Message ?? ex.Message
+                    });
+                }
+
+                ModelState.AddModelError(string.Empty, "Unable to save supplier.");
+                return View(viewModel);
+            }
+        }
+
+        private async Task<string> ResolveSupplierNameForCreateAsync(string? supplierName)
+        {
+            var candidate = string.IsNullOrWhiteSpace(supplierName)
+                ? "Unknown Supplier"
+                : supplierName.Trim();
+
+            while (await SupplierNameExists(candidate))
+            {
+                candidate = $"{candidate} Copy";
             }
 
-            return View(viewModel);
+            return candidate;
+        }
+
+        private static string NormalizeEmailOrDefault(string? email)
+        {
+            var trimmed = (email ?? string.Empty).Trim();
+            if (!string.IsNullOrWhiteSpace(trimmed))
+            {
+                try
+                {
+                    _ = new MailAddress(trimmed);
+                    return trimmed;
+                }
+                catch
+                {
+                    // fallback below
+                }
+            }
+
+            return $"unknown.supplier.{DateTime.UtcNow:yyyyMMddHHmmssfff}@placeholder.local";
+        }
+
+        private static List<(string ProductName, int Quantity)> NormalizeLineItems(IEnumerable<SupplierLineItemViewModel> lineItems)
+        {
+            if (lineItems == null)
+            {
+                return new List<(string ProductName, int Quantity)>();
+            }
+
+            return lineItems
+                .Where(i => i != null)
+                .Select(i => (ProductName: (i.ProductName ?? string.Empty).Trim(), Quantity: i.Quantity))
+                .Where(i => !string.IsNullOrWhiteSpace(i.ProductName) && i.Quantity > 0)
+                .GroupBy(i => i.ProductName, StringComparer.OrdinalIgnoreCase)
+                .Select(g => (ProductName: g.First().ProductName, Quantity: g.Sum(x => x.Quantity)))
+                .OrderBy(i => i.ProductName, StringComparer.OrdinalIgnoreCase)
+                .ToList();
+        }
+
+        private static string BuildProductsAndQuantitiesText(IReadOnlyList<(string ProductName, int Quantity)> items)
+        {
+            if (items == null || items.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            return string.Join(Environment.NewLine, items.Select(i => $"{i.ProductName} | {i.Quantity}"));
+        }
+
+        private static List<(string ProductName, int Quantity)> ParseProductsAndQuantitiesText(string? text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return new List<(string ProductName, int Quantity)>();
+            }
+
+            var results = new List<(string ProductName, int Quantity)>();
+            var lines = text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var rawLine in lines)
+            {
+                var line = rawLine.Trim();
+                if (line.Length == 0)
+                {
+                    continue;
+                }
+
+                // Skip header-like lines
+                if (line.Contains("Product", StringComparison.OrdinalIgnoreCase) &&
+                    line.Contains("Quantity", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                var parts = line.Split('|');
+                if (parts.Length < 2)
+                {
+                    continue;
+                }
+
+                var productName = parts[0].Trim();
+                var qtyText = parts[1].Trim();
+                if (string.IsNullOrWhiteSpace(productName))
+                {
+                    continue;
+                }
+
+                if (!int.TryParse(qtyText, out var quantity) || quantity < 1)
+                {
+                    continue;
+                }
+
+                results.Add((productName, quantity));
+            }
+
+            return results;
         }
 
 
@@ -370,12 +548,12 @@ namespace leo.Controllers
         // GET: Suppliers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Supplier == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var supplier = await _context.Supplier.FindAsync(id);
+            var supplier = await Suppliers.FindAsync(id);
             if (supplier == null)
             {
                 return NotFound();
@@ -387,13 +565,81 @@ namespace leo.Controllers
                 SupplierId = supplier.SupplierId,
                 SupplierName = supplier.SupplierName,
                 Quantity = supplier.Quantity,
-               Email = supplier.Email,
-               Description = supplier.Description,
+                UnitPrice = supplier.UnitPrice,
+                Email = supplier.Email,
+                Description = supplier.Description,
                 ProductName = supplier.ProductsName,
+                ProductsAndQuantities = supplier.ProductsAndQuantities,
+                LineItems = ParseProductsAndQuantitiesText(supplier.ProductsAndQuantities)
+                    .Select(i => new SupplierLineItemViewModel
+                    {
+                        ProductName = i.ProductName,
+                        Quantity = i.Quantity
+                    })
+                    .ToList(),
                 Status = supplier.Status
             };
 
+            if (supplierViewModel.LineItems.Count == 0 &&
+                !string.IsNullOrWhiteSpace(supplier.ProductsName) &&
+                supplier.Quantity > 0)
+            {
+                supplierViewModel.LineItems.Add(new SupplierLineItemViewModel
+                {
+                    ProductName = supplier.ProductsName,
+                    Quantity = supplier.Quantity
+                });
+            }
+
             return View(supplierViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetEditData(int id)
+        {
+            var supplier = await Suppliers.FindAsync(id);
+            if (supplier == null)
+            {
+                return NotFound(new
+                {
+                    success = false,
+                    message = "Supplier not found."
+                });
+            }
+
+            var lineItems = ParseProductsAndQuantitiesText(supplier.ProductsAndQuantities)
+                .Select(i => new SupplierLineItemViewModel
+                {
+                    ProductName = i.ProductName,
+                    Quantity = i.Quantity
+                })
+                .ToList();
+
+            if (lineItems.Count == 0 &&
+                !string.IsNullOrWhiteSpace(supplier.ProductsName) &&
+                supplier.Quantity > 0)
+            {
+                lineItems.Add(new SupplierLineItemViewModel
+                {
+                    ProductName = supplier.ProductsName,
+                    Quantity = supplier.Quantity
+                });
+            }
+
+            return Ok(new
+            {
+                success = true,
+                data = new
+                {
+                    supplierId = supplier.SupplierId,
+                    supplierName = supplier.SupplierName,
+                    email = supplier.Email,
+                    description = supplier.Description,
+                    unitPrice = supplier.UnitPrice,
+                    status = supplier.Status,
+                    lineItems
+                }
+            });
         }
 
 
@@ -402,97 +648,156 @@ namespace leo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, SupplierViewModel supplierViewModel)
         {
+            var isAjaxRequest = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
             if (id != supplierViewModel.SupplierId)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var normalizedItems = NormalizeLineItems(supplierViewModel.LineItems);
+            if (normalizedItems.Count == 0 &&
+                !string.IsNullOrWhiteSpace(supplierViewModel.ProductName) &&
+                supplierViewModel.Quantity > 0)
             {
-                try
+                normalizedItems = NormalizeLineItems(new[]
                 {
-                    // Check for duplicate supplier name
-                    if (await SupplierNameExists(supplierViewModel.SupplierName, id))
+                    new SupplierLineItemViewModel
                     {
-                        ModelState.AddModelError("SupplierName", "A supplier with this name already exists.");
-                        return View(supplierViewModel);
+                        ProductName = supplierViewModel.ProductName,
+                        Quantity = supplierViewModel.Quantity
                     }
-
-                    // Find the existing supplier entity
-                    var supplier = await _context.Supplier.FindAsync(id);
-                    if (supplier == null)
-                    {
-                        return NotFound();
-                    }
-
-                    // Preserve the Requested status if it exists
-                    var existingSupplier = await _context.Supplier.AsNoTracking().FirstOrDefaultAsync(s => s.SupplierId == id);
-                    if (existingSupplier != null && existingSupplier.Status == "Requested")
-                    {
-                        supplierViewModel.Status = "Requested";
-                    }
-
-                    // Update the supplier details
-                    supplier.SupplierName = supplierViewModel.SupplierName;
-                    supplier.Quantity = supplierViewModel.Quantity;
-                    supplier.Email = supplierViewModel.Email;
-                    supplier.Description = supplierViewModel.Description;
-                    supplier.ProductsName = supplierViewModel.ProductName;
-                    supplier.Status = supplierViewModel.Status;
-
-                    // Update stock quantity for the associated product
-                    var product = await _context.Inventory.FindAsync(supplierViewModel.ProductId); // Assuming ProductId is in the ViewModel
-                    if (product != null)
-                    {
-                        product.StockQuantity += supplierViewModel.Quantity; // Add the updated quantity to stock
-                        _context.Update(product); // Update the product in the context
-                    }
-
-                    // Update the supplier in the database
-                    _context.Update(supplier);
-                    await _context.SaveChangesAsync(); // Save changes
-
-                    // Automatically add a transaction history record after update
-                    var transaction = new TransactionHistory
-                    {
-                        SupplierId = supplier.SupplierId, // Associate with the supplier being updated
-                        Date = DateTime.Now, // Current date
-                        ProductType = supplier.ProductsName,
-                        TransactionDate = DateTime.Now,
-                        Quantity = supplier.Quantity,
-                        Description = supplier.Description,
-                        // Set transaction type based on the supplier's status
-                        TransactionType = GetTransactionStatusFromSupplier(supplier) // Dynamically set transaction type
-                    };
-
-                    // Add the transaction to the context
-                    _context.TransactionHistory.Add(transaction);
-                    await _context.SaveChangesAsync(); // Save changes to persist the transaction
-
-                    // Log the supplier update action
-                    await _auditLogService.LogActionAsync("Updated", $"Supplier: {supplier.SupplierName}, Quantity: {supplier.Quantity}");
-
-                    // Set TempData for login success
-                    TempData["LoginSuccess"] = "Updated successfully";
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SupplierExists(supplierViewModel.SupplierId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-                // Redirect to the index page after successful edit
-                return RedirectToAction(nameof(Index));
+                });
             }
 
-            // Return the view with the ViewModel if validation fails
-            return View(supplierViewModel);
+            if (normalizedItems.Count == 0)
+            {
+                ModelState.AddModelError(nameof(supplierViewModel.LineItems), "Please add at least one product and quantity.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                if (isAjaxRequest)
+                {
+                    var errors = ModelState
+                        .Where(kvp => kvp.Value?.Errors.Count > 0)
+                        .ToDictionary(
+                            kvp => kvp.Key,
+                            kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray());
+
+                    return BadRequest(new
+                    {
+                        success = false,
+                        message = "Please fix the validation errors and try again.",
+                        errors
+                    });
+                }
+
+                return View(supplierViewModel);
+            }
+
+            try
+            {
+                // Check for duplicate supplier name
+                if (await SupplierNameExists(supplierViewModel.SupplierName, id))
+                {
+                    ModelState.AddModelError("SupplierName", "A supplier with this name already exists.");
+
+                    if (isAjaxRequest)
+                    {
+                        return BadRequest(new
+                        {
+                            success = false,
+                            message = "A supplier with this name already exists."
+                        });
+                    }
+
+                    return View(supplierViewModel);
+                }
+
+                // Find the existing supplier entity
+                var supplier = await Suppliers.FindAsync(id);
+                if (supplier == null)
+                {
+                    return NotFound();
+                }
+
+                // Preserve the Requested status if it exists
+                var existingSupplier = await Suppliers.AsNoTracking().FirstOrDefaultAsync(s => s.SupplierId == id);
+                if (existingSupplier != null && existingSupplier.Status == "Requested")
+                {
+                    supplierViewModel.Status = "Requested";
+                }
+
+                // Update the supplier details
+                supplier.SupplierName = supplierViewModel.SupplierName;
+                supplier.Quantity = normalizedItems[0].Quantity;
+                supplier.UnitPrice = supplierViewModel.UnitPrice;
+                supplier.Balance = supplierViewModel.UnitPrice * normalizedItems.Sum(i => i.Quantity);
+                supplier.Email = supplierViewModel.Email;
+                supplier.Description = supplierViewModel.Description;
+                supplier.ProductsName = normalizedItems[0].ProductName;
+                supplier.ProductsAndQuantities = BuildProductsAndQuantitiesText(normalizedItems);
+                supplier.Status = supplierViewModel.Status;
+
+                // Update stock quantity for the associated product
+                var product = await InventoryItems.FindAsync(supplierViewModel.ProductId); // Assuming ProductId is in the ViewModel
+                if (product != null)
+                {
+                    product.StockQuantity += supplierViewModel.Quantity; // Add the updated quantity to stock
+                    _context.Update(product); // Update the product in the context
+                }
+
+                // Update the supplier in the database
+                _context.Update(supplier);
+                await _context.SaveChangesAsync(); // Save changes
+
+                // Automatically add a transaction history record after update
+                var transaction = new TransactionHistory
+                {
+                    SupplierId = supplier.SupplierId, // Associate with the supplier being updated
+                    Date = DateTime.Now, // Current date
+                    ProductType = supplier.ProductsName,
+                    TransactionDate = DateTime.Now,
+                    Quantity = normalizedItems.Sum(i => i.Quantity),
+                    Description = supplier.Description,
+                    ProductsAndQuantities = supplier.ProductsAndQuantities,
+                    // Set transaction type based on the supplier's status
+                    TransactionType = GetTransactionStatusFromSupplier(supplier) // Dynamically set transaction type
+                };
+
+                // Add the transaction to the context
+                Transactions.Add(transaction);
+                await _context.SaveChangesAsync(); // Save changes to persist the transaction
+
+                // Log the supplier update action
+                await _auditLogService.LogActionAsync("Updated", $"Supplier: {supplier.SupplierName}, Quantity: {supplier.Quantity}");
+
+                // Set TempData for login success
+                TempData["LoginSuccess"] = "Updated successfully";
+
+                if (isAjaxRequest)
+                {
+                    return Ok(new
+                    {
+                        success = true,
+                        message = "Supplier updated successfully."
+                    });
+                }
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SupplierExists(supplierViewModel.SupplierId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            // Redirect to the index page after successful edit
+            return RedirectToAction(nameof(Index));
         }
 
 
@@ -500,13 +805,10 @@ namespace leo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            if (_context.Supplier == null)
-            {
-                return Problem("Entity set 'leoContext.Supplier' is null.");
-            }
+            
 
             // Find the supplier by id
-            var supplier = await _context.Supplier.FindAsync(id);
+            var supplier = await Suppliers.FindAsync(id);
 
             // If no supplier is found, return NotFound
             if (supplier == null)
@@ -515,16 +817,16 @@ namespace leo.Controllers
             }
 
             // Update the related TransactionHistory records to set SupplierId to NULL or a placeholder
-            var transactions = _context.TransactionHistory.Where(t => t.SupplierId == supplier.SupplierId).ToList();
+            var transactions = Transactions.Where(t => t.SupplierId == supplier.SupplierId).ToList();
             foreach (var transaction in transactions)
             {
                 transaction.SupplierId = null;  // Set SupplierId to null
             
-                _context.TransactionHistory.Update(transaction);  // Mark the updated transactions
+                Transactions.Update(transaction);  // Mark the updated transactions
             }
 
             // Remove the supplier permanently
-            _context.Supplier.Remove(supplier);
+            Suppliers.Remove(supplier);
 
             // Save changes to the database
             await _context.SaveChangesAsync();
@@ -543,57 +845,74 @@ namespace leo.Controllers
         // Check if a supplier with the same name already exists (with optional ID exclusion)
         private async Task<bool> SupplierNameExists(string supplierName, int? excludedSupplierId = null)
         {
-            return await _context.Supplier
+            return await Suppliers
                 .AnyAsync(s => s.SupplierName == supplierName && (excludedSupplierId == null || s.SupplierId != excludedSupplierId));
         }
         [HttpPost]
         public async Task<IActionResult> Approve(int id)
         {
             // Find the supplier by ID
-            var supplier = await _context.Supplier.FindAsync(id);
+            var supplier = await Suppliers.FindAsync(id);
             if (supplier == null)
             {
                 return NotFound();
             }
 
-            // Find the product associated with the supplier's product name
-            var product = await _context.Inventory.FirstOrDefaultAsync(p => p.ProductName == supplier.ProductsName);
-            if (product == null)
+            var requestedItems = ParseProductsAndQuantitiesText(supplier.ProductsAndQuantities);
+            if (requestedItems.Count == 0)
             {
-                return NotFound();
+                requestedItems.Add((supplier.ProductsName, supplier.Quantity));
             }
 
-            // Update product stock quantity with the supplier's quantity
-            product.StockQuantity += supplier.Quantity;
+            var missingProducts = new List<string>();
+            var totalAdded = 0;
 
-            // Reset supplier's quantity after approval (optional)
-            supplier.Quantity = 0;
+            foreach (var item in requestedItems)
+            {
+                var product = await InventoryItems.FirstOrDefaultAsync(p => p.ProductName == item.ProductName);
+                if (product == null)
+                {
+                    missingProducts.Add(item.ProductName);
+                    continue;
+                }
+
+                product.StockQuantity += item.Quantity;
+                totalAdded += item.Quantity;
+            }
+
+            if (missingProducts.Count > 0)
+            {
+                TempData["ErrorMessage"] = $"Cannot approve. Missing inventory products: {string.Join(", ", missingProducts)}";
+                return RedirectToAction(nameof(Index));
+            }
 
             // Create a new transaction history entry
             var transaction = new TransactionHistory
             {
                 SupplierId = supplier.SupplierId,
                 Date = DateTime.Now,
-                Amount = product.StockQuantity, // Log the updated stock quantity or any other relevant amount
-                ProductType = product.ProductName,
+                Amount = totalAdded,
+                ProductType = requestedItems.Count == 1 ? requestedItems[0].ProductName : "Multiple",
                 TransactionDate = DateTime.Now,
-                TransactionType = "Approved" // Set the type of transaction as "Approved"
+                TransactionType = "Approved",
+                Quantity = totalAdded,
+                ProductsAndQuantities = supplier.ProductsAndQuantities
             };
 
             // Add the transaction history entry to the context
-            _context.TransactionHistory.Add(transaction);
+            Transactions.Add(transaction);
 
             // Delete the supplier from the context
-            _context.Supplier.Remove(supplier);
+            Suppliers.Remove(supplier);
 
             // Save changes to both the product, transaction history, and supplier
             await _context.SaveChangesAsync();
 
             // Log the approval action
-            await _auditLogService.LogActionAsync("Approved Supplier", $"{supplier.SupplierName} Product: '{product.ProductName}'");
+            await _auditLogService.LogActionAsync("Approved Supplier", $"{supplier.SupplierName} Items: {transaction.ProductType}");
 
             // Provide user feedback with TempData
-            TempData["LoginSuccess"] = $"Approved supplier {supplier.SupplierName} Product: {product.ProductName}";
+            TempData["LoginSuccess"] = $"Approved supplier {supplier.SupplierName} (+{totalAdded} stocks)";
 
             // Redirect to the index page
             return RedirectToAction(nameof(Index));
@@ -601,7 +920,7 @@ namespace leo.Controllers
 
         private bool SupplierExists(int id)
         {
-            return _context.Supplier?.Any(e => e.SupplierId == id) ?? false;
+            return Suppliers?.Any(e => e.SupplierId == id) ?? false;
         }
 
 
@@ -609,3 +928,4 @@ namespace leo.Controllers
 
     }
 }
+

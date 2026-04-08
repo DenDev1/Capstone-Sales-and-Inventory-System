@@ -8,20 +8,25 @@ namespace leo.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // Drop the index associated with the ProductsProductId column
-            migrationBuilder.DropIndex(
-                name: "IX_Supplier_ProductsProductId", // Replace with your actual index name if different
-                table: "Supplier");
+            migrationBuilder.Sql(@"
+IF OBJECT_ID(N'dbo.Supplier','U') IS NOT NULL
+BEGIN
+    IF EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_Supplier_ProductsProductId' AND object_id = OBJECT_ID(N'dbo.Supplier'))
+    BEGIN
+        DROP INDEX [IX_Supplier_ProductsProductId] ON [Supplier];
+    END
 
-            // Drop the Products column
-            migrationBuilder.DropColumn(
-                name: "Products",
-                table: "Supplier");
+    IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID(N'dbo.Supplier') AND name = 'ProductsProductId')
+    BEGIN
+        ALTER TABLE [Supplier] DROP COLUMN [ProductsProductId];
+    END
 
-            // Drop the ProductsProductId column
-            migrationBuilder.DropColumn(
-                name: "ProductsProductId",
-                table: "Supplier");
+    IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID(N'dbo.Supplier') AND name = 'Products')
+    BEGIN
+        ALTER TABLE [Supplier] DROP COLUMN [Products];
+    END
+END
+");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
