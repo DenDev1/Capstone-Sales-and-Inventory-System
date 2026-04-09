@@ -1,13 +1,7 @@
 $(document).ready(function () {
-    // Show loading overlay and success message if exists
-    const successMessage = $('#successMessageData').data('value');
-    if (successMessage) {
-        $('#successMessage').text(successMessage);
-        $('#loadingOverlay').addClass('active');
-        setTimeout(function () {
-            $('#loadingOverlay').removeClass('active');
-        }, 1000);
-    }
+    // Legacy support for TempData handled by Layout now
+    // But we keep this for AJAX specific needs if any
+
 
     // Initialize DataTable
     $('#supplierTable').DataTable({
@@ -97,8 +91,13 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             headers: { 'X-Requested-With': 'XMLHttpRequest' },
-            success: function() { location.reload(); },
-            error: function(xhr) { alert(xhr.responseJSON?.message || "Error saving"); }
+            success: function() { 
+                LeotechToast.show("Delivery request submitted successfully!", "success");
+                setTimeout(() => location.reload(), 1500);
+            },
+            error: function(xhr) { 
+                LeotechToast.show(xhr.responseJSON?.message || "Error saving request", "error");
+            }
         });
     });
 })();
@@ -189,7 +188,13 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             headers: { 'X-Requested-With': 'XMLHttpRequest' },
-            success: function() { location.reload(); }
+            success: function() { 
+                LeotechToast.show("Request details updated successfully!", "success");
+                setTimeout(() => location.reload(), 1500); 
+            },
+            error: function(xhr) {
+                LeotechToast.show(xhr.responseJSON?.message || "Error updating request", "error");
+            }
         });
     });
 })();

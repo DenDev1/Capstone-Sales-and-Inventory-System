@@ -20,13 +20,20 @@ namespace SOI_LEOTECH.Controllers
 
         public IActionResult Index(DateTime? startDate, DateTime? endDate, string searchQuery)
         {
-            var startDateValue = (startDate ?? DateTime.Today.AddMonths(-1)).Date;
-            var endDateValue = (endDate ?? DateTime.Today).Date.AddDays(1).AddTicks(-1);
-
             var ordersQuery = _context.Order!
                 .AsNoTracking()
                 .Include(o => o.Product)
-                .Where(o => o.OrderDate >= startDateValue && o.OrderDate <= endDateValue);
+                .AsQueryable();
+
+            if (startDate.HasValue)
+            {
+                ordersQuery = ordersQuery.Where(o => o.OrderDate >= startDate.Value.Date);
+            }
+
+            if (endDate.HasValue)
+            {
+                ordersQuery = ordersQuery.Where(o => o.OrderDate <= endDate.Value.Date.AddDays(1).AddTicks(-1));
+            }
 
             if (!string.IsNullOrEmpty(searchQuery))
             {
@@ -100,8 +107,8 @@ namespace SOI_LEOTECH.Controllers
 
             var viewModel = new SalesIndexViewModel
             {
-                StartDate = startDateValue,
-                EndDate = endDateValue.Date,
+                StartDate = startDate, // Show as empty in UI if not provided
+                EndDate = endDate,     // Show as empty in UI if not provided
                 DailySales = dailySales,
                 MonthlySales = monthlySales,
                 TopProducts = topProducts,
@@ -111,8 +118,8 @@ namespace SOI_LEOTECH.Controllers
                 TotalProfit = dailySales.Sum(ds => ds.TotalAmount)
             };
 
-            ViewBag.StartDate = startDateValue;
-            ViewBag.EndDate = endDateValue.Date;
+            ViewBag.StartDate = startDate;
+            ViewBag.EndDate = endDate;
             return View(viewModel);
         }
     }

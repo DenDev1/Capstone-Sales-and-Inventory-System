@@ -88,7 +88,7 @@
                 <h5 class="modal-title">Add New Staff</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form asp-action="Create" method="post">
+            <form id="createUserForm" asp-action="Create" method="post">
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-6">
@@ -136,7 +136,7 @@
                 <h5 class="modal-title">Update Staff Member</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form asp-action="Edit" method="post">
+            <form id="editUserForm" asp-action="Edit" method="post">
                 <input type="hidden" id="editUserId" name="UserId" />
                 <div class="modal-body">
                     <div id="editLoading" class="text-center py-4 d-none">
@@ -247,6 +247,57 @@
                 });
             });
 
+            // AJAX for Submit Create
+            $('#createUserForm').on('submit', function(e) {
+                e.preventDefault();
+                const form = $(this);
+                
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'POST',
+                    data: form.serialize(),
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#createUserModal').modal('hide');
+                            LeotechToast.show(response.message, 'success');
+                            setTimeout(() => location.reload(), 1500);
+                        } else {
+                            LeotechToast.show(response.message, 'error');
+                        }
+                    },
+                    error: function() {
+                        LeotechToast.show('An error occurred while creating staff.', 'error');
+                    }
+                });
+            });
+
+            // AJAX for Submit Edit
+            $('#editUserForm').on('submit', function(e) {
+                e.preventDefault();
+                const form = $(this);
+                const id = $('#editUserId').val();
+                
+                $.ajax({
+                    url: `${form.attr('action')}/${id}`,
+                    type: 'POST',
+                    data: form.serialize(),
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#editUserModal').modal('hide');
+                            LeotechToast.show(response.message, 'success');
+                            setTimeout(() => location.reload(), 1500);
+                        } else {
+                            LeotechToast.show(response.message, 'error');
+                        }
+                    },
+                    error: function() {
+                        LeotechToast.show('An error occurred while updating staff.', 'error');
+                    }
+                });
+            });
+
             // Delete Modal
             $('.delete-user-btn').on('click', function() {
                 const userId = $(this).data('id');
@@ -254,6 +305,10 @@
                 $('#deleteUserName').text(`Are you sure you want to remove ${userName}?`);
                 $('#deleteForm').attr('action', `/Users/Delete/${userId}`);
                 $('#deleteUserModal').modal('show');
+            });
+
+            $('#deleteForm').on('submit', function() {
+                LeotechToast.show('Removing staff member...', 'info');
             });
         });
     </script>

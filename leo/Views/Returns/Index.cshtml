@@ -14,16 +14,16 @@
         <div class="header-actions">
             @if (User.IsInRole("Staff"))
             {
-                <a asp-action="Create" class="btn btn-primary rounded-pill px-4 shadow-sm">
+                <button type="button" class="btn btn-primary rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#createReturnModal">
                     <i class="fas fa-plus-circle me-1"></i> New Return Request
-                </a>
+                </button>
             }
         </div>
     </div>
 
     <div class="ret-card">
         <div class="table-responsive">
-            <table id="example1" class="table table-hover mb-0 ret-table">
+            <table id="returnsTable" class="table table-hover mb-0 ret-table">
                 <thead>
                     <tr>
                         <th class="ps-4">Product Info</th>
@@ -103,10 +103,76 @@
     </div>
 </div>
 
+<!-- Create Return Modal -->
+<div class="modal fade" id="createReturnModal" tabindex="-1" aria-labelledby="createReturnModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+            <div class="modal-header border-0 pb-0 pt-4 px-4">
+                <h5 class="modal-title fw-800" id="createReturnModalLabel" style="color: #1e293b;">
+                    <i class="fas fa-plus-circle text-primary me-2"></i> New Return Request
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form asp-action="Create" method="post" id="createReturnForm">
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-bold small text-muted">Product</label>
+                                <select name="ProductId" id="ModalProductId" class="form-select select2-modal" required>
+                                    <option value="">Select a Product</option>
+                                    @foreach (var item in (SelectList)ViewBag.ProductId)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-bold small text-muted">Quantity Returned</label>
+                                <input name="QuantityReturned" type="number" class="form-control rounded-pill" placeholder="Enter quantity" required min="1" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-bold small text-muted">Customer Name</label>
+                                <input name="CustomerName" type="text" class="form-control rounded-pill" placeholder="Enter name" required />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-bold small text-muted">Status</label>
+                                <select name="Status" class="form-select rounded-pill">
+                                    <option value="UnderWarranty">Under Warranty</option>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <option value="Approved">Approved</option>
+                                        <option value="Rejected">Rejected</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-bold small text-muted">Order Date</label>
+                                <input name="OrderDate" type="date" class="form-control rounded-pill" required />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-bold small text-muted">Reason</label>
+                                <textarea name="Reason" class="form-control" style="border-radius: 12px; height: 100px;" placeholder="Reason for return..." required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0 pt-0 pb-4 px-4">
+                <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" form="createReturnForm" class="btn btn-primary rounded-pill px-5 shadow-sm">Save Request</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
         $(document).ready(function () {
-            $('#example1').DataTable({
+            $('#returnsTable').DataTable({
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
@@ -122,6 +188,23 @@
                 'width': '250px',
                 'background': '#f8fafc'
             });
+
+            // Handle Select2 inside Modal
+            $('#createReturnModal').on('shown.bs.modal', function () {
+                $('.select2-modal').select2({
+                    dropdownParent: $('#createReturnModal'),
+                    width: '100%'
+                });
+            });
+
+            // Immediate feedback when clicking Save
+            $('#createReturnForm').on('submit', function() {
+                if (window.LeotechToast) {
+                    LeotechToast.show('Processing return request...', 'info');
+                }
+            });
+
+            // Show toast on return success if needed (Layout handles it via TempData)
         });
     </script>
 }

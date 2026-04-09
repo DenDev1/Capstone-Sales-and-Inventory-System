@@ -153,7 +153,8 @@
                     price: parseFloat(product.UnitPrice || product.unitPrice || product.price || 0),
                     stockQuantity: parseInt(product.StockQuantity || product.stockQuantity || 0, 10),
                     imagePath: String(product.ImagePath || product.imagePath || ''),
-                    barcode: String(product.Barcode || product.barcode || '')
+                    barcode: String(product.Barcode || product.barcode || ''),
+                    description: String(product.Description || product.description || 'No description available.')
                 };
             })
             .filter(function (product) {
@@ -210,6 +211,18 @@
             price.className = 'product-price';
             price.textContent = formatCurrency(product.price);
 
+            const infoBtn = document.createElement('div');
+            infoBtn.className = 'info-btn';
+            infoBtn.innerHTML = '<i class="fas fa-info"></i>';
+            infoBtn.title = 'View Details';
+            infoBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (window.showDescription) {
+                    window.showDescription(product.name, product.description);
+                }
+            });
+
+            card.appendChild(infoBtn);
             card.appendChild(icon);
             card.appendChild(name);
             card.appendChild(price);
@@ -571,13 +584,11 @@
     }
 
     function showFeedback(message, type) {
-        const feedback = document.getElementById('paymentFeedback');
-        if (!feedback) {
-            return;
+        if (window.LeotechToast) {
+            window.LeotechToast.show(message, type);
+        } else {
+            console.log("Toast System Missing: ", message);
         }
-
-        feedback.className = 'payment-feedback ' + (type === 'error' ? 'is-error' : 'is-success');
-        feedback.textContent = message;
     }
 
     function clearFeedback() {

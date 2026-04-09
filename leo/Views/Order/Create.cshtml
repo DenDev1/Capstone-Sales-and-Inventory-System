@@ -62,6 +62,16 @@
                              data-product-price="@unitPrice"
                              data-category="@categoryName"
                              onclick="addToCart('@productId', '@productName.Replace("'", "\\'")', @unitPrice.ToString(System.Globalization.CultureInfo.InvariantCulture))">
+                            
+                            @{
+                                var description = Convert.ToString(productType?.GetProperty("Description")?.GetValue(product)) ?? "No description available.";
+                                var escapedDesc = description.Replace("'", "\\'").Replace("\r\n", " ").Replace("\n", " ");
+                            }
+                            
+                            <div class="info-btn" title="View Details" onclick="event.stopPropagation(); showDescription('@productName.Replace("'", "\\'")', '@escapedDesc')">
+                                <i class="fas fa-info"></i>
+                            </div>
+
                             <div class="product-icon">
                                 @if (!string.IsNullOrWhiteSpace(imagePath))
                                 {
@@ -149,6 +159,7 @@
 </div>
 
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         window.orderCreateConfig = {
             getProductsUrl: '@Url.Action("GetProducts", "Inventory")',
@@ -156,6 +167,26 @@
             createOrderUrl: '@Url.Action("Create", "Order")',
             initialProducts: @Html.Raw(initialProductsJson)
         };
+
+        function showDescription(name, desc) {
+            Swal.fire({
+                title: `<span style="color: #215B8B; font-weight: 800;">${name}</span>`,
+                html: `<div style="text-align: left; font-family: 'Manrope', sans-serif; color: #4b5563; line-height: 1.6;">${desc}</div>`,
+                icon: 'info',
+                confirmButtonText: 'Got it!',
+                confirmButtonColor: '#215B8B',
+                customClass: {
+                    popup: 'premium-swal-popup',
+                    title: 'premium-swal-title'
+                },
+                showClass: {
+                    popup: 'animate__animated animate__fadeInUp animate__faster'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutDown animate__faster'
+                }
+            });
+        }
     </script>
     <script src="~/js/order-create.js" asp-append-version="true"></script>
 }

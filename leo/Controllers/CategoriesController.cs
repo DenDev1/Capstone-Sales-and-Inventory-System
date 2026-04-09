@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +24,16 @@ namespace leo.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return _context.Category != null ?
-                   View(await _context.Category.ToListAsync()) :
-                   Problem("Entity set 'leoContext.Category' is null.");
+            if (_context.Category == null)
+            {
+                return Problem("Entity set 'leoContext.Category' is null.");
+            }
+
+            var categories = await _context.Category
+                .AsNoTracking()
+                .ToListAsync();
+
+            return View(categories);
         }
 
         // GET: Categories/Details/5

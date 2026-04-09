@@ -1,4 +1,4 @@
-﻿
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +40,7 @@ namespace leo.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> LoginAsync([Bind("Username, Password")] Users user)
+        public async Task<IActionResult> LoginAsync([Bind("Username, Password")] Users user, bool rememberMe)
         {
             if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
             {
@@ -83,14 +83,18 @@ namespace leo.Controllers
             AuthenticationProperties properties = new AuthenticationProperties()
             {
                 AllowRefresh = true,
-                IsPersistent = false
+                IsPersistent = rememberMe,
+                ExpiresUtc = rememberMe ? DateTimeOffset.UtcNow.AddDays(30) : DateTimeOffset.UtcNow.AddMinutes(60)
             };
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity), properties);
 
-            //TempData["SuccessMessage"] = "Login successfully!";
+            // Set Session data
             HttpContext.Session.SetString("FullName", loginUser.FullName);
+            HttpContext.Session.SetString("Username", loginUser.Username);
+            HttpContext.Session.SetString("Role", userRole);
+            HttpContext.Session.SetInt32("UserId", loginUser.UserId);
 
             // Set TempData for login success
             TempData["LoginSuccess"] = "Login successful! Welcome back.";

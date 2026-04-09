@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -85,63 +85,47 @@ namespace leo.Controllers
                 TempData["LoginSuccess"] = $"Stock request for product '{product.ProductName}' was successful.";
 
                 //// Send SMS notification for stock request
-                await SendSMS("9666087724", $"Stock request for {product.ProductName} with current stock quantity {product.StockQuantity}.");
+                //await SendSMS("9666087724", $"Stock request for {product.ProductName} with current stock quantity {product.StockQuantity}.");
             }
 
             return RedirectToAction("Index", "Inventory");
         }
 
 
-        //// Send SMS
-        //public async Task<string> SendSMS(string phoneNumber, string messageBody)
-        //{
-        //    try
-        //    {
-        //        // Check if phoneNumber or messageBody is null
-        //        if (string.IsNullOrEmpty(phoneNumber))
-        //        {
-        //            throw new ArgumentNullException(nameof(phoneNumber), "Phone number cannot be null or empty.");
-        //        }
-
-        //        if (string.IsNullOrEmpty(messageBody))
-        //        {
-        //            throw new ArgumentNullException(nameof(messageBody), "Message body cannot be null or empty.");
-        //        }
-
-        //        TwilioClient.Init(accountSid, authToken);
-
-        //        var message = await MessageResource.CreateAsync(
-        //            body: messageBody,
-        //            from: new Twilio.Types.PhoneNumber("+12532043283"), // Twilio number
-        //            to: new Twilio.Types.PhoneNumber("+63" + phoneNumber)
-        //        );
-
-        //        return message.Sid; // Return the SMS message SID for tracking
-        //    }
-        //    catch (ApiException ex)
-        //    {
-        //        // If there's an API authentication error, show this message instead
-        //        if (ex.Message.Contains("Authenticate"))
-        //        {
-        //            return "Free trial API limit reached or authentication failed, but message displayed successfully.";
-        //        }
-
-        //        throw; // Rethrow if it's another error
-        //    }
-        //}
-
+        // Send SMS
         public async Task<string> SendSMS(string phoneNumber, string messageBody)
         {
-            TwilioClient.Init(accountSid, authToken);
+            try
+            {
+                if (string.IsNullOrEmpty(phoneNumber) || string.IsNullOrEmpty(messageBody))
+                {
+                    return string.Empty;
+                }
 
-            var message = await MessageResource.CreateAsync(
-                body: messageBody,
-                from: new Twilio.Types.PhoneNumber("+19789042835"), // Twilio number
-                 to: new Twilio.Types.PhoneNumber("+63" + phoneNumber)
-            );
+                TwilioClient.Init(accountSid, authToken);
 
-            return message.Sid; // Return the SMS message SID for tracking
+                var message = await MessageResource.CreateAsync(
+                    body: messageBody,
+                    from: new Twilio.Types.PhoneNumber("+12532043283"), // Twilio number
+                    to: new Twilio.Types.PhoneNumber("+63" + phoneNumber)
+                );
+
+                return message.Sid;
+            }
+            catch (ApiException ex)
+            {
+                if (ex.Message.Contains("Authenticate"))
+                {
+                    return "Trial limit reached or authentication failed.";
+                }
+                throw;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
         }
+
         public async Task<IActionResult> Index(bool showDeleted = false)
         {
             ViewData["ShowDeleted"] = showDeleted;
@@ -150,220 +134,17 @@ namespace leo.Controllers
                 return NotFound();
             }
 
+            // High-performance read using AsNoTracking
             var productsQuery = _context.Inventory
+                .AsNoTracking()
                 .Include(p => p.Category);
 
-            // Retrieve products based on showDeleted flag
-            var products = showDeleted
-                ? await productsQuery.ToListAsync()
-                : await productsQuery.Where(p => !p.IsDeleted).ToListAsync();
-
-            // Notify if products are low or out of stock
-            foreach (var product in products)
-            {
-                // Null check for product before sending notifications
-                if (product == null) continue;
-
-                if (product.StockQuantity <= 5 && product.StockQuantity > 0) // Low stock check
-                {
-                    //await SendSMS("9666087724", $"Alert: {product.ProductName} is LOW OF STOCK.");
-                    if (!string.IsNullOrEmpty(product.ProductName))
-                    {
-                        // Configure and send the email for low stock
-                        var smtpClient = new SmtpClient("smtp.gmail.com")
-                        {
-                            Port = 587,
-                            Credentials = new NetworkCredential("dendopulgo123@gmail.com", "didegpdzeqmvnztj"),
-                            EnableSsl = true,
-                        };
-
-                        var mailMessage = new MailMessage
-                        {
-                            From = new MailAddress("leotech@gmail.com"),
-                            Subject = "Leostore - Low Stock Alert",
-                            Body = $"Product '{product.ProductName}' is low on stock with only {product.StockQuantity} units remaining.\n" +
-                                   "Please take action to replenish the stock soon.\n",
-                            IsBodyHtml = false,
-                        };
-
-                        mailMessage.To.Add("dendopulgo123@gmail.com");
-
-                        try
-                        {
-                            await smtpClient.SendMailAsync(mailMessage);
-                            TempData["SuccessMessage"] = $"Low stock email sent for product '{product.ProductName}'.";
-                        }
-                        catch (Exception ex)
-                        {
-                            TempData["ErrorMessage"] = "There was an error sending the low stock email: " + ex.Message;
-                        }
-                    }
-                }
-                else if (product.StockQuantity == 0) // Out of stock check
-                {
-                    //await SendSMS("9666087724", $"Alert: {product.ProductName} is OUT OF STOCK.");
-                    if (!string.IsNullOrEmpty(product.ProductName))
-                    {
-                        // Configure and send the email for out of stock
-                        var smtpClient = new SmtpClient("smtp.gmail.com")
-                        {
-                            Port = 587,
-                            Credentials = new NetworkCredential("dendopulgo123@gmail.com", "didegpdzeqmvnztj"),
-                            EnableSsl = true,
-                        };
-
-                        var mailMessage = new MailMessage
-                        {
-                            From = new MailAddress("leotech@gmail.com"),
-                            Subject = "Leostore - Stock Out Alert",
-                            Body = $"Product '{product.ProductName}' is currently out of stock.\n" +
-                                   "Please update the stock status as soon as possible.\n",
-                            IsBodyHtml = false,
-                        };
-
-                        mailMessage.To.Add("dendopulgo123@gmail.com");
-
-
-                        try
-                        {
-                            await smtpClient.SendMailAsync(mailMessage);
-                            TempData["SuccessMessage"] = $"Out of stock email sent for product '{product.ProductName}'.";
-                        }
-                        catch (Exception ex)
-                        {
-                            TempData["ErrorMessage"] = "There was an error sending the out of stock email: " + ex.Message;
-                        }
-                    }
-                }
-            }
-
+            var products = await productsQuery
+                .Where(p => showDeleted || !p.IsDeleted)
+                .ToListAsync();
+            
             return View(products);
         }
-
-        //// GET: Products - Notify if products are low or out of stock
-        //public async Task<IActionResult> Index(bool showDeleted = false)
-        //{
-        //    ViewData["ShowDeleted"] = showDeleted;
-        //    var productsQuery = _context.Inventory
-        //        .Include(p => p.Category)
-        //        .Include(p => p.SupplierProfile); // Ensure SupplierProfile is included
-
-        //    // Retrieve products based on showDeleted flag
-        //    var products = showDeleted
-        //        ? await productsQuery.ToListAsync()
-        //        : await productsQuery.Where(p => !p.IsDeleted).ToListAsync();
-
-        //    // Notify if products are low or out of stock
-        //    foreach (var product in products)
-        //    {
-        //        // Null check for product before sending notifications
-        //        if (product == null) continue;
-
-        //        if (product.StockQuantity <= 5 && product.StockQuantity > 0) // Low stock check
-        //        {
-        //            //await SendSMS("9562947800", $"Alert: {product.ProductName} is low on stock with only {product.StockQuantity} units remaining.");
-        //        }
-        //        else if (product.StockQuantity == 0) // Out of stock check
-        //        {
-        //            //await SendSMS("9562947800", $"Alert: {product.ProductName} is OUT OF STOCK.");
-
-        //            // Send email to the supplier if stock is 0
-        //            if (product.SupplierProfile != null && !string.IsNullOrEmpty(product.ProductName))
-        //            {
-        //                var supplier = product.SupplierProfile;
-
-        //                // Configure and send the email
-        //                var smtpClient = new SmtpClient("smtp.gmail.com")
-        //                {
-        //                    Port = 587,
-        //                    Credentials = new NetworkCredential("dendopulgo123@gmail.com", "didegpdzeqmvnztj"),
-        //                    EnableSsl = true,
-        //                };
-
-        //                var mailMessage = new MailMessage
-        //                {
-        //                    From = new MailAddress("leotech@gmail.com"),
-        //                    Subject = "Leostore - Stock Out Alert",
-        //                    Body = $"Dear {product.SupplierProfile.Supplier},\n\n" +  // Assuming SupplierProfile is associated with the product
-        //       $"We regret to inform you that the product '{product.ProductName}' is currently out of stock.\n" +
-        //       "Please update the stock status as soon as possible.\n\n" ,
-
-        //                    IsBodyHtml = false,
-        //                };
-
-        //                mailMessage.To.Add(supplier.ContactEmail); // Ensure this line doesn't throw if Email is null or empty
-
-
-        //                try
-        //                {
-        //                    await smtpClient.SendMailAsync(mailMessage);
-
-        //                    TempData["SuccessMessage"] = $"Email sent to {supplier.Product} for product '{product.ProductName}' stock request.";
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    TempData["ErrorMessage"] = "There was an error sending the email: " + ex.Message;
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    return View(products);
-        //}
-
-
-
-        // GET: Products - Notify if products are low or out of stock
-        //public async Task<IActionResult> Index(bool showDeleted = false)
-        //{
-        //    ViewData["ShowDeleted"] = showDeleted;
-        //    var productsQuery = _context.Inventory.Include(p => p.Category);
-
-        //    // Retrieve products based on showDeleted flag
-        //    var products = showDeleted
-        //        ? await productsQuery.ToListAsync()
-        //        : await productsQuery.Where(p => !p.IsDeleted).ToListAsync();
-
-        //    //foreach (var product in products)
-        //    //{
-
-        //    //    if (product.StockQuantity <= 5 && product.StockQuantity > 0) // Low stock check
-        //    //    {
-        //    //        await SendSMS("9275311943", $"Alert: {product.ProductName} is low on stock with only {product.StockQuantity} units remaining.");
-        //    //    }
-        //    //    else if (product.StockQuantity == 0) // Out of stock check
-        //    //    {
-        //    //        await SendSMS("9275311943", $"Alert: {product.ProductName} is OUT OF STOCK.");
-        //    //    }
-        //    //}
-        //    foreach (var product in products)
-        //    {
-        //        // Ensure product is not null before proceeding
-        //        if (product == null || product.StockQuantity == null || product.ProductName == null)
-        //        {
-        //            continue; // Skip null or invalid products
-        //        }
-
-        //        // Always list the product (no matter the stock level)
-        //        Console.WriteLine($"Product: {product.ProductName}, Stock Quantity: {product.StockQuantity}");
-
-        //        // Check stock levels and send SMS notifications accordingly
-        //        if (product.StockQuantity <= 5 && product.StockQuantity > 0) // Low stock check
-        //        {
-        //            await SendSMS("9275311943", $"Alert: {product.ProductName} is low on stock with only {product.StockQuantity} units remaining.");
-        //        }
-        //        else if (product.StockQuantity == 0) // Out of stock check
-        //        {
-        //            await SendSMS("9275311943", $"Alert: {product.ProductName} is OUT OF STOCK.");
-        //        }
-        //    }
-
-        //    return View(products);
-        //}
-
-        //Example for checking low stock or out of stock and sending SMS
-        //public async Task<IActionResult> Index(bool showDeleted = false)
-        //{
         //    var products = await _context.Inventory.ToListAsync();
 
         //    foreach (var product in products)
@@ -904,7 +685,8 @@ namespace leo.Controllers
                     p.UnitPrice,
                     p.StockQuantity,
                     p.Barcode,
-                    p.ImagePath
+                    p.ImagePath,
+                    p.Description
                 })
                 .ToListAsync();
             return Json(products);

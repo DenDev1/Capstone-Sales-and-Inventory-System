@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -117,8 +117,12 @@ namespace leo.Controllers
         // GET: Returns
         public async Task<IActionResult> Index()
         {
-            var leoContext = _context.Return.Include(a => a.Product);
-            return View(await leoContext.ToListAsync());
+            ViewBag.ProductId = new SelectList(_context.Inventory, "ProductId", "ProductName");
+            var leoContext = await _context.Return
+                .AsNoTracking()
+                .Include(a => a.Product)
+                .ToListAsync();
+            return View(leoContext);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -183,7 +187,7 @@ namespace leo.Controllers
 
             // Set TempData for login success
             TempData["LoginSuccess"] = "Added successfully";
-            return RedirectToAction(nameof(Create));
+            return RedirectToAction(nameof(Index));
         }
 
 

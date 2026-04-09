@@ -52,6 +52,7 @@ namespace leo.Controllers
                         p.StockQuantity,
                         p.Barcode,
                         p.ImagePath,
+                        p.Description,
                         CategoryName = p.Category != null ? p.Category.CategoryName : "Uncategorized"
                     })
                     .ToList();

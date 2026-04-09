@@ -50,7 +50,6 @@ namespace leo.Controllers
             return View();
         }
 
-        // POST: Roles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RoleId,RoleName")] Role role)
@@ -60,14 +59,33 @@ namespace leo.Controllers
                 // Check for duplicate role name
                 if (await RoleNameExists(role.RoleName))
                 {
-                    ModelState.AddModelError("RoleName", "A role with this name already exists.");
+                    string errorMsg = "A role with this name already exists.";
+                    if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                    {
+                        return Json(new { success = false, message = errorMsg });
+                    }
+                    ModelState.AddModelError("RoleName", errorMsg);
                     return View(role);
                 }
 
                 _context.Add(role);
                 await _context.SaveChangesAsync();
+                
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new { success = true, message = "Role created successfully!" });
+                }
+                
+                TempData["LoginSuccess"] = "Role created successfully!";
                 return RedirectToAction(nameof(Index));
             }
+            
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return Json(new { success = false, message = string.Join(" ", errors) });
+            }
+            
             return View(role);
         }
 
@@ -87,7 +105,6 @@ namespace leo.Controllers
             return View(role);
         }
 
-        // POST: Roles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("RoleId,RoleName")] Role role)
@@ -104,15 +121,24 @@ namespace leo.Controllers
                     // Check for duplicate role name, excluding current role
                     if (await RoleNameExists(role.RoleName, id))
                     {
-                        ModelState.AddModelError("RoleName", "A role with this name already exists.");
+                        string errorMsg = "A role with this name already exists.";
+                        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                        {
+                            return Json(new { success = false, message = errorMsg });
+                        }
+                        ModelState.AddModelError("RoleName", errorMsg);
                         return View(role);
                     }
 
                     _context.Update(role);
                     await _context.SaveChangesAsync();
-                    // Set success message
-                    TempData["SuccessMessage"] = "Updated successfully!";
+                    
+                    if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                    {
+                        return Json(new { success = true, message = "Role updated successfully!" });
+                    }
 
+                    TempData["LoginSuccess"] = "Role updated successfully!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -127,6 +153,13 @@ namespace leo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return Json(new { success = false, message = string.Join(" ", errors) });
+            }
+            
             return View(role);
         }
 

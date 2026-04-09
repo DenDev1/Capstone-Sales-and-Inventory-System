@@ -250,3 +250,41 @@
     .data-grid { grid-template-columns: 1fr; }
     .analytics-header { flex-direction: column; align-items: flex-start; }
 }
+
+/* DataTables Pagination Styling */
+.dataTables_paginate {
+    margin-top: 15px !important;
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.dataTables_paginate .paginate_button {
+    border-radius: 8px !important;
+    border: 1px solid #e2e8f0 !important;
+    padding: 6px 12px !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    color: var(--ana-text) !important;
+    background: white !important;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.dataTables_paginate .paginate_button:hover {
+    background: #f8fafc !important;
+    border-color: var(--ana-primary) !important;
+    color: var(--ana-primary) !important;
+}
+
+.dataTables_paginate .paginate_button.current {
+    background: var(--ana-primary) !important;
+    color: white !important;
+    border-color: var(--ana-primary) !important;
+}
+
+.dataTables_paginate .disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+

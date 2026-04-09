@@ -18,13 +18,6 @@
         </div>
     </div>
 
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show rounded-4 shadow-sm" role="alert">
-            <i class="fas fa-check-circle me-2"></i> @TempData["SuccessMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-    }
 
     <!-- Table Card -->
     <div class="roles-card">
@@ -81,7 +74,7 @@
                 <h5 class="modal-title fw-800">New Permission Level</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form asp-action="Create" method="post">
+            <form id="createRoleForm" asp-action="Create" method="post">
                 <div class="modal-body p-4">
                     <div class="form-group mb-3">
                         <label class="form-label small fw-bold text-muted">ROLE DESIGNATION</label>
@@ -106,7 +99,7 @@
                 <h5 class="modal-title fw-800">Update Role</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form asp-action="Edit" method="post">
+            <form id="editRoleForm" asp-action="Edit" method="post">
                 <input type="hidden" id="editRoleId" name="RoleId" />
                 <div class="modal-body p-4">
                     <div id="editLoading" class="text-center py-4 d-none">
@@ -180,6 +173,61 @@
                 });
             });
 
+            // AJAX for Create
+            $('#createRoleForm').on('submit', function(e) {
+                e.preventDefault();
+                const form = $(this);
+                const url = form.attr('action');
+                const data = form.serialize();
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: data,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#createRoleModal').modal('hide');
+                            LeotechToast.show(response.message, 'success');
+                            setTimeout(() => location.reload(), 1500);
+                        } else {
+                            LeotechToast.show(response.message, 'error');
+                        }
+                    },
+                    error: function() {
+                        LeotechToast.show('An unexpected error occurred.', 'error');
+                    }
+                });
+            });
+
+            // AJAX for Submit Edit
+            $('#editRoleForm').on('submit', function(e) {
+                e.preventDefault();
+                const form = $(this);
+                const id = $('#editRoleId').val();
+                const url = `${form.attr('action')}/${id}`;
+                const data = form.serialize();
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: data,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#editRoleModal').modal('hide');
+                            LeotechToast.show(response.message, 'success');
+                            setTimeout(() => location.reload(), 1500);
+                        } else {
+                            LeotechToast.show(response.message, 'error');
+                        }
+                    },
+                    error: function() {
+                        LeotechToast.show('An unexpected error occurred.', 'error');
+                    }
+                });
+            });
+
             // Delete Handling
             $('.delete-role-btn').on('click', function() {
                 const form = $(this).closest('form');
@@ -188,6 +236,7 @@
                 $('#deleteConfirmRoleModal').modal('show');
                 
                 $('#btnConfirmDeleteRole').off('click').on('click', function() {
+                    LeotechToast.show('Deleting role...', 'info');
                     form.submit();
                 });
             });

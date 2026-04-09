@@ -20,13 +20,6 @@
      data-create-item-url="@Url.Action("Create", "Inventory")"
      style="display:none;"></div>
 
-<div id="successMessageData" data-value="@TempData["LoginSuccess"]" style="display:none;"></div>
-
-<div class="overlay" id="loadingOverlay">
-    <div class="spinner"></div>
-    <div class="success-message" id="successMessage"></div>
-</div>
-
 <div class="inventory-container">
     <div class="inventory-header">
         <div class="header-info">
@@ -318,7 +311,15 @@
                         <button class="btn btn-success" type="button" onclick="createCategory()">Add</button>
                     </div>
                 </div>
-                <div class="table-responsive" style="max-height: 300px;">
+                <div class="mb-4">
+                    <label class="form-label fw-bold small text-muted">SEARCH CATEGORIES</label>
+                    <div class="position-relative">
+                        <i class="fas fa-search position-absolute" style="left: 15px; top: 12px; color: #94a3b8;"></i>
+                        <input type="text" id="searchCategoryInput" class="form-control" placeholder="Search saved categories..." style="padding-left: 45px; border-radius: 10px; background: #f8fafc;">
+                    </div>
+                </div>
+
+                <div class="table-responsive" style="max-height: 350px;">
                     <table class="table table-hover align-middle">
                         <tbody id="categoriesTableBody">
                             <!-- Categories load via JS -->

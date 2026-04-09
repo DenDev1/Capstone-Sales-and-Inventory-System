@@ -12,13 +12,15 @@
     --shadow-1: 0 18px 40px rgba(15, 23, 42, 0.08);
 }
 
-body.app-premium {
+html, body.app-premium {
     font-family: "Manrope", "Source Sans Pro", sans-serif;
     background:
         radial-gradient(circle at 0% 0%, rgba(20, 184, 166, 0.12), transparent 35%),
         radial-gradient(circle at 100% 0%, rgba(37, 99, 235, 0.12), transparent 40%),
         linear-gradient(180deg, var(--bg-2), var(--bg-1));
     color: var(--ink-1);
+    overflow-x: hidden;
+    width: 100%;
 }
 
 .app-premium .main-header.navbar {
@@ -103,7 +105,8 @@ body.app-premium {
 
 .app-premium .table thead.table-dark th,
 .app-premium .table thead th {
-    background: #111827 !important; /* Deep black/slate */
+    background: #111827 !important;
+    /* Deep black/slate */
     color: #ffffff !important;
     border: none;
     font-weight: 700;
@@ -202,8 +205,15 @@ body.app-premium {
 }
 
 @keyframes fadeInPage {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* --- MOBILE RESPONSIVENESS OVERRIDES --- */
@@ -212,13 +222,16 @@ body.app-premium {
     .main-sidebar {
         margin-left: -260px;
     }
+
     .sidebar-open .main-sidebar {
         margin-left: 0;
     }
+
     .content-wrapper {
         margin-left: 0 !important;
         padding: 10px !important;
     }
+
     .main-header {
         margin-left: 0 !important;
     }
@@ -230,7 +243,11 @@ body.app-premium {
     }
 
     /* KPI Cards stacking */
-    .kpi-stat-card, .stats-card, .txn-kpi-bar, .sup-kpi-bar, .inventory-stats-bar {
+    .kpi-stat-card,
+    .stats-card,
+    .txn-kpi-bar,
+    .sup-kpi-bar,
+    .inventory-stats-bar {
         grid-template-columns: 1fr !important;
         display: flex !important;
         flex-direction: column !important;
@@ -243,26 +260,30 @@ body.app-premium {
     }
 
     /* Header adjustments */
-    h1 { font-size: 1.5rem !important; }
-    
+    h1 {
+        font-size: 1.5rem !important;
+    }
+
     .header-actions {
         width: 100%;
         margin-top: 15px;
     }
-    
-    .header-actions button, .header-actions a {
+
+    .header-actions button,
+    .header-actions a {
         width: 100%;
         margin-bottom: 10px;
     }
 
     /* Stack btn-groups on mobile */
-    .btn-group, .btn-group-vertical {
+    .btn-group,
+    .btn-group-vertical {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
     }
-    
-    .btn-group > .btn {
+
+    .btn-group>.btn {
         border-radius: 12px !important;
         margin-bottom: 8px !important;
         width: 100% !important;
@@ -272,9 +293,12 @@ body.app-premium {
     .split-login-container {
         flex-direction: column !important;
     }
+
     .login-visual-side {
-        display: none !important; /* Hide image on mobile for faster loading and focus on form */
+        display: none !important;
+        /* Hide image on mobile for faster loading and focus on form */
     }
+
     .login-form-side {
         width: 100% !important;
         padding: 30px 20px !important;
@@ -284,12 +308,53 @@ body.app-premium {
     .modal-dialog {
         margin: 10px;
     }
+
     .modal-content {
         padding: 10px !important;
     }
 }
 
-@media (max-width: 575.98px) {
-    .stat-content .value { font-size: 1.1rem !important; }
-    .btn { padding: 8px 16px !important; font-size: 0.85rem !important; }
+.stat-content .value {
+    font-size: 1.1rem !important;
+}
+
+.btn {
+    padding: 8px 16px !important;
+    font-size: 0.85rem !important;
+}
+
+
+/* Skeleton Loading Utilities */
+.skeleton {
+    background: #e2e8f0;
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 200% 100%;
+    animation: skeleton-pulse 1.5s infinite linear;
+    border-radius: 8px;
+    display: block;
+}
+
+@keyframes skeleton-pulse {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton-overlay {
+    width: 100%;
+    z-index: 100;
+}
+
+.dash-shell.is-loading .actual-content {
+    display: none !important;
+}
+
+.skeleton-card {
+    background: #ffffff;
+    border: 1px solid #e6edf7;
+    padding: 15px;
 }

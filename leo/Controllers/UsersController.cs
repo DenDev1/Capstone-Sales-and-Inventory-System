@@ -37,7 +37,6 @@ namespace leo.Controllers
             return View();
         }
 
-        // POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,Email,Username,Password,RoleId,IsAdmin")] Users users)
@@ -47,7 +46,12 @@ namespace leo.Controllers
                 // Check for duplicate entries
                 if (await IsDuplicateUser(users))
                 {
-                    ModelState.AddModelError("", "User with the same FirstName, LastName, Email, or Username already exists.");
+                    string errorMsg = "User with the same Identity, Email, or Username already exists.";
+                    if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                    {
+                        return Json(new { success = false, message = errorMsg });
+                    }
+                    ModelState.AddModelError("", errorMsg);
                     ViewData["RoleId"] = new SelectList(_context.Set<Role>(), "RoleId", "RoleName");
                     return View(users);
                 }
@@ -59,9 +63,19 @@ namespace leo.Controllers
                 _context.Add(users);
                 await _context.SaveChangesAsync();
 
-                // Set TempData for login success
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new { success = true, message = "Staff member added successfully!" });
+                }
+
                 TempData["LoginSuccess"] = "Added successfully";
                 return RedirectToAction(nameof(Create));
+            }
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return Json(new { success = false, message = string.Join(" ", errors) });
             }
 
             ViewData["RoleId"] = new SelectList(_context.Set<Role>(), "RoleId", "RoleName");
@@ -85,7 +99,6 @@ namespace leo.Controllers
             ViewData["RoleId"] = new SelectList(_context.Set<Role>(), "RoleId", "RoleName");
             return View(users);
         }
-        // POST: Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("UserId,FirstName,LastName,Email,Username,Password,RoleId,IsAdmin")] Users users)
@@ -100,22 +113,39 @@ namespace leo.Controllers
                 // Check for duplicate entries, excluding the current user being edited
                 if (await IsDuplicateUser(users, id))
                 {
-                    ModelState.AddModelError("", "User with the same FirstName, LastName, Email, or Username already exists.");
-                    ViewData["RoleId"] = new SelectList(_context.Set<Role>(), "RoleId", "RoleName"); // Add this line
+                    string errorMsg = "User with same details already exists.";
+                    if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                    {
+                        return Json(new { success = false, message = errorMsg });
+                    }
+                    ModelState.AddModelError("", errorMsg);
+                    ViewData["RoleId"] = new SelectList(_context.Set<Role>(), "RoleId", "RoleName");
                     return View(users);
                 }
 
                 try
                 {
-                    // Hash the password before saving
-                    string hashedPassword = HashingServices.HashData(users.Password);
-                    users.Password = hashedPassword;
+                    // Hash the password if changed
+                    if (!string.IsNullOrEmpty(users.Password))
+                    {
+                        string hashedPassword = HashingServices.HashData(users.Password);
+                        users.Password = hashedPassword;
+                    }
+                    else
+                    {
+                        // If password is empty, keep the original one
+                        _context.Entry(users).Property(x => x.Password).IsModified = false;
+                    }
 
                     _context.Update(users);
-
-                    // Set TempData for login success
-                    TempData["LoginSuccess"] = "Updated successfully";
                     await _context.SaveChangesAsync();
+
+                    if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                    {
+                        return Json(new { success = true, message = "Staff details updated!" });
+                    }
+
+                    TempData["LoginSuccess"] = "Updated successfully";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -131,7 +161,12 @@ namespace leo.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // This line ensures that the RoleId is set even if the model state is not valid
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return Json(new { success = false, message = string.Join(" ", errors) });
+            }
+
             ViewData["RoleId"] = new SelectList(_context.Set<Role>(), "RoleId", "RoleName");
             return View(users);
         }

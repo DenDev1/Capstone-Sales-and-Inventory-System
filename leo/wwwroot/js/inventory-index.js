@@ -1,14 +1,8 @@
 // Inventory Management Scripts
 $(document).ready(function () {
-    // Show loading overlay and success message if exists
-    const successMessage = $('#successMessageData').data('value');
-    if (successMessage) {
-        $('#successMessage').text(successMessage);
-        $('#loadingOverlay').addClass('active');
-        setTimeout(function () {
-            $('#loadingOverlay').removeClass('active');
-        }, 1000);
-    }
+    // Legacy support for TempData handled by Layout now
+    // But we keep this for AJAX specific needs if any
+
 
     // Initialize DataTable
     $('#inventoryTable').DataTable({
@@ -55,6 +49,19 @@ $(document).ready(function () {
     // Manage Categories Loading
     $('#manageCategoriesModal').on('show.bs.modal', function () {
         loadCategoriesTable();
+    });
+
+    // Categories Search
+    $('#searchCategoryInput').on('input', function() {
+        const query = $(this).val().toLowerCase();
+        $('#categoriesTableBody tr').each(function() {
+            const name = $(this).find('td:first').text().toLowerCase();
+            if (name.includes(query)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
     });
 });
 
@@ -117,14 +124,20 @@ function loadCategoriesTable() {
 // Category Actions
 function createCategory() {
     const categoryName = $('#categoryNameInput').val().trim();
-    if (!categoryName) return;
+    if (!categoryName) {
+        LeotechToast.show("Please enter a category name", "warning");
+        return;
+    }
     const url = $('#metadata').data('create-category-url');
     const token = $('input[name="__RequestVerificationToken"]').val();
 
     $.post(url, { categoryName, __RequestVerificationToken: token }, function (response) {
         if (response.success) {
             $('#categoryNameInput').val('');
+            LeotechToast.show(response.message || "Category created successfully!", "success");
             loadCategoriesTable();
+        } else {
+            LeotechToast.show(response.message || "Failed to create category", "error");
         }
     });
 }
@@ -144,7 +157,10 @@ function saveCategory() {
     $.post(url, { id, categoryName, __RequestVerificationToken: token }, function (response) {
         if (response.success) {
             bootstrap.Modal.getInstance(document.getElementById('editCategoryModal')).hide();
+            LeotechToast.show(response.message || "Category updated successfully!", "success");
             loadCategoriesTable();
+        } else {
+            LeotechToast.show(response.message || "Failed to update category", "error");
         }
     });
 }
@@ -162,7 +178,10 @@ function confirmDeleteCategory() {
     $.post(url, { id: currentDeleteCategoryId, __RequestVerificationToken: token }, function (response) {
         if (response.success) {
             bootstrap.Modal.getInstance(document.getElementById('deleteCategoryModal')).hide();
+            LeotechToast.show(response.message || "Category deleted successfully!", "success");
             loadCategoriesTable();
+        } else {
+            LeotechToast.show(response.message || "Failed to delete category", "error");
         }
     });
 }
@@ -186,7 +205,9 @@ function filterProductsByStock() {
     const table = $('#inventoryTable').DataTable();
     
     $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
-        const qty = parseInt(data[7]) || 0;
+        // Correct index for Qty column is 4
+        const qty = parseInt(data[4]) || 0;
+        
         if (filter === 'all') return true;
         if (filter === 'in-stock') return qty > 10;
         if (filter === 'low-stock') return qty <= 10 && qty > 0;
@@ -195,7 +216,7 @@ function filterProductsByStock() {
     });
     
     table.draw();
-    $.fn.dataTable.ext.search.pop();
+    $.fn.dataTable.ext.search.pop(); // Clear the custom filter for next time
 }
 
 // Global Item Actions
@@ -214,9 +235,10 @@ function createInventoryItem() {
         contentType: false,
         success: function (response) {
             if (response.success) {
-                location.reload();
+                LeotechToast.show(response.message || "Operation successful!", "success");
+                setTimeout(() => location.reload(), 1500);
             } else {
-                alert(response.message || "Error creating item");
+                LeotechToast.show(response.message || "Error occurred", "error");
             }
         }
     });

@@ -1,4 +1,4 @@
-﻿using leo.Data;
+using leo.Data;
 using leo.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SOI_LEOTECH.Controllers
 {
@@ -20,15 +21,15 @@ namespace SOI_LEOTECH.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var categoryCount = _context.Category.Count();
-            var productCount = _context.Inventory.Count();
-            var usersCount = _context.Users.Count();
-            var salesCount = _context.Order.Count();
-            var returnCount = _context.Order.Count();
-            var stockCount = _context.Inventory.Sum(p => p.StockQuantity);
-            var supplierCount = _context.Supplier.Count();
-
-            var totalSales = _context.Order.Sum(o => o.TotalAmount);
+            // Fetch counts and sums sequentially as DbContext is not thread-safe for parallel operations
+            var categoryCount = await _context.Category.CountAsync();
+            var productCount = await _context.Inventory.CountAsync();
+            var usersCount = await _context.Users.CountAsync();
+            var salesCount = await _context.Order.CountAsync();
+            var supplierCount = await _context.Supplier.CountAsync();
+            var totalSales = await _context.Order.SumAsync(o => o.TotalAmount);
+            var stockCount = await _context.Inventory.SumAsync(p => p.StockQuantity);
+            var returnCount = salesCount;
 
             var today = DateTime.Today;
             var dailySales = _context.Order
@@ -71,26 +72,22 @@ namespace SOI_LEOTECH.Controllers
                 })
                 .ToList();
 
-            // Calculate Monthly Product Quantities and Total Sales
+            // Optimize: Fetch all orders for current year in one go to memory
+            var startOfYear = new DateTime(today.Year, 1, 1);
+            var endOfYear = new DateTime(today.Year, 12, 31);
+            var yearOrders = _context.Order
+                .AsNoTracking()
+                .Where(o => o.OrderDate >= startOfYear && o.OrderDate <= endOfYear)
+                .ToList();
+
             var monthlyProductQuantities = new List<int>();
             var monthlyTotalSales = new List<decimal>();
 
-            for (int month = 0; month < 12; month++)
+            for (int month = 1; month <= 12; month++)
             {
-                var firstDayOfMonth = new DateTime(today.Year, month + 1, 1);
-                var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
-
-                var quantity = _context.Order
-                    .Where(o => o.OrderDate >= firstDayOfMonth && o.OrderDate <= lastDayOfMonth)
-                    .Sum(o => o.Quantity);
-
-                monthlyProductQuantities.Add(quantity);
-
-                var totalSalesForMonth = _context.Order
-                    .Where(o => o.OrderDate >= firstDayOfMonth && o.OrderDate <= lastDayOfMonth)
-                    .Sum(o => o.TotalAmount);
-
-                monthlyTotalSales.Add(totalSalesForMonth);
+                var monthData = yearOrders.Where(o => o.OrderDate.Month == month);
+                monthlyProductQuantities.Add(monthData.Sum(o => o.Quantity));
+                monthlyTotalSales.Add(monthData.Sum(o => o.TotalAmount));
             }
 
             var productSalesData = _context.Order
@@ -112,24 +109,26 @@ namespace SOI_LEOTECH.Controllers
                 })
                 .ToList();
 
+            // Optimize: Fetch all inventory records for current year once
+            var yearInventory = _context.Inventory
+                .AsNoTracking()
+                .Where(p => p.Date >= startOfYear && p.Date <= endOfYear)
+                .ToList();
+
             var monthlyInventoryQuantities = new List<int>();
             var inventoryAnalyticsData = new List<InventoryAnalyticsViewModel>();
 
-            for (int month = 0; month < 12; month++)
+            for (int month = 1; month <= 12; month++)
             {
-                var firstDayOfMonth = new DateTime(today.Year, month + 1, 1);
-                var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
-
-                var totalProductQuantity = _context.Inventory
-                    .Where(p => p.Date >= firstDayOfMonth && p.Date <= lastDayOfMonth)
+                var totalProductQuantity = (int)yearInventory
+                    .Where(p => p.Date.Month == month)
                     .Sum(p => p.StockQuantity);
 
-                monthlyInventoryQuantities.Add((int)totalProductQuantity);
-
+                monthlyInventoryQuantities.Add(totalProductQuantity);
                 inventoryAnalyticsData.Add(new InventoryAnalyticsViewModel
                 {
-                    Month = firstDayOfMonth.ToString("MMMM"),
-                    TotalProductQuantity = (int)totalProductQuantity
+                    Month = new DateTime(today.Year, month, 1).ToString("MMMM"),
+                    TotalProductQuantity = totalProductQuantity
                 });
             }
 

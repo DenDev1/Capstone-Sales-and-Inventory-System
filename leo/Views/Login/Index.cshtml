@@ -20,8 +20,11 @@
     <!-- Styles -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/pages/login-premium.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/premium-toasts.css" asp-append-version="true" />
 </head>
 <body>
+
+    <div id="toastContainer" class="toast-container"></div>
 
     <div class="login-split-container">
         <!-- Left Section -->
@@ -60,7 +63,13 @@
                         <span asp-validation-for="Password" class="text-danger" style="font-size: 0.75rem;"></span>
                     </div>
 
-                    <a asp-controller="Login" asp-action="ForgotPassword" class="forgot-link">Forgot password?</a>
+                    <div class="form-options mb-4 d-flex justify-content-between align-items-center">
+                        <div class="remember-me">
+                            <input type="checkbox" id="rememberMe" name="rememberMe" value="true" />
+                            <label for="rememberMe" class="ms-2 small fw-600 text-muted" style="cursor: pointer;">Remember me</label>
+                        </div>
+                        <a asp-controller="Login" asp-action="ForgotPassword" class="forgot-link">Forgot password?</a>
+                    </div>
 
                     <button type="submit" class="btn-login">
                         Sign in <i class="fas fa-arrow-right"></i>
@@ -73,7 +82,25 @@
     <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script>
+        window.LeotechToast = {
+            show: function(message, type = 'success', title = '') {
+                const container = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = `premium-toast ${type}`;
+                if (!title) title = type.charAt(0).toUpperCase() + type.slice(1);
+                const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle', info: 'fa-info-circle' };
+                toast.innerHTML = `<div class="toast-icon"><i class="fas ${icons[type]}"></i></div><div class="toast-content"><span class="title">${title}</span><span class="message">${message}</span></div>`;
+                container.appendChild(toast);
+                setTimeout(() => { toast.classList.add('toast-fade-out'); setTimeout(() => toast.remove(), 300); }, 4000);
+            }
+        };
+
         $(document).ready(function () {
+            const logoutMsg = '@TempData["LogoutSuccess"]';
+            const errorMsg = '@TempData["ErrorMessage"]';
+            if (logoutMsg) LeotechToast.show(logoutMsg, 'info', 'Logged Out');
+            if (errorMsg) LeotechToast.show(errorMsg, 'error', 'Error');
+
             $('#togglePassword').on('click', function () {
                 const passwordField = $('#passwordField');
                 const type = passwordField.attr('type') === 'password' ? 'text' : 'password';

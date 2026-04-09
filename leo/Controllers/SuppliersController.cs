@@ -251,33 +251,31 @@ namespace leo.Controllers
             // Add the transaction history to the database
             Transactions.Add(transaction);
             await _context.SaveChangesAsync(); // Save the transaction record
-
-            // Redirect back to the list or details page
-            return RedirectToAction("Index"); // Adjust as necessary
+            return RedirectToAction("Index");
         }
 
         // GET: Suppliers  
         public async Task<IActionResult> Index()
         {
-            var suppliers = await Suppliers.ToListAsync(); // Get suppliers from the database
+            // Use AsNoTracking for read-only view model mapping
+            var suppliers = await Suppliers
+                .AsNoTracking()
+                .ToListAsync();
 
-            // Map to SupplierViewModel
             var supplierViewModels = suppliers.Select(s => new SupplierViewModel
             {
                 SupplierId = s.SupplierId,
                 SupplierName = s.SupplierName,
                 ProductName = s.ProductsName,
                 Description = s.Description,
-                ProductsAndQuantities = s.ProductsAndQuantities ?? "No items", // Default value if NULL
-                Email = s.Email ,     // Fallback for null Email
+                ProductsAndQuantities = s.ProductsAndQuantities ?? "No items",
+                Email = s.Email ,
                 Quantity = s.Quantity,
                 UnitPrice = s.UnitPrice,
-                Status = s.Status,  // Ensure Status is mapped here
-                //Balance = s.Balance,
-
+                Status = s.Status,
             });
 
-            return View(supplierViewModels); // Pass the list of view models to the view
+            return View(supplierViewModels);
         }
         public IActionResult Create(int? productId)
         {

@@ -1,4 +1,4 @@
-﻿@inject IHttpContextAccessor HttpContextAccessor
+@inject IHttpContextAccessor HttpContextAccessor
 @{
     var currentController = ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLowerInvariant();
     var currentAction = ViewContext.RouteData.Values["Action"]?.ToString()?.ToLowerInvariant();
@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="~/css/premium-theme.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/premium-toasts.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/pages/layout-custom.css" asp-append-version="true" />
     @if (!string.IsNullOrWhiteSpace(pageCssPath))
     {
@@ -128,6 +129,14 @@
                                     <!-- Updated icon for Products -->
                                     <i class="nav-icon fas fa-shopping-cart"></i>
                                     <p class="mb-0 ps-2">POS Order</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a asp-area="" asp-controller="Returns" asp-action="Index"
+                                   class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Returns" ? "active" : "")">
+                                    <i class="nav-icon fas fa-undo"></i>
+                                    <p class="mb-0 ps-2">Returns</p>
                                 </a>
                             </li>
 
@@ -237,17 +246,97 @@
 
             <!-- Main content -->
             <section class="content">
-                <div class="container-fluid p-5">
+                <div class="container-fluid p-3 p-lg-5">
                     @RenderBody()
                 </div>
             </section>
         </main>
+
+        <div id="toastContainer" class="toast-container"></div>
 
         <!-- Footer -->
         <footer class="main-footer">
             <strong>Copyright &copy; 2026 <a href="#">LEOTECH</a>.</strong> All rights reserved.
         </footer>
     </div>
+
+    <!-- Scripts -->
+    <script>
+        window.LeotechToast = {
+            playSound: function(type) {
+                const sounds = {
+                    success: 'https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3',
+                    error: 'https://assets.mixkit.co/active_storage/sfx/2573/2573-preview.mp3',
+                    warning: 'https://assets.mixkit.co/active_storage/sfx/2573/2573-preview.mp3',
+                    info: 'https://assets.mixkit.co/active_storage/sfx/2350/2350-preview.mp3'
+                };
+                try {
+                    const audio = new Audio(sounds[type] || sounds.success);
+                    audio.volume = 0.4;
+                    audio.play().catch(e => console.log("Audio playback blocked by browser."));
+                } catch(e) {
+                    console.error("Audio error:", e);
+                }
+            },
+            show: function(message, type = 'success', title = '') {
+                const container = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = `premium-toast ${type}`;
+                
+                if (!title) {
+                    title = type === 'success' ? 'Success' : 
+                            type === 'error' ? 'Error' : 
+                            type === 'warning' ? 'Warning' : 'Information';
+                }
+
+                const icons = {
+                    success: 'fa-check-circle',
+                    error: 'fa-exclamation-circle',
+                    warning: 'fa-exclamation-triangle',
+                    info: 'fa-info-circle'
+                };
+
+                toast.innerHTML = `
+                    <div class="toast-icon">
+                        <i class="fas ${icons[type]}"></i>
+                    </div>
+                    <div class="toast-content">
+                        <span class="title">${title}</span>
+                        <span class="message">${message}</span>
+                    </div>
+                    <div class="toast-progress">
+                        <div class="toast-progress-bar"></div>
+                    </div>
+                `;
+
+                container.appendChild(toast);
+                this.playSound(type);
+
+                // Auto remove
+                const timeout = setTimeout(() => {
+                    this.hide(toast);
+                }, 4000);
+
+                toast.onclick = () => {
+                    clearTimeout(timeout);
+                    this.hide(toast);
+                };
+            },
+            hide: function(toast) {
+                toast.classList.add('toast-fade-out');
+                setTimeout(() => toast.remove(), 400);
+            }
+        };
+
+        $(document).ready(function() {
+            // Support multiple TempData keys for backward compatibility
+            const successMsg = '@(TempData["LoginSuccess"] ?? TempData["SuccessMessage"])';
+            const errorMsg = '@(TempData["ErrorMessage"] ?? TempData["Error"])';
+            
+            if (successMsg && successMsg !== 'null') LeotechToast.show(successMsg, 'success');
+            if (errorMsg && errorMsg !== 'null') LeotechToast.show(errorMsg, 'error');
+        });
+    </script>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -274,7 +363,7 @@
 
 
         $(function () {
-            if ($.fn.DataTable && $('#example1').length) {
+            if ($.fn.DataTable && $('#example1').length && !$.fn.DataTable.isDataTable('#example1')) {
                 const table = $("#example1").DataTable({
                     "responsive": true,
                     "lengthChange": false,

@@ -202,14 +202,27 @@ body {
     color: var(--login-muted);
 }
 
+.form-options {
+    margin: 15px 0;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+}
+
+.remember-me input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--login-primary);
+    cursor: pointer;
+}
+
 .forgot-link {
-    display: block;
-    text-align: right;
     font-size: 0.85rem;
     font-weight: 700;
     color: var(--login-muted);
     text-decoration: none;
-    margin-top: 10px;
 }
 
 .btn-login {
